@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "watch": "tsc --watch",
     "build": "next build",
     "start": "next start"
   },
