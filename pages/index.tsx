@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import ArticleList from '../components/ArticleList'
 // import styles from '../styles/Home.module.css'
 
 interface HomeProps {
@@ -6,9 +7,9 @@ interface HomeProps {
     userId: number
     id: number
     title: string
+    body: string
   }[]
 }
-
 
 const Home = ({ articles }: HomeProps) => {
   return (
@@ -17,7 +18,7 @@ const Home = ({ articles }: HomeProps) => {
         <title>WebDev News</title>
         <meta name='keywords' content='web development, programming' />
       </Head>
-      {articles.map(article => <h3 key={article.id}>{article.title}</h3>)}
+      <ArticleList articles={ articles } />
     </div>
   )
 }
@@ -28,8 +29,8 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      articles
-    }
+      articles,
+    },
   }
 }
 
