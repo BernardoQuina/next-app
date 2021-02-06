@@ -1,6 +1,6 @@
 import styles from '../styles/Layout.module.css'
 import Header from './Header'
-import Nav from './nav'
+import Nav from './Nav'
 
 interface LayoutProps {}
 
