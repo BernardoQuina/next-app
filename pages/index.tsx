@@ -1,3 +1,4 @@
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import ArticleList from '../components/ArticleList'
 // import styles from '../styles/Home.module.css'
@@ -23,7 +24,7 @@ const Home = ({ articles }: HomeProps) => {
   )
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts?_limit=6`)
   const articles = await res.json()
 

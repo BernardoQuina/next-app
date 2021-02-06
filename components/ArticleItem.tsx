@@ -12,7 +12,7 @@ interface ArticleItemProps {
 
 const ArticleItem = ({ article }: ArticleItemProps) => {
   return (
-    <Link href='/article/[id]' as={`/article/${article.id}`}>
+    <Link href={`/article/${article.id}`}>
       <a className={articleStyles.card}>
         <h3>{article.title}</h3>
         <p>{article.body}</p>
