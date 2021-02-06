@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import Link from 'next/link'
 // import { useRouter } from 'next/router'
 
@@ -20,13 +20,13 @@ const article = ({ article }: ArticleProps) => {
     <>
       <h1>{article.title}</h1>
       <p>{article.body}</p>
-      <br/>
+      <br />
       <Link href='/'>Home</Link>
     </>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const res = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${context.params?.id}`
   )
@@ -37,6 +37,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       article,
     },
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/`)
+
+  const articles: { id: number }[] = await res.json()
+
+  const ids = articles.map((article) => article.id)
+
+  const paths = ids.map((id) => ({ params: { id: id.toString() } }))
+
+  return {
+    paths,
+    fallback: false
   }
 }
 
