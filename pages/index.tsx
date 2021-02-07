@@ -1,5 +1,4 @@
-import { GetStaticProps } from 'next'
-import Head from 'next/head'
+import { GetStaticProps, NextPage } from 'next'
 import ArticleList from '../components/ArticleList'
 import { server } from '../config'
 // import styles from '../styles/Home.module.css'
@@ -10,16 +9,13 @@ interface HomeProps {
     id: number
     title: string
     body: string
+    excerpt: string
   }[]
 }
 
-const Home = ({ articles }: HomeProps) => {
+const Home: NextPage<HomeProps> = ({ articles }) => {
   return (
     <div>
-      <Head>
-        <title>WebDev News</title>
-        <meta name='keywords' content='web development, programming' />
-      </Head>
       <ArticleList articles={ articles } />
     </div>
   )

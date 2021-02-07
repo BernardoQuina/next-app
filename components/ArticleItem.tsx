@@ -7,15 +7,16 @@ interface ArticleItemProps {
     id: number
     title: string
     body: string
+    excerpt: string
   }
 }
 
-const ArticleItem = ({ article }: ArticleItemProps) => {
+const ArticleItem: React.FC<ArticleItemProps> = ({ article }) => {
   return (
     <Link href={`/article/${article.id}`}>
       <a className={articleStyles.card}>
         <h3>{article.title}</h3>
-        <p>{article.body}</p>
+        <p>{article.excerpt}</p>
       </a>
     </Link>
   )

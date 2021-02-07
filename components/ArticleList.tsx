@@ -7,10 +7,11 @@ interface ArticleListProps {
     id: number
     title: string
     body: string
+    excerpt: string
   }[]
 }
 
-const ArticleList = ({ articles }: ArticleListProps) => {
+const ArticleList: React.FC<ArticleListProps> = ({ articles }) => {
   return (
     <div className={articleStyles.grid}>
       {articles.map((article) => (

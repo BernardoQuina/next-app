@@ -1,5 +1,6 @@
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import Link from 'next/link'
+import Meta from '../../../components/Meta'
 import { server } from '../../../config'
 // import { useRouter } from 'next/router'
 
@@ -9,16 +10,18 @@ interface ArticleProps {
     id: number
     title: string
     body: string
+    excerpt: string
   }
 }
 
-const article = ({ article }: ArticleProps) => {
+const article: NextPage<ArticleProps> = ({ article }) => {
   // const router = useRouter()
 
   // const { id } = router.query
 
   return (
     <>
+      <Meta title={article.title} description={article.excerpt} />
       <h1>{article.title}</h1>
       <p>{article.body}</p>
       <br />
@@ -28,9 +31,7 @@ const article = ({ article }: ArticleProps) => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const res = await fetch(
-    `${server}/api/articles/${context.params?.id}`
-  )
+  const res = await fetch(`${server}/api/articles/${context.params?.id}`)
 
   const article = await res.json()
 
@@ -52,7 +53,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false
+    fallback: false,
   }
 }
 
