@@ -3,8 +3,6 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 
-import homeStyles from '../styles/Home.module.css'
-
 interface HomeProps {
   posts: {
     id: string
@@ -21,22 +19,22 @@ interface HomeProps {
 const Home: NextPage<HomeProps> = ({ posts }) => {
 
   return (
-    <div className={homeStyles.container}>
+    <div className='flex justify-center items-center w-screen h-screen'>
       <Head>
         <title>Home | Posts</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className={homeStyles.main}>
-        <h1 className={homeStyles.title}>Posts from GraphQL</h1>
-        <p className={homeStyles.description}>
+      <main className=''>
+        <h1 className=''>Posts from GraphQL</h1>
+        <p className=''>
           These posts where fetch from a prisma 2.0 nexus backend
         </p>
 
-        <div className={homeStyles.grid}>
+        <div className=''>
           {posts.map((post) => {
             return (
               <Link href={`/post/${post.id}`} key={post.id}>
-                <a className={homeStyles.card}>
+                <a className=''>
                   <h3>{post.title}</h3>
                   <div style={{ display: 'inline'}}>
                     <span>posted by: </span>
