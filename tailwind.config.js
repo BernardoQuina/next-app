@@ -4,10 +4,16 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      'sans': ['Inter', 'Arial', 'sans-serif']
+    },
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      borderWidth: ['hover'],
+      scale: ['active']
+    },
   },
   plugins: [],
 }
