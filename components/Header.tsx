@@ -7,7 +7,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
         Posts from <span className='text-pink-600 font-extrabold'>GraphQL</span>
       </h1>
       <p className='text-center text-lg font-semibold'>
-        These posts where fetch from a prisma 2.0 nexus backend
+        These posts where fetched from a prisma 2.0 nexus backend
       </p>
     </>
   )
