@@ -12,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <Meta />
     <Nav />
     <div className='md:container md:mx-auto px-4 flex justify-center'>
-      <main className='pt-20'>
+      <main className='pt-10'>
         <Header />
         {children}
       </main>

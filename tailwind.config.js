@@ -12,7 +12,9 @@ module.exports = {
   variants: {
     extend: {
       borderWidth: ['hover'],
-      scale: ['active']
+      scale: ['active'],
+      backgroundColor: ['active'],
+      borderColor: ['active']
     },
   },
   plugins: [],

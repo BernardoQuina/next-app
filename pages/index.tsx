@@ -1,59 +1,59 @@
-import { GetStaticProps, NextPage } from 'next'
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
+import { NextPage } from 'next'
+import { gql, useQuery } from '@apollo/client'
+
+import withApollo from '../lib/apollo'
+// import { initializeApollo } from '../apollo'
 import PostList from '../components/PostList'
 
-interface HomeProps {
-  posts: {
-    id: string
-    title: string
-    body: string
-    published: boolean
-    userId: string
-    author: {
-      name: string
-    }
-  }[]
-}
+interface HomeProps {}
 
-const Home: NextPage<HomeProps> = ({ posts }) => {
+const Home: NextPage<HomeProps> = () => {
+  const {data, loading} = useQuery(PostsQuery)
+
+  // console.log('data: ', data)
+
+  if (loading) return <span>loading...</span>
+
   return (
     <div>
-        <PostList posts={posts} />
+      <PostList posts={data.posts} />
     </div>
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const client = new ApolloClient({
-    uri: 'http://localhost:4000/',
-    cache: new InMemoryCache(),
-  })
-
-  const {
-    data: { posts },
-  } = await client.query({
-    query: gql`
-      query {
-        posts {
-          id
-          title
-          body
-          published
-          createdAt
-          updatedAt
-          author {
-            name
-          }
-        }
+const PostsQuery = gql`
+  query PostsQuery {
+    posts {
+      id
+      title
+      body
+      published
+      createdAt
+      updatedAt
+      author {
+        name
       }
-    `,
-  })
-
-  return {
-    props: {
-      posts,
-    },
+    }
   }
-}
+`
 
-export default Home
+
+
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+
+//   console.log(context)
+
+//   const apolloClient = initializeApollo()
+
+//   await apolloClient.query({
+//     query: PostsQuery,
+//   })
+
+//   return {
+//     props: {
+//       initialApolloState: apolloClient.cache.extract(),
+//     },
+//   }
+// }
+
+export default withApollo({ssr: true})(Home)
