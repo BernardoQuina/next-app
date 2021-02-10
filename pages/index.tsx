@@ -1,59 +1,25 @@
 import { NextPage } from 'next'
-import { gql, useQuery } from '@apollo/client'
 
 import withApollo from '../lib/apollo'
-// import { initializeApollo } from '../apollo'
 import PostList from '../components/PostList'
+import Header from '../components/Header'
+import { useGetAllPostsQuery } from '../generated/graphql'
 
 interface HomeProps {}
 
 const Home: NextPage<HomeProps> = () => {
-  const {data, loading} = useQuery(PostsQuery)
+  const { data, loading } = useGetAllPostsQuery()
 
-  // console.log('data: ', data)
-
-  if (loading) return <span>loading...</span>
+  if (loading || !data) {
+    return <span>loading...</span>
+  }
 
   return (
     <div>
+      <Header />
       <PostList posts={data.posts} />
     </div>
   )
 }
 
-const PostsQuery = gql`
-  query PostsQuery {
-    posts {
-      id
-      title
-      body
-      published
-      createdAt
-      updatedAt
-      author {
-        name
-      }
-    }
-  }
-`
-
-
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-
-//   console.log(context)
-
-//   const apolloClient = initializeApollo()
-
-//   await apolloClient.query({
-//     query: PostsQuery,
-//   })
-
-//   return {
-//     props: {
-//       initialApolloState: apolloClient.cache.extract(),
-//     },
-//   }
-// }
-
-export default withApollo({ssr: true})(Home)
+export default withApollo({ ssr: true })(Home)

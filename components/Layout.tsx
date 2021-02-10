@@ -1,6 +1,5 @@
 import Meta from './Meta'
 import Nav from './Nav'
-import Header from './Header'
 
 interface LayoutProps {
 
@@ -11,9 +10,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <>
     <Meta />
     <Nav />
-    <div className='md:container md:mx-auto px-4 flex justify-center'>
-      <main className='pt-10'>
-        <Header />
+    <div className='md:mx-auto md:w-full px-4 flex justify-center'>
+      <main className='pt-10 md:w-full flex justify-center'>
         {children}
       </main>
     </div>

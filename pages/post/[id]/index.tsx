@@ -1,4 +1,3 @@
-import { gql, useQuery } from '@apollo/client'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -6,31 +5,33 @@ import Link from 'next/link'
 
 import withApollo from '../../../lib/apollo'
 import Meta from '../../../components/Meta'
+import { useSinglePostQueryQuery } from '../../../generated/graphql'
 
 interface PostProps {}
 
-const post: NextPage<PostProps> = () => {
+const Post: NextPage<PostProps> = () => {
   const router = useRouter()
 
-  const id = router.query.id
+  const id = router.query.id as string
 
-  const query = useQuery(PostQuery, {
+  const { data, loading } = useSinglePostQueryQuery({
     variables: { postId: id },
   })
 
-  const { data, loading } = query
-
-  if (loading || !post) return <span>loading...</span>
+  if (loading || !data) return <span>loading...</span>
 
   return (
-    <>
-      <Meta title={data.post.title} description={data.post.body} />
+    <div className='block'>
+      <Meta
+        title={data?.post?.title as string}
+        description={data?.post?.body as string}
+      />
       <div className='mt-10 px-10 pt-8 pb-20 border border-pink-600 rounded-lg'>
         <div className='sm:flex mb-7 items-baseline'>
-          <h1 className='text-3xl mr-5 font-bold'>{data.post.title}</h1>
-          <p className='text-gray-400'>posted by {data.post.author.name}</p>
+          <h1 className='text-3xl mr-5 font-bold'>{data?.post?.title}</h1>
+          <p className='text-gray-400'>posted by {data?.post?.author?.name}</p>
         </div>
-        <p>{data.post.body}</p>
+        <p>{data?.post?.body}</p>
       </div>
       <br />
       <Link href='/'>
@@ -38,32 +39,8 @@ const post: NextPage<PostProps> = () => {
           Go Back
         </a>
       </Link>
-    </>
+    </div>
   )
 }
 
-const PostQuery = gql`
-  query($postId: String!) {
-    post(where: { id: $postId }) {
-      id
-      title
-      body
-      published
-      createdAt
-      updatedAt
-      author {
-        name
-      }
-    }
-  }
-`
-
-// export const getStaticProps: GetStaticProps = async (context) => {
-//   return {
-//     props: {
-//       id: context.params?.id,
-//     },
-//   }
-// }
-
-export default withApollo({ ssr: true })(post)
+export default withApollo({ ssr: true })(Post)
