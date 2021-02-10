@@ -1,13 +1,18 @@
-query getAllPosts {
-    posts {
-      id
-      title
-      body
-      published
-      createdAt
-      updatedAt
-      author {
-        name
-      }
+query GetAllPosts {
+  posts(
+    where: { published: { equals: true } }
+    orderBy: { createdAt: desc }
+    take: 5
+    skip: 0
+  ) {
+    id
+    title
+    textSnippet
+    published
+    createdAt
+    updatedAt
+    author {
+      name
     }
   }
+}

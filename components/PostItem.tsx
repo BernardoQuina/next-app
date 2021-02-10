@@ -14,7 +14,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
           <span>posted by</span>
           <strong className='pl-2'>{post.author?.name}</strong>
         </div>
-        <p>{post.body}</p>
+        <p>{post.textSnippet}</p>
       </a>
     </Link>
   )

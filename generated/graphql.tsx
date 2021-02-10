@@ -29,18 +29,16 @@ export type User = {
 
 
 export type UserPostsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<PostWhereUniqueInput>;
-  after?: Maybe<PostWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<PostWhereUniqueInput>;
 };
 
 
 export type UserCommentsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<CommentWhereUniqueInput>;
-  after?: Maybe<CommentWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<CommentWhereUniqueInput>;
 };
 
 export type AuthPayload = {
@@ -66,14 +64,14 @@ export type Post = {
   author?: Maybe<User>;
   userId?: Maybe<Scalars['String']>;
   comments: Array<Comment>;
+  textSnippet?: Maybe<Scalars['String']>;
 };
 
 
 export type PostCommentsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<CommentWhereUniqueInput>;
-  after?: Maybe<CommentWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<CommentWhereUniqueInput>;
 };
 
 export type PostSubResponse = {
@@ -291,10 +289,9 @@ export type QueryUserArgs = {
 export type QueryUsersArgs = {
   where?: Maybe<UserWhereInput>;
   orderBy?: Maybe<Array<UserOrderByInput>>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<UserWhereUniqueInput>;
-  after?: Maybe<UserWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<UserWhereUniqueInput>;
 };
 
 
@@ -306,10 +303,9 @@ export type QueryPostArgs = {
 export type QueryPostsArgs = {
   where?: Maybe<PostWhereInput>;
   orderBy?: Maybe<Array<PostOrderByInput>>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<PostWhereUniqueInput>;
-  after?: Maybe<PostWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<PostWhereUniqueInput>;
 };
 
 
@@ -321,10 +317,9 @@ export type QueryCommentArgs = {
 export type QueryCommentsArgs = {
   where?: Maybe<CommentWhereInput>;
   orderBy?: Maybe<Array<CommentOrderByInput>>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  before?: Maybe<CommentWhereUniqueInput>;
-  after?: Maybe<CommentWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<CommentWhereUniqueInput>;
 };
 
 export type Mutation = {
@@ -448,7 +443,7 @@ export type SubscriptionCommentSubArgs = {
 
 export type PostSnippetFragment = (
   { __typename?: 'Post' }
-  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'body'>
+  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'textSnippet'>
   & { author?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name'>
@@ -462,7 +457,7 @@ export type GetAllPostsQuery = (
   { __typename?: 'Query' }
   & { posts: Array<(
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title' | 'body' | 'published' | 'createdAt' | 'updatedAt'>
+    & Pick<Post, 'id' | 'title' | 'textSnippet' | 'published' | 'createdAt' | 'updatedAt'>
     & { author?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'name'>
@@ -494,7 +489,7 @@ export const PostSnippetFragmentDoc = gql`
   updatedAt
   published
   title
-  body
+  textSnippet
   author {
     id
     name
@@ -502,11 +497,16 @@ export const PostSnippetFragmentDoc = gql`
 }
     `;
 export const GetAllPostsDocument = gql`
-    query getAllPosts {
-  posts {
+    query GetAllPosts {
+  posts(
+    where: {published: {equals: true}}
+    orderBy: {createdAt: desc}
+    take: 5
+    skip: 0
+  ) {
     id
     title
-    body
+    textSnippet
     published
     createdAt
     updatedAt

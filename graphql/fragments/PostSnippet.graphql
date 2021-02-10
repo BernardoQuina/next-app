@@ -4,7 +4,7 @@ fragment PostSnippet on Post {
   updatedAt
   published
   title
-  body
+  textSnippet
   author {
     id
     name
