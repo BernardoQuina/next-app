@@ -457,11 +457,7 @@ export type GetAllPostsQuery = (
   { __typename?: 'Query' }
   & { posts: Array<(
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title' | 'textSnippet' | 'published' | 'createdAt' | 'updatedAt'>
-    & { author?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'name'>
-    )> }
+    & PostSnippetFragment
   )> }
 );
 
@@ -504,18 +500,10 @@ export const GetAllPostsDocument = gql`
     take: 5
     skip: 0
   ) {
-    id
-    title
-    textSnippet
-    published
-    createdAt
-    updatedAt
-    author {
-      name
-    }
+    ...PostSnippet
   }
 }
-    `;
+    ${PostSnippetFragmentDoc}`;
 
 /**
  * __useGetAllPostsQuery__

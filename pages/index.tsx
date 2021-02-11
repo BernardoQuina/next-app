@@ -8,16 +8,21 @@ import { useGetAllPostsQuery } from '../generated/graphql'
 interface HomeProps {}
 
 const Home: NextPage<HomeProps> = () => {
-  const { data, loading } = useGetAllPostsQuery()
+  const { data, loading, error } = useGetAllPostsQuery()
 
-  if (loading || !data) {
-    return <span>loading...</span>
+
+  if (error) {
+    console.log(error)
   }
 
   return (
     <div>
       <Header />
-      <PostList posts={data.posts} />
+      {!data || loading ? (
+        <div>loading...</div>
+      ) : (
+        <PostList posts={data.posts} />
+      )}
     </div>
   )
 }
