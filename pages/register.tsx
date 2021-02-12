@@ -4,7 +4,7 @@ import { Formik, Form } from 'formik'
 import { useRegisterMutation, MeQuery, MeDocument } from '../generated/graphql'
 import withApollo from '../lib/apollo'
 import InputField from '../components/InputField'
-import { Router, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 
 interface registerProps {}
 
@@ -48,7 +48,7 @@ const register: NextPage<registerProps> = ({}) => {
         }}
       >
         {() => (
-          <Form>
+          <Form className='shadow-xl p-6 rounded-lg'>
             <InputField
               name='name'
               placeholder='John Doe'

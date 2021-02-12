@@ -14,7 +14,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
   return (
     <div className='m-8 align-middle'>
       {error && (
-        <div className='p-4 mb-4 flex self-center rounded-md bg-red-200'>
+        <div className='p-4 mb-6 flex self-center rounded-md bg-red-200 shadow-xl'>
           {error}
         </div>
       )}
@@ -22,7 +22,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
         <p className='font-semibold'>{label}</p>
         <label htmlFor={field.name}></label>
         <input
-          className='border-2 p-3 rounded-md focus:border-pink-600 outline-none'
+          className='border-2 border-transparent p-3 rounded-md focus:border-pink-600 shadow-inner outline-none'
           {...field}
           {...props}
           id={field.name}
