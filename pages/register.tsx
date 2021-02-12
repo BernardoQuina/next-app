@@ -10,9 +10,7 @@ interface registerProps {}
 
 const register: NextPage<registerProps> = ({}) => {
   const router = useRouter()
-  const [register] = useRegisterMutation()
-
-  console.log('register: ', register.toString())
+  const [register] = useRegisterMutation({ errorPolicy: 'all' })
 
   return (
     <div>
@@ -41,8 +39,8 @@ const register: NextPage<registerProps> = ({}) => {
           })
 
           if (response.errors) {
-            console.log('errors: ', response.errors)
-            setErrors(response.errors[0])
+            // backend doesn't specify the field error so all errors go to "name"
+            setErrors({ name: response.errors[0].message })
           } else if (response.data?.createUser?.user) {
             localStorage.setItem('authToken', response.data.createUser.token!)
             router.push('/')
@@ -53,30 +51,30 @@ const register: NextPage<registerProps> = ({}) => {
           <Form>
             <InputField
               name='name'
-              placeholder='name'
+              placeholder='John Doe'
               label='Name'
               type='text'
             />
             <InputField
               name='email'
-              placeholder='email'
+              placeholder='john@example.com'
               label='Email'
               type='email'
             />
             <InputField
               name='password'
-              placeholder='password'
+              placeholder=''
               label='Password'
               type='password'
             />
             <InputField
               name='confirmPassword'
-              placeholder='confirm password'
+              placeholder=''
               label='Confirm Password'
               type='password'
             />
             <button
-              className='inline py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white   active:bg-pink-900 active:border-pink-900'
+              className='flex self-center mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
               type='submit'
             >
               register
