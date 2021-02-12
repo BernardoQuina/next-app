@@ -3,12 +3,12 @@ import { NextPage } from 'next'
 import withApollo from '../lib/apollo'
 import PostList from '../components/PostList'
 import Header from '../components/Header'
-import { useGetAllPostsQuery } from '../generated/graphql'
+import { usePostsQuery } from '../generated/graphql'
 
 interface HomeProps {}
 
 const Home: NextPage<HomeProps> = () => {
-  const { data, loading, error } = useGetAllPostsQuery()
+  const { data, loading, error } = usePostsQuery()
 
 
   if (error) {

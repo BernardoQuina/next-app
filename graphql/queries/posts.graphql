@@ -1,4 +1,4 @@
-query GetAllPosts {
+query Posts {
   posts(
     where: { published: { equals: true } }
     orderBy: { createdAt: desc }

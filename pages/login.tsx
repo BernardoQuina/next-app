@@ -1,5 +1,7 @@
 import { NextPage } from 'next'
 
+import withApollo from '../lib/apollo'
+
 interface loginProps {
 
 }
@@ -10,4 +12,4 @@ const login: NextPage<loginProps> = ({  }) => {
   )
 }
 
-export default login
+export default withApollo({ssr: false})(login)
