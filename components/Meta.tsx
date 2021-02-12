@@ -24,9 +24,9 @@ const Meta: React.FC<MetaProps> = ({ title, keywords, description }) => {
 }
 
 Meta.defaultProps = {
-  title: 'WebDev Newz',
-  keywords: 'web development, programming',
-  description: 'Get the latest news in web dev',
+  title: 'GraphQL Prisma 2',
+  keywords: 'graphql, api, prisma, nexus, apollo',
+  description: 'Posts fetched from a prisma 2.0 nexus backend',
 }
 
 export default Meta
