@@ -1,5 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useMeQuery } from '../generated/graphql'
 
@@ -8,6 +9,8 @@ import { isServer } from '../utils/isServer'
 interface NavProps {}
 
 const Nav: React.FC<NavProps> = () => {
+  const router = useRouter()
+
   const [user, setUser] = useState('')
 
   const apolloClient = useApolloClient()
@@ -25,6 +28,7 @@ const Nav: React.FC<NavProps> = () => {
   const logoutHandler = async () => {
     localStorage.removeItem('authToken')
     await apolloClient.resetStore()
+    router.push('/login')
   }
   
 

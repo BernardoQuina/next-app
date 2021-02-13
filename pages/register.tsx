@@ -48,7 +48,7 @@ const register: NextPage<registerProps> = ({}) => {
         }}
       >
         {() => (
-          <Form className='shadow-xl p-6 rounded-lg'>
+          <Form className='border hover:border-pink-600 shadow-xl p-6 rounded-lg'>
             <InputField
               name='name'
               placeholder='John Doe'
