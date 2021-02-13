@@ -7,8 +7,6 @@ export const useIsAuth = () => {
 
   const { data, loading } = useMeQuery()
 
-  console.log('data: ', data)
-
   useEffect(() => {
     if (!loading && !data?.me) {
       router.replace('/login?next=' + router.pathname)

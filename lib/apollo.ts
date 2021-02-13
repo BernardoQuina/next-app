@@ -3,7 +3,7 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
 
-function createApolloClient() {
+export function createApolloClient() {
   // Declare variable to store authToken
   let token: string | null;
   
