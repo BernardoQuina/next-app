@@ -1,9 +1,9 @@
-query Posts {
+query Posts($take: Int!, $skip: Int!) {
   posts(
     where: { published: { equals: true } }
     orderBy: { createdAt: desc }
-    take: 10
-    skip: 0
+    take: $take
+    skip: $skip
   ) {
     ...PostSnippet
   }
