@@ -2,7 +2,7 @@ query Posts {
   posts(
     where: { published: { equals: true } }
     orderBy: { createdAt: desc }
-    take: 5
+    take: 10
     skip: 0
   ) {
     ...PostSnippet

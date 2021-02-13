@@ -469,6 +469,21 @@ export type LoginMutation = (
   )> }
 );
 
+export type NewPostMutationVariables = Exact<{
+  title: Scalars['String'];
+  body: Scalars['String'];
+  published: Scalars['Boolean'];
+}>;
+
+
+export type NewPostMutation = (
+  { __typename?: 'Mutation' }
+  & { createPost?: Maybe<(
+    { __typename?: 'Post' }
+    & Pick<Post, 'id' | 'title' | 'body' | 'published'>
+  )> }
+);
+
 export type RegisterMutationVariables = Exact<{
   name: Scalars['String'];
   email: Scalars['String'];
@@ -580,6 +595,43 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const NewPostDocument = gql`
+    mutation NewPost($title: String!, $body: String!, $published: Boolean!) {
+  createPost(title: $title, body: $body, published: $published) {
+    id
+    title
+    body
+    published
+  }
+}
+    `;
+export type NewPostMutationFn = Apollo.MutationFunction<NewPostMutation, NewPostMutationVariables>;
+
+/**
+ * __useNewPostMutation__
+ *
+ * To run a mutation, you first call `useNewPostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useNewPostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [newPostMutation, { data, loading, error }] = useNewPostMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      body: // value for 'body'
+ *      published: // value for 'published'
+ *   },
+ * });
+ */
+export function useNewPostMutation(baseOptions?: Apollo.MutationHookOptions<NewPostMutation, NewPostMutationVariables>) {
+        return Apollo.useMutation<NewPostMutation, NewPostMutationVariables>(NewPostDocument, baseOptions);
+      }
+export type NewPostMutationHookResult = ReturnType<typeof useNewPostMutation>;
+export type NewPostMutationResult = Apollo.MutationResult<NewPostMutation>;
+export type NewPostMutationOptions = Apollo.BaseMutationOptions<NewPostMutation, NewPostMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($name: String!, $email: String!, $password: String!, $confirmPassword: String!) {
   createUser(
@@ -665,7 +717,7 @@ export const PostsDocument = gql`
   posts(
     where: {published: {equals: true}}
     orderBy: {createdAt: desc}
-    take: 5
+    take: 10
     skip: 0
   ) {
     ...PostSnippet

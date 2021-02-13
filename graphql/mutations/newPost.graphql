@@ -1,0 +1,12 @@
+mutation NewPost ($title: String!, $body: String!, $published: Boolean!) {
+  createPost(
+    title: $title
+    body: $body
+    published: $published
+  ) {
+    id
+    title
+    body
+    published
+  }
+}

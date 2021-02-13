@@ -12,7 +12,7 @@ interface loginProps {}
 const login: NextPage<loginProps> = ({}) => {
   const router = useRouter()
 
-  const [login] = useLoginMutation({errorPolicy: 'all'})
+  const [login] = useLoginMutation({ errorPolicy: 'all' })
 
   return (
     <div>
@@ -46,7 +46,10 @@ const login: NextPage<loginProps> = ({}) => {
         }}
       >
         {() => (
-          <Form className='border hover:border-pink-600 shadow-xl p-6 rounded-lg '>
+          <Form className='border hover:border-pink-600 shadow-xl rounded-lg mb-10 pb-6'>
+            <h1 className='my-6 text-center text-4xl font-extrabold text-pink-600'>
+              Welcome Back
+            </h1>
             <InputField
               name='email'
               placeholder='john@example.com'
