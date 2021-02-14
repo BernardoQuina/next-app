@@ -2,6 +2,7 @@ import { NextPage } from 'next'
 import NextLink from 'next/link'
 
 import { withApollo } from '../lib/apollo'
+import { styles } from '../tailwind/styles'
 import Layout from '../components/Layout'
 import PostList from '../components/PostList'
 import Header from '../components/Header'
@@ -28,7 +29,7 @@ const Home: NextPage<HomeProps> = () => {
       <Header />
       <NextLink href='/new-post'>
         <button
-          className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white   active:bg-pink-900 active:border-pink-900'
+          className={styles.button}
           type='button'
         >
           new post
@@ -43,8 +44,7 @@ const Home: NextPage<HomeProps> = () => {
           {loading && <div className='text-center'>loading</div>}
           {hasMore ? (
             <button
-              className='flex m-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white   active:bg-pink-900 active:border-pink-900'
-              type='button'
+              className={styles.button + 'mb-8'}
               onClick={async () => {
                 const response = await fetchMore({
                   variables: {
@@ -59,7 +59,6 @@ const Home: NextPage<HomeProps> = () => {
                   ) {
                     setHasMore(false)
                   }
-                  console.log(response.errors[0].message)
                 }
               }}
             >
