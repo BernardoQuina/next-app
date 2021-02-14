@@ -3,7 +3,7 @@ import { Formik, Form } from 'formik'
 
 import { useRegisterMutation, MeQuery, MeDocument } from '../generated/graphql'
 import { withApollo } from '../lib/apollo'
-import InputField from '../components/InputField'
+import { InputField } from '../components/InputField'
 import { useRouter } from 'next/router'
 
 interface registerProps {}

@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { Formik, Form } from 'formik'
 
-import InputField from '../components/InputField'
+import { InputField } from '../components/InputField'
 import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql'
 import { withApollo } from '../lib/apollo'
 

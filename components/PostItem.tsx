@@ -5,7 +5,7 @@ interface PostItemProps {
   post: PostSnippetFragment
 }
 
-const PostItem: React.FC<PostItemProps> = ({ post }) => {
+export const PostItem: React.FC<PostItemProps> = ({ post }) => {
   return (
     <Link href={`/post/${post.id}`}>
       <a className='border border-white p-4 rounded-md shadow-md hover:border-pink-600 hover:text-pink-600 transform active:scale-95'>
@@ -20,4 +20,3 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
   )
 }
 
-export default PostItem

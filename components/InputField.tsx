@@ -8,7 +8,7 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   type: HTMLInputElement['type']
 }
 
-const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
+export const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
   const [field, { error }] = useField(props)
 
   return (
@@ -32,5 +32,3 @@ const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
     </div>
   )
 }
-
-export default InputField

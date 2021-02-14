@@ -4,7 +4,7 @@ import Link from 'next/link'
 // import { initializeApollo } from '../../../apollo'
 
 import { withApollo } from '../../../lib/apollo'
-import Meta from '../../../components/Meta'
+import { Meta } from '../../../components/Meta'
 import { useSinglePostQueryQuery } from '../../../generated/graphql'
 
 interface PostProps {}

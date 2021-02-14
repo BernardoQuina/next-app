@@ -1,13 +1,13 @@
 import { NextPage } from 'next'
 import NextLink from 'next/link'
+import { useState } from 'react'
 
 import { withApollo } from '../lib/apollo'
-import { styles } from '../tailwind/styles'
-import Layout from '../components/Layout'
-import PostList from '../components/PostList'
-import Header from '../components/Header'
 import { usePostsQuery } from '../generated/graphql'
-import { useState } from 'react'
+import { styles } from '../tailwind/styles'
+import { Layout } from '../components/Layout'
+import { PostList } from '../components/PostList'
+import { Header } from '../components/Header'
 
 interface HomeProps {}
 
@@ -28,10 +28,7 @@ const Home: NextPage<HomeProps> = () => {
     <Layout>
       <Header />
       <NextLink href='/new-post'>
-        <button
-          className={styles.button}
-          type='button'
-        >
+        <button className={styles.button} type='button'>
           new post
         </button>
       </NextLink>
@@ -65,7 +62,9 @@ const Home: NextPage<HomeProps> = () => {
               load more
             </button>
           ) : (
-            <div className='mb-8 text-center text-lg font-semibold'>no more posts</div>
+            <div className='mb-8 text-center text-lg font-semibold'>
+              no more posts
+            </div>
           )}
         </>
       )}

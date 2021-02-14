@@ -8,7 +8,7 @@ import { isServer } from '../utils/isServer'
 
 interface NavProps {}
 
-const Nav: React.FC<NavProps> = () => {
+export const Nav: React.FC<NavProps> = () => {
   const router = useRouter()
 
   const [user, setUser] = useState('')
@@ -65,5 +65,3 @@ const Nav: React.FC<NavProps> = () => {
     </nav>
   )
 }
-
-export default Nav

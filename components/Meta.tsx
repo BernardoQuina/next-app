@@ -6,7 +6,7 @@ interface MetaProps {
   description?: string
 }
 
-const Meta: React.FC<MetaProps> = ({ title, keywords, description }) => {
+export const Meta: React.FC<MetaProps> = ({ title, keywords, description }) => {
   return (
     <Head>
       <meta name='viewport' content='width=device-width, initial-scale=1' />
@@ -28,5 +28,3 @@ Meta.defaultProps = {
   keywords: 'graphql, api, prisma, nexus, apollo',
   description: 'Posts fetched from a prisma 2.0 nexus backend',
 }
-
-export default Meta

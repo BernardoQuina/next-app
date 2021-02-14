@@ -1,6 +1,6 @@
 interface HeaderProps {}
 
-const Header: React.FC<HeaderProps> = ({}) => {
+export const Header: React.FC<HeaderProps> = ({}) => {
   return (
     <>
       <h1 className='text-center text-5xl font-bold pt-6 pb-5'>
@@ -12,5 +12,3 @@ const Header: React.FC<HeaderProps> = ({}) => {
     </>
   )
 }
-
-export default Header

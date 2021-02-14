@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useNewPostMutation } from '../generated/graphql'
 import { withApollo } from '../lib/apollo'
 import { useIsAuth } from '../utils/useIsAuth'
-import InputField from '../components/InputField'
+import { InputField } from '../components/InputField'
 
 interface newPostProps {}
 
