@@ -5,6 +5,7 @@ import { useRegisterMutation, MeQuery, MeDocument } from '../generated/graphql'
 import { withApollo } from '../lib/apollo'
 import { InputField } from '../components/InputField'
 import { useRouter } from 'next/router'
+import { Layout } from '../components/Layout'
 
 interface registerProps {}
 
@@ -13,7 +14,7 @@ const register: NextPage<registerProps> = ({}) => {
   const [register] = useRegisterMutation({ errorPolicy: 'all' })
 
   return (
-    <div>
+    <Layout>
       <Formik
         initialValues={{
           name: '',
@@ -48,7 +49,7 @@ const register: NextPage<registerProps> = ({}) => {
         }}
       >
         {() => (
-          <Form className='border hover:border-pink-600 shadow-xl rounded-lg mb-10 pb-6'>
+          <Form className='max-w-lg mx-auto border hover:border-pink-600 shadow-xl rounded-lg mb-10 pb-6'>
             <h1 className='my-6 text-center text-4xl font-extrabold text-pink-600'>
               Welcome
             </h1>
@@ -85,7 +86,7 @@ const register: NextPage<registerProps> = ({}) => {
           </Form>
         )}
       </Formik>
-    </div>
+    </Layout>
   )
 }
 

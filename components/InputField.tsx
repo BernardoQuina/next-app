@@ -11,15 +11,22 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
 export const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
   const [field, { error }] = useField(props)
 
+  let flex = ''
+
+  if (props.type === 'checkbox') {
+    flex = ' flex'
+    console.log('here')
+  }
+
   return (
-    <div className='my-8 align-middle'>
+    <div className='my-8 max-w-lg mx-auto'>
       {error && (
         <div className='p-4 m-6 flex self-center rounded-md bg-red-200 shadow-xl'>
           {error}
         </div>
       )}
-      <div className='px-2'>
-        <p className='font-semibold mx-5'>{label}</p>
+      <div className={'px-2 mx-auto max-w-xs items-center' + flex}>
+          <p className='font-semibold mx-5'>{label}</p>
         <label htmlFor={field.name}></label>
         <input
           className='border-2 border-transparent mx-5 p-3 rounded-md focus:border-pink-600 shadow-inner outline-none'
@@ -28,7 +35,7 @@ export const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
           id={field.name}
           placeholder={props.placeholder}
         />
-      </div>
+        </div>
     </div>
   )
 }

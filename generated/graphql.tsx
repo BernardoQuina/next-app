@@ -541,7 +541,7 @@ export type SinglePostQueryQuery = (
     & Pick<Post, 'id' | 'title' | 'body' | 'published' | 'createdAt' | 'updatedAt'>
     & { author?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'name'>
+      & Pick<User, 'name' | 'id'>
     )> }
   )> }
 );
@@ -765,6 +765,7 @@ export const SinglePostQueryDocument = gql`
     updatedAt
     author {
       name
+      id
     }
   }
 }

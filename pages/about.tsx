@@ -1,13 +1,15 @@
 import { NextPage } from 'next'
+import { Layout } from '../components/Layout'
+import { withApollo } from '../lib/apollo'
 
 interface aboutProps {}
 
 const about: NextPage<aboutProps> = ({}) => {
   return (
-    <div>
-      <h1>About</h1>
-    </div>
+    <Layout>
+      <h1 className='text-center'>About</h1>
+    </Layout>
   )
 }
 
-export default about
+export default withApollo({ssr: true})(about)

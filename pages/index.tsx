@@ -24,6 +24,15 @@ const Home: NextPage<HomeProps> = () => {
     console.log(error)
   }
 
+  if (!loading && !data) {
+    return (
+      <div>
+        <p>your query failed...</p>
+        <p>{error?.message}</p>
+      </div>
+    )
+  }
+
   return (
     <Layout>
       <Header />
@@ -38,7 +47,7 @@ const Home: NextPage<HomeProps> = () => {
       ) : (
         <>
           <PostList posts={data.posts} />
-          {loading && <div className='text-center'>loading</div>}
+          {loading && <div className='text-center'>loading...</div>}
           {hasMore ? (
             <button
               className={styles.button + 'mb-8'}

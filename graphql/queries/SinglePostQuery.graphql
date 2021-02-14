@@ -8,6 +8,7 @@ query SinglePostQuery ($postId: String!) {
       updatedAt
       author {
         name
+        id
       }
     }
   }

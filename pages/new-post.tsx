@@ -6,6 +6,7 @@ import { useNewPostMutation } from '../generated/graphql'
 import { withApollo } from '../lib/apollo'
 import { useIsAuth } from '../utils/useIsAuth'
 import { InputField } from '../components/InputField'
+import { Layout } from '../components/Layout'
 
 interface newPostProps {}
 
@@ -16,7 +17,7 @@ const newPost: NextPage<newPostProps> = ({}) => {
   const [newPost] = useNewPostMutation()
 
   return (
-    <div>
+    <Layout>
       <Formik
         initialValues={{
           title: '',
@@ -41,7 +42,7 @@ const newPost: NextPage<newPostProps> = ({}) => {
         }}
       >
         {({ initialValues }) => (
-          <Form className='border hover:border-pink-600 shadow-xl rounded-lg mb-10 pb-6'>
+          <Form className='max-w-lg mx-auto border hover:border-pink-600 shadow-xl rounded-lg mb-10 pb-6'>
             <h2 className='my-6 text-center text-2xl font-extrabold text-pink-600'>
               What's on your mind?
             </h2>
@@ -57,7 +58,7 @@ const newPost: NextPage<newPostProps> = ({}) => {
               label='Body'
               type='text'
             />
-            <div className='flex'>
+            <div>
               <InputField
                 name='published'
                 label='public'
@@ -79,7 +80,7 @@ const newPost: NextPage<newPostProps> = ({}) => {
           </Form>
         )}
       </Formik>
-    </div>
+    </Layout>
   )
 }
 

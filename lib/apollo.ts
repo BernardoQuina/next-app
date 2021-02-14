@@ -42,10 +42,10 @@ const createClient = (_ctx: NextPageContext) => {
             posts: {
               keyArgs: [],
               merge(
-                existing: Array<Post> | undefined,
-                incoming: Array<Post>
+                existing: Array<Post> | [] = [],
+                incoming: Array<Post>,
               ): Post[] {
-                return [...existing || [], ...incoming]
+                return [...existing, ...incoming]
               },
             },
           },

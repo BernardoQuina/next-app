@@ -2,9 +2,11 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { Formik, Form } from 'formik'
 
-import { InputField } from '../components/InputField'
-import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql'
 import { withApollo } from '../lib/apollo'
+import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql'
+import { InputField } from '../components/InputField'
+import { Layout } from '../components/Layout'
+import { styles } from '../tailwind/styles'
 
 interface loginProps {}
 
@@ -14,7 +16,7 @@ const login: NextPage<loginProps> = ({}) => {
   const [login] = useLoginMutation({ errorPolicy: 'all' })
 
   return (
-    <div>
+    <Layout>
       <Formik
         initialValues={{
           email: '',
@@ -45,7 +47,7 @@ const login: NextPage<loginProps> = ({}) => {
         }}
       >
         {() => (
-          <Form className='border hover:border-pink-600 shadow-xl rounded-lg mb-10 pb-6'>
+          <Form className='max-w-lg mx-auto border hover:border-pink-600 shadow-xl rounded-lg mb-10 pb-6'>
             <h1 className='my-6 text-center text-4xl font-extrabold text-pink-600'>
               Welcome Back
             </h1>
@@ -57,12 +59,11 @@ const login: NextPage<loginProps> = ({}) => {
             />
             <InputField
               name='password'
-              placeholder=''
               label='Password'
               type='password'
             />
             <button
-              className='flex self-center mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
+              className={styles.button}
               type='submit'
             >
               login
@@ -70,7 +71,7 @@ const login: NextPage<loginProps> = ({}) => {
           </Form>
         )}
       </Formik>
-    </div>
+    </Layout>
   )
 }
 
