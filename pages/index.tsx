@@ -35,48 +35,50 @@ const Home: NextPage<HomeProps> = () => {
 
   return (
     <Layout>
-      <Header />
-      <NextLink href='/new-post'>
-        <button className={styles.button} type='button'>
-          new post
-        </button>
-      </NextLink>
+      <div>
+        <Header />
+        <NextLink href='/new-post'>
+          <button className={styles.button} type='button'>
+            new post
+          </button>
+        </NextLink>
 
-      {!data ? (
-        <div className='text-center mx-auto'>loading...</div>
-      ) : (
-        <>
-          <PostList posts={data.posts} />
-          {loading && <div className='text-center'>loading...</div>}
-          {hasMore ? (
-            <button
-              className={styles.button + 'mb-8'}
-              onClick={async () => {
-                const response = await fetchMore({
-                  variables: {
-                    skip: data.posts.length,
-                    take: 2,
-                  },
-                })
+        {!data ? (
+          <div className='text-center mx-auto'>loading...</div>
+        ) : (
+          <>
+            <PostList posts={data.posts} />
+            {loading && <div className='text-center'>loading...</div>}
+            {hasMore ? (
+              <button
+                className={styles.button + 'mb-8'}
+                onClick={async () => {
+                  const response = await fetchMore({
+                    variables: {
+                      skip: data.posts.length,
+                      take: 2,
+                    },
+                  })
 
-                if (response.errors) {
-                  if (
-                    response.errors[0].message === 'Could not find any posts.'
-                  ) {
-                    setHasMore(false)
+                  if (response.errors) {
+                    if (
+                      response.errors[0].message === 'Could not find any posts.'
+                    ) {
+                      setHasMore(false)
+                    }
                   }
-                }
-              }}
-            >
-              load more
-            </button>
-          ) : (
-            <div className='mb-8 text-center text-lg font-semibold'>
-              no more posts
-            </div>
-          )}
-        </>
-      )}
+                }}
+              >
+                load more
+              </button>
+            ) : (
+              <div className='mb-8 text-center text-lg font-semibold'>
+                no more posts
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </Layout>
   )
 }

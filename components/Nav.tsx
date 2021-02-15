@@ -15,7 +15,10 @@ export const Nav: React.FC<NavProps> = () => {
 
   const apolloClient = useApolloClient()
 
-  const { data, loading, error } = useMeQuery({ skip: isServer(), errorPolicy: 'all',  })
+  const { data, loading, error } = useMeQuery({
+    skip: isServer(),
+    errorPolicy: 'all',
+  })
 
   useEffect(() => {
     if (!loading && data) {
@@ -30,7 +33,34 @@ export const Nav: React.FC<NavProps> = () => {
     await apolloClient.resetStore()
     router.push('/login')
   }
-  
+
+  let userLogin
+
+  if (!data?.me) {
+    userLogin = (
+      <ul className='flex'>
+        <li className='border ml-2 border-black hover:border-white rounded-md p-1 px-2'>
+          <Link href='/login'>Login</Link>
+        </li>
+        <li className='border mr-auto border-black hover:border-white rounded-md p-1 px-2'>
+          <Link href='/register'>Register</Link>
+        </li>
+      </ul>
+    )
+  } else {
+    userLogin = (
+      <ul className='flex'>
+        <li className='border mx-4 border-black hover:border-white rounded-md p-1 px-2'>
+          <Link href='/profile'><p>{user}</p></Link>
+        </li>
+        <li className='border mr-4 border-black hover:border-white rounded-md p-1 px-2'>
+          <button type='button' onClick={logoutHandler}>
+            logout
+          </button>
+        </li>
+      </ul>
+    )
+  }
 
   return (
     <nav className='bg-black text-white flex justify-center p-3'>
@@ -43,25 +73,7 @@ export const Nav: React.FC<NavProps> = () => {
         </li>
       </ul>
 
-      {!user ? (
-        <ul className='flex'>
-          <li className='border ml-2 border-black hover:border-white rounded-md p-1 px-2'>
-            <Link href='/login'>Login</Link>
-          </li>
-          <li className='border mr-auto border-black hover:border-white rounded-md p-1 px-2'>
-            <Link href='/register'>Register</Link>
-          </li>
-        </ul>
-      ) : (
-        <ul className='flex'>
-          <li className='border mx-4 border-black hover:border-white rounded-md p-1 px-2'>
-            <Link href='/profile'>{user}</Link>
-          </li>
-          <li className='border mr-4 border-black hover:border-white rounded-md p-1 px-2'>
-            <button type='button' onClick={logoutHandler}>logout</button>
-          </li>
-        </ul>
-      )}
+      {userLogin}
     </nav>
   )
 }
