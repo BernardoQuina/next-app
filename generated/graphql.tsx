@@ -275,6 +275,7 @@ export type Query = {
   post?: Maybe<Post>;
   posts: Array<Post>;
   postCount?: Maybe<Scalars['Int']>;
+  myPosts?: Maybe<Array<Maybe<Post>>>;
   comment?: Maybe<Comment>;
   comments: Array<Comment>;
   commentCount?: Maybe<Scalars['Int']>;
@@ -306,6 +307,12 @@ export type QueryPostsArgs = {
   take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   cursor?: Maybe<PostWhereUniqueInput>;
+};
+
+
+export type QueryMyPostsArgs = {
+  take: Scalars['Int'];
+  skip: Scalars['Int'];
 };
 
 
@@ -515,6 +522,20 @@ export type MeQuery = (
   )> }
 );
 
+export type MyPostsQueryVariables = Exact<{
+  skip: Scalars['Int'];
+  take: Scalars['Int'];
+}>;
+
+
+export type MyPostsQuery = (
+  { __typename?: 'Query' }
+  & { myPosts?: Maybe<Array<Maybe<(
+    { __typename?: 'Post' }
+    & PostSnippetFragment
+  )>>> }
+);
+
 export type PostsQueryVariables = Exact<{
   take: Scalars['Int'];
   skip: Scalars['Int'];
@@ -715,6 +736,40 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const MyPostsDocument = gql`
+    query MyPosts($skip: Int!, $take: Int!) {
+  myPosts(skip: $skip, take: $take) {
+    ...PostSnippet
+  }
+}
+    ${PostSnippetFragmentDoc}`;
+
+/**
+ * __useMyPostsQuery__
+ *
+ * To run a query within a React component, call `useMyPostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyPostsQuery({
+ *   variables: {
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *   },
+ * });
+ */
+export function useMyPostsQuery(baseOptions: Apollo.QueryHookOptions<MyPostsQuery, MyPostsQueryVariables>) {
+        return Apollo.useQuery<MyPostsQuery, MyPostsQueryVariables>(MyPostsDocument, baseOptions);
+      }
+export function useMyPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyPostsQuery, MyPostsQueryVariables>) {
+          return Apollo.useLazyQuery<MyPostsQuery, MyPostsQueryVariables>(MyPostsDocument, baseOptions);
+        }
+export type MyPostsQueryHookResult = ReturnType<typeof useMyPostsQuery>;
+export type MyPostsLazyQueryHookResult = ReturnType<typeof useMyPostsLazyQuery>;
+export type MyPostsQueryResult = Apollo.QueryResult<MyPostsQuery, MyPostsQueryVariables>;
 export const PostsDocument = gql`
     query Posts($take: Int!, $skip: Int!) {
   posts(

@@ -51,7 +51,7 @@ export const Nav: React.FC<NavProps> = () => {
     userLogin = (
       <ul className='flex'>
         <li className='border mx-4 border-black hover:border-white rounded-md p-1 px-2'>
-          <Link href='/profile'><p>{user}</p></Link>
+          <Link href='/profile'><button type='button'>{user}</button></Link>
         </li>
         <li className='border mr-4 border-black hover:border-white rounded-md p-1 px-2'>
           <button type='button' onClick={logoutHandler}>

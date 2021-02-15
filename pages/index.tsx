@@ -15,7 +15,7 @@ const Home: NextPage<HomeProps> = () => {
   const [hasMore, setHasMore] = useState(true)
 
   const { data, loading, error, fetchMore } = usePostsQuery({
-    variables: { skip: 0, take: 2 },
+    variables: { skip: 0, take: 8 },
     notifyOnNetworkStatusChange: true,
     errorPolicy: 'all',
   })
@@ -56,9 +56,13 @@ const Home: NextPage<HomeProps> = () => {
                   const response = await fetchMore({
                     variables: {
                       skip: data.posts.length,
-                      take: 2,
+                      take: 4,
                     },
                   })
+
+                  if (response.data.posts.length < 4) {
+                    setHasMore(false)
+                  }
 
                   if (response.errors) {
                     if (

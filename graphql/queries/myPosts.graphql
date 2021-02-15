@@ -1,0 +1,5 @@
+query MyPosts ($skip: Int!, $take: Int!) {
+  myPosts(skip: $skip, take: $take) {
+    ...PostSnippet
+  }
+}

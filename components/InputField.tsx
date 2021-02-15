@@ -15,7 +15,6 @@ export const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
 
   if (props.type === 'checkbox') {
     flex = ' flex'
-    console.log('here')
   }
 
   return (
