@@ -16,9 +16,13 @@ const Post: NextPage<PostProps> = () => {
 
   const id = router.query.id as string
 
-  const { data, loading } = useSinglePostQueryQuery({
+  const { data, loading, error } = useSinglePostQueryQuery({
     variables: { postId: id },
   })
+
+  if (error) {
+    return <div>{error.message}</div>
+  }
 
   if (loading || !data) return <span>loading...</span>
 

@@ -3,6 +3,7 @@ import { NextPage } from 'next'
 import { useState } from 'react'
 import { Layout } from '../components/Layout'
 import { PostList } from '../components/PostList'
+import { Header } from '../components/Header'
 import {
   MyPostsQuery,
   PostSnippetFragment,
@@ -10,11 +11,14 @@ import {
 } from '../generated/graphql'
 import { withApollo } from '../lib/apollo'
 import { styles } from '../tailwind/styles'
+import { useIsAuth } from '../utils/useIsAuth'
 
 interface profileProps {}
 
 const profile: NextPage<profileProps> = () => {
   const [hasMore, setHasMore] = useState(true)
+
+  useIsAuth()
 
   const { data, loading, error, fetchMore } = useMyPostsQuery({
     variables: { skip: 0, take: 8 },
@@ -33,8 +37,7 @@ const profile: NextPage<profileProps> = () => {
 
   return (
     <Layout>
-      <div>User profile</div>
-      <div>All user posts</div>
+      <Header title='User profile' body='All your posts' />
       {!data || loading ? (
         <div>loading...</div>
       ) : (
