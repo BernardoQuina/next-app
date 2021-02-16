@@ -1,0 +1,22 @@
+mutation EditPost(
+  $postId: String!
+  $updatePublished: Boolean
+  $updateTitle: String
+  $updateBody: String
+) {
+  updatePost(
+    whereId: $postId
+    updatePublished: $updatePublished
+    updateTitle: $updateTitle
+    updateBody: $updateBody
+  ) {
+    id
+    title
+    body
+    published
+    author {
+      id
+      name
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { PostSnippetFragment } from '../generated/graphql'
 import { styles } from '../tailwind/styles'
-import { EditPostButtons } from './EditPostButtons'
+import { EditPostButton } from './EditPostButton'
 
 interface PostItemProps {
   post: PostSnippetFragment
@@ -21,7 +21,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
         </div>
         <div className='flex'>
           <p>{post.textSnippet}</p>
-          <EditPostButtons postId={post.id!} authorId={post.author?.id!} />
+          <EditPostButton postId={post.id!} authorId={post.author?.id!} />
         </div>
       </a>
     </Link>

@@ -1,9 +1,12 @@
 import { ApolloQueryResult } from '@apollo/client'
 import { NextPage } from 'next'
 import { useState } from 'react'
+
 import { Layout } from '../components/Layout'
 import { PostList } from '../components/PostList'
 import { Header } from '../components/Header'
+import { Meta } from '../components/Meta'
+
 import {
   MyPostsQuery,
   PostSnippetFragment,
@@ -37,6 +40,10 @@ const profile: NextPage<profileProps> = () => {
 
   return (
     <Layout>
+      <Meta
+          title='GraphQL Prisma 2 | Profile'
+          description='here you can find all your posts, including private ones'
+        />
       <Header title='User profile' body='All your posts' />
       {!data || loading ? (
         <div>loading...</div>

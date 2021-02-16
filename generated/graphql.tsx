@@ -458,6 +458,26 @@ export type PostSnippetFragment = (
   )> }
 );
 
+export type EditPostMutationVariables = Exact<{
+  postId: Scalars['String'];
+  updatePublished?: Maybe<Scalars['Boolean']>;
+  updateTitle?: Maybe<Scalars['String']>;
+  updateBody?: Maybe<Scalars['String']>;
+}>;
+
+
+export type EditPostMutation = (
+  { __typename?: 'Mutation' }
+  & { updatePost?: Maybe<(
+    { __typename?: 'Post' }
+    & Pick<Post, 'id' | 'title' | 'body' | 'published'>
+    & { author?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name'>
+    )> }
+  )> }
+);
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -581,6 +601,53 @@ export const PostSnippetFragmentDoc = gql`
   }
 }
     `;
+export const EditPostDocument = gql`
+    mutation EditPost($postId: String!, $updatePublished: Boolean, $updateTitle: String, $updateBody: String) {
+  updatePost(
+    whereId: $postId
+    updatePublished: $updatePublished
+    updateTitle: $updateTitle
+    updateBody: $updateBody
+  ) {
+    id
+    title
+    body
+    published
+    author {
+      id
+      name
+    }
+  }
+}
+    `;
+export type EditPostMutationFn = Apollo.MutationFunction<EditPostMutation, EditPostMutationVariables>;
+
+/**
+ * __useEditPostMutation__
+ *
+ * To run a mutation, you first call `useEditPostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditPostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editPostMutation, { data, loading, error }] = useEditPostMutation({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *      updatePublished: // value for 'updatePublished'
+ *      updateTitle: // value for 'updateTitle'
+ *      updateBody: // value for 'updateBody'
+ *   },
+ * });
+ */
+export function useEditPostMutation(baseOptions?: Apollo.MutationHookOptions<EditPostMutation, EditPostMutationVariables>) {
+        return Apollo.useMutation<EditPostMutation, EditPostMutationVariables>(EditPostDocument, baseOptions);
+      }
+export type EditPostMutationHookResult = ReturnType<typeof useEditPostMutation>;
+export type EditPostMutationResult = Apollo.MutationResult<EditPostMutation>;
+export type EditPostMutationOptions = Apollo.BaseMutationOptions<EditPostMutation, EditPostMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   loginUser(email: $email, password: $password) {

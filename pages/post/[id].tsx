@@ -3,11 +3,12 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 // import { initializeApollo } from '../../../apollo'
 
-import { withApollo } from '../../../lib/apollo'
-import { Meta } from '../../../components/Meta'
-import { useSinglePostQueryQuery } from '../../../generated/graphql'
-import { Layout } from '../../../components/Layout'
-import { styles } from '../../../tailwind/styles'
+import { withApollo } from '../../lib/apollo'
+import { Meta } from '../../components/Meta'
+import { useSinglePostQueryQuery } from '../../generated/graphql'
+import { Layout } from '../../components/Layout'
+import { styles } from '../../tailwind/styles'
+import { EditPostButton } from '../../components/EditPostButton'
 
 interface PostProps {}
 
@@ -33,7 +34,7 @@ const Post: NextPage<PostProps> = () => {
           title={data?.post?.title as string}
           description={data?.post?.body as string}
         />
-        <div className='mt-10 px-10 pt-8 pb-20 border border-pink-600 rounded-lg'>
+        <div className='mt-10 px-6 pt-6 pb-6 border border-pink-600 rounded-lg'>
           <div className='mb-7 items-baseline'>
             {data?.post?.published === false && (
               <p className={styles.flag}>
@@ -48,6 +49,9 @@ const Post: NextPage<PostProps> = () => {
             </p>
           </div>
           <p>{data?.post?.body}</p>
+          <div className='flex'>
+            <EditPostButton authorId={data.post?.author?.id!} postId={id} />
+          </div>
         </div>
         <br />
         <Link href='/'>
