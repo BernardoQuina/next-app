@@ -60,7 +60,10 @@ const Home: NextPage<HomeProps> = () => {
                     },
                   })
 
-                  if (response.data.posts.length < 4) {
+                  if (
+                    response.data === null ||
+                    response.data.posts.length < 4
+                  ) {
                     setHasMore(false)
                   }
 
