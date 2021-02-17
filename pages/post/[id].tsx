@@ -8,6 +8,7 @@ import { Meta } from '../../components/Meta'
 import { useSinglePostQueryQuery } from '../../generated/graphql'
 import { Layout } from '../../components/Layout'
 import { styles } from '../../tailwind/styles'
+import { DeletePostButton } from '../../components/DeletePostButton'
 import { EditPostButton } from '../../components/EditPostButton'
 
 interface PostProps {}
@@ -37,7 +38,7 @@ const Post: NextPage<PostProps> = () => {
         <div className='mt-10 px-6 pt-6 pb-6 border border-pink-600 rounded-lg'>
           <div className='mb-7 items-baseline'>
             {data?.post?.published === false && (
-              <p className={styles.flag}>
+              <p className={styles.flag + ' mb-2'}>
                 private
               </p>
             )}
@@ -49,7 +50,8 @@ const Post: NextPage<PostProps> = () => {
             </p>
           </div>
           <p>{data?.post?.body}</p>
-          <div className='flex'>
+          <div className='flex mt-6'>
+            <DeletePostButton postId={id} authorId={data.post?.author?.id!} />
             <EditPostButton authorId={data.post?.author?.id!} postId={id} />
           </div>
         </div>

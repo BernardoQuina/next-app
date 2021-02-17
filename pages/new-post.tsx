@@ -29,6 +29,7 @@ const newPost: NextPage<newPostProps> = ({}) => {
             variables: { title, body, published },
             update: (cache) => {
               cache.evict({ fieldName: 'posts' })
+              cache.evict({ fieldName: 'myPosts' })
             },
           })
 

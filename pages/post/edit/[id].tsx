@@ -9,6 +9,7 @@ import {
   useEditPostMutation,
 } from '../../../generated/graphql'
 import { withApollo } from '../../../lib/apollo'
+import { DeletePostButton } from '../../../components/DeletePostButton'
 
 interface EditPostProps {}
 
@@ -46,6 +47,7 @@ const EditPost: NextPage<EditPostProps> = ({}) => {
             variables: { postId: id, ...values },
             update: (cache) => {
               cache.evict({ fieldName: 'posts' })
+              cache.evict({ fieldName: 'myPosts' })
             },
           })
 
@@ -88,12 +90,16 @@ const EditPost: NextPage<EditPostProps> = ({}) => {
               />
             </div>
 
-            <button
-              className='flex self-center mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
-              type='submit'
-            >
-              edit
-            </button>
+            <div className='flex ml-6 mr-12'>
+              <DeletePostButton postId={id} authorId={data.post?.author?.id!} />
+
+              <button
+                className='flex self-center mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
+                type='submit'
+              >
+                edit
+              </button>
+            </div>
           </Form>
         )}
       </Formik>

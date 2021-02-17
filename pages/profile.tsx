@@ -41,9 +41,9 @@ const profile: NextPage<profileProps> = () => {
   return (
     <Layout>
       <Meta
-          title='GraphQL Prisma 2 | Profile'
-          description='here you can find all your posts, including private ones'
-        />
+        title='GraphQL Prisma 2 | Profile'
+        description='here you can find all your posts, including private ones'
+      />
       <Header title='User profile' body='All your posts' />
       {!data || loading ? (
         <div>loading...</div>
@@ -63,7 +63,10 @@ const profile: NextPage<profileProps> = () => {
                   }
                 )
 
-                if (response.data.myPosts?.length! < 4) {
+                if (
+                  response.data === null ||
+                  response.data.myPosts?.length! < 4
+                ) {
                   setHasMore(false)
                 }
 
