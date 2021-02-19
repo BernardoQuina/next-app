@@ -54,7 +54,7 @@ export const Nav: React.FC<NavProps> = () => {
   } else {
     userLogin = (
       <ul className='flex'>
-        <li className='border mx-4 border-black hover:border-white rounded-md p-1 px-2'>
+        <li className='border rounded-md min-w-max p-1 px-2 mx-4 border-black hover:border-white'>
           <Link href='/profile'>
             <button type='button'>{user}</button>
           </Link>

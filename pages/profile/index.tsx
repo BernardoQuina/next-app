@@ -26,7 +26,7 @@ const profile: NextPage<profileProps> = () => {
 
   useIsAuth()
 
-  const { data: userData, loading: userLoading } = useMeQuery()
+  const { data: userData, loading: userLoading } = useMeQuery({ })
 
   const { data, loading, error, fetchMore } = useMyPostsQuery({
     variables: { skip: 0, take: 8 },
@@ -34,14 +34,14 @@ const profile: NextPage<profileProps> = () => {
     errorPolicy: 'all',
   })
 
-  if (!loading && !data) {
-    return (
-      <div>
-        <p>your query failed...</p>
-        <p>{error?.message}</p>
-      </div>
-    )
-  }
+  // if (!loading && !data) {
+  //   return (
+  //     <div>
+  //       <p>your query failed...</p>
+  //       <p>{error?.message}</p>
+  //     </div>
+  //   )
+  // }
 
   return (
     <Layout>
@@ -53,14 +53,18 @@ const profile: NextPage<profileProps> = () => {
         title='User profile'
         body='Find your profile details & your posts here'
       />
-      {!data || loading ? (
+      <UserCard
+        userName={userData?.me?.name!}
+        userEmail={userData?.me?.email!}
+      />
+      {loading ? (
         <div>loading...</div>
+      ) : !data ? (
+        <div className='mb-8 text-center text-lg font-semibold'>
+              no posts
+            </div>
       ) : (
         <>
-          <UserCard
-            userName={userData?.me?.name!}
-            userEmail={userData?.me?.email!}
-          />
           <PostList posts={data.myPosts as PostSnippetFragment[]} />
           {hasMore ? (
             <button

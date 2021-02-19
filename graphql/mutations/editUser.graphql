@@ -1,0 +1,22 @@
+mutation EditUser(
+  $password: String!
+  $updateName: String
+  $updateEmail: String
+  $updatePassword: String
+  $confirmNewPassword: String
+) {
+  updateUser(
+    password: $password
+    updateName: $updateName
+    updateEmail: $updateEmail
+    updatePassword: $updatePassword
+    confirmNewPassword: $confirmNewPassword
+  ) {
+    id
+    name
+    email
+    password
+    createdAt
+    updatedAt
+  }
+}
