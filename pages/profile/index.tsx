@@ -1,20 +1,23 @@
 import { ApolloQueryResult } from '@apollo/client'
 import { NextPage } from 'next'
+import Link from 'next/link'
 import { useState } from 'react'
 
-import { Layout } from '../components/Layout'
-import { PostList } from '../components/PostList'
-import { Header } from '../components/Header'
-import { Meta } from '../components/Meta'
+import { Layout } from '../../components/Layout'
+import { PostList } from '../../components/PostList'
+import { Header } from '../../components/Header'
+import { Meta } from '../../components/Meta'
 
 import {
   MyPostsQuery,
   PostSnippetFragment,
+  useMeQuery,
   useMyPostsQuery,
-} from '../generated/graphql'
-import { withApollo } from '../lib/apollo'
-import { styles } from '../tailwind/styles'
-import { useIsAuth } from '../utils/useIsAuth'
+} from '../../generated/graphql'
+import { withApollo } from '../../lib/apollo'
+import { styles } from '../../tailwind/styles'
+import { useIsAuth } from '../../utils/useIsAuth'
+import UserCard from '../../components/UserCard'
 
 interface profileProps {}
 
@@ -22,6 +25,8 @@ const profile: NextPage<profileProps> = () => {
   const [hasMore, setHasMore] = useState(true)
 
   useIsAuth()
+
+  const { data: userData, loading: userLoading } = useMeQuery()
 
   const { data, loading, error, fetchMore } = useMyPostsQuery({
     variables: { skip: 0, take: 8 },
@@ -44,11 +49,18 @@ const profile: NextPage<profileProps> = () => {
         title='GraphQL Prisma 2 | Profile'
         description='here you can find all your posts, including private ones'
       />
-      <Header title='User profile' body='All your posts' />
+      <Header
+        title='User profile'
+        body='Find your profile details & your posts here'
+      />
       {!data || loading ? (
         <div>loading...</div>
       ) : (
         <>
+          <UserCard
+            userName={userData?.me?.name!}
+            userEmail={userData?.me?.email!}
+          />
           <PostList posts={data.myPosts as PostSnippetFragment[]} />
           {hasMore ? (
             <button

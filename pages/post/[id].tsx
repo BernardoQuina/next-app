@@ -1,7 +1,5 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
-// import { initializeApollo } from '../../../apollo'
 
 import { withApollo } from '../../lib/apollo'
 import { Meta } from '../../components/Meta'
@@ -38,9 +36,7 @@ const Post: NextPage<PostProps> = () => {
         <div className='mt-10 px-6 pt-6 pb-6 border border-pink-600 rounded-lg'>
           <div className='mb-7 items-baseline'>
             {data?.post?.published === false && (
-              <p className={styles.flag + ' mb-2'}>
-                private
-              </p>
+              <p className={styles.flag + ' mb-2'}>private</p>
             )}
             <h1 className='text-2xl md:text-3xl font-bold'>
               {data?.post?.title}
@@ -56,9 +52,9 @@ const Post: NextPage<PostProps> = () => {
           </div>
         </div>
         <br />
-        <Link href='/'>
-          <button className={styles.button}>Go Back</button>
-        </Link>
+        <button className={styles.button} onClick={() => router.back()}>
+          Go Back
+        </button>
       </div>
     </Layout>
   )
