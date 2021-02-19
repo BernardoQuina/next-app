@@ -1,8 +1,9 @@
 import { NextPage } from 'next'
-import { withApollo } from '../../lib/apollo'
-import { Formik, Form } from 'formik'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+import { Formik, Form } from 'formik'
 
+import { withApollo } from '../../lib/apollo'
 import {
   MeDocument,
   MeQuery,
@@ -23,7 +24,7 @@ const edit: NextPage<editProps> = ({}) => {
     errorPolicy: 'all',
   })
 
-  const [editUser] = useEditUserMutation({errorPolicy: 'all'})
+  const [editUser] = useEditUserMutation({ errorPolicy: 'all' })
 
   return (
     <Layout>
@@ -99,12 +100,34 @@ const edit: NextPage<editProps> = ({}) => {
               label='Confirm new password'
               type='password'
             />
-            <button
-              className='flex self-center mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
-              type='submit'
-            >
-              edit
-            </button>
+            <div className='flex'>
+              <button
+                className='mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
+                type='submit'
+              >
+                edit
+              </button>
+            </div>
+            <div>
+              <Link href='/profile/delete'>
+                <button type='button' className='ml-6 mt-6'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    fill='none'
+                    className='w-8 p-1 rounded-lg bg-red-100 stroke-current text-red-600 transform hover:scale-110'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
+                    />
+                  </svg>
+                </button>
+              </Link>
+            </div>
           </Form>
         )}
       </Formik>
