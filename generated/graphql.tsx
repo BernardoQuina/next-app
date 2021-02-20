@@ -458,6 +458,15 @@ export type PostSnippetFragment = (
   )> }
 );
 
+export type CommentFragment = (
+  { __typename?: 'Comment' }
+  & Pick<Comment, 'id' | 'text'>
+  & { author?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name'>
+  )> }
+);
+
 export type DeletePostMutationVariables = Exact<{
   postId: Scalars['String'];
 }>;
@@ -645,6 +654,16 @@ export const PostSnippetFragmentDoc = gql`
   published
   title
   textSnippet
+  author {
+    id
+    name
+  }
+}
+    `;
+export const CommentFragmentDoc = gql`
+    fragment Comment on Comment {
+  id
+  text
   author {
     id
     name

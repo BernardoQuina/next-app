@@ -8,6 +8,8 @@ import { Layout } from '../../components/Layout'
 import { styles } from '../../tailwind/styles'
 import { DeletePostButton } from '../../components/DeletePostButton'
 import { EditPostButton } from '../../components/EditPostButton'
+import { CommentItem } from '../../components/CommentItem'
+import { CommentList } from '../../components/CommentList'
 
 interface PostProps {}
 
@@ -60,16 +62,7 @@ const Post: NextPage<PostProps> = () => {
           </div>
         </div>
         {data.post?.comments.length ? (
-          <div className='ml-6 divide-y divide-pink-400'>
-            {data.post.comments.map((comment) => (
-              <div className='py-5'>
-                <div className='text-lg font-semibold'>
-                  {comment.author?.name}
-                </div>
-                <div className='ml-4 mt-2'>{comment.text}</div>
-              </div>
-            ))}
-          </div>
+          <CommentList comments={data.post.comments} />
         ) : (
           <br />
         )}
