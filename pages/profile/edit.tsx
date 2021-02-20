@@ -13,26 +13,33 @@ import {
 import { Layout } from '../../components/Layout'
 import { InputField } from '../../components/InputField'
 import { isServer } from '../../utils/isServer'
+import { useIsAuth } from '../../utils/useIsAuth'
 
 interface editProps {}
 
 const edit: NextPage<editProps> = ({}) => {
   const router = useRouter()
 
-  const { data } = useMeQuery({
+  const { data, loading } = useMeQuery({
     skip: isServer(),
     errorPolicy: 'all',
   })
 
+  useIsAuth()
+
   const [editUser] = useEditUserMutation({ errorPolicy: 'all' })
+
+  if (!data || loading) {
+    <div>loading...</div>
+  }
 
   return (
     <Layout>
       <Formik
         initialValues={{
           password: '',
-          updateName: data?.me?.name,
-          updateEmail: data?.me?.email,
+          updateName: data?.me?.name!,
+          updateEmail: data?.me?.email!,
           updatePassword: '',
           confirmNewPassword: '',
         }}

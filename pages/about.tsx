@@ -9,7 +9,7 @@ const about: NextPage<aboutProps> = ({}) => {
   return (
     <Layout>
       <Header />
-      <p className='my-10 md:mx-10 font-light text-2xl max-w-screen-sm leading-loose'>
+      <p className='my-10 mx-auto text-center font-light text-2xl max-w-screen-sm leading-loose'>
         This simple frontend project is a follow up and integration with my
         backend.  It was built using Typescript, NextJS & Apollo Client as well as TailwindCSS for styling.
       </p>

@@ -9,6 +9,9 @@ interface MetaProps {
 export const Meta: React.FC<MetaProps> = ({ title, keywords, description }) => {
   return (
     <Head>
+      <meta name='author' content='Bernardo Quina' />
+      <meta about='This simple frontend project is a follow up and integration with my
+        backend.  It was built using Typescript, NextJS & Apollo Client as well as TailwindCSS for styling.' />
       <meta name='viewport' content='width=device-width, initial-scale=1' />
       <meta name='keywords' content={keywords} />
       <meta name='description' content={description} />

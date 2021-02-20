@@ -1,6 +1,5 @@
 import { ApolloQueryResult } from '@apollo/client'
 import { NextPage } from 'next'
-import Link from 'next/link'
 import { useState } from 'react'
 
 import { Layout } from '../../components/Layout'
@@ -26,22 +25,13 @@ const profile: NextPage<profileProps> = () => {
 
   useIsAuth()
 
-  const { data: userData, loading: userLoading } = useMeQuery({ })
+  const { data: userData } = useMeQuery()
 
-  const { data, loading, error, fetchMore } = useMyPostsQuery({
+  const { data, loading, fetchMore } = useMyPostsQuery({
     variables: { skip: 0, take: 8 },
     notifyOnNetworkStatusChange: true,
     errorPolicy: 'all',
   })
-
-  // if (!loading && !data) {
-  //   return (
-  //     <div>
-  //       <p>your query failed...</p>
-  //       <p>{error?.message}</p>
-  //     </div>
-  //   )
-  // }
 
   return (
     <Layout>
