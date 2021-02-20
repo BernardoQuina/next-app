@@ -50,7 +50,7 @@ const Post: NextPage<PostProps> = () => {
           title={data?.post?.title as string}
           description={data?.post?.body as string}
         />
-        <div className='mt-10 px-6 pt-6 pb-6 border border-pink-600 rounded-lg'>
+        <div className='mt-10 px-6 pt-6 pb-6 border shadow-inner rounded-lg'>
           <div className='mb-7 items-baseline'>
             {data?.post?.published === false && (
               <p className={styles.flag + ' mb-2'}>private</p>
@@ -120,7 +120,7 @@ const Post: NextPage<PostProps> = () => {
           <br />
         )}
 
-        <button className={styles.button} onClick={() => router.back()}>
+        <button className={styles.button + ' mb-8'} onClick={() => router.back()}>
           Go Back
         </button>
       </div>
