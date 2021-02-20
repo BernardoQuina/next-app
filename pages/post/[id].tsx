@@ -26,9 +26,17 @@ const Post: NextPage<PostProps> = () => {
 
   if (loading || !data) return <span>loading...</span>
 
+  console.log('comments: ', data.post?.comments)
+
+  if (data.post?.comments.length) {
+    console.log('hey')
+  } else {
+    console.log('nay')
+  }
+
   return (
     <Layout>
-      <div className='block max-w-lg mx-auto'>
+      <div className='block max-w-lg m-auto'>
         <Meta
           title={data?.post?.title as string}
           description={data?.post?.body as string}
@@ -51,7 +59,21 @@ const Post: NextPage<PostProps> = () => {
             <EditPostButton authorId={data.post?.author?.id!} postId={id} />
           </div>
         </div>
-        <br />
+        {data.post?.comments.length ? (
+          <div className='ml-6 divide-y divide-pink-400'>
+            {data.post.comments.map((comment) => (
+              <div className='py-5'>
+                <div className='text-lg font-semibold'>
+                  {comment.author?.name}
+                </div>
+                <div className='ml-4 mt-2'>{comment.text}</div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <br />
+        )}
+
         <button className={styles.button} onClick={() => router.back()}>
           Go Back
         </button>

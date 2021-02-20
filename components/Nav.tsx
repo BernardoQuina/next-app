@@ -59,7 +59,7 @@ export const Nav: React.FC<NavProps> = () => {
             <button type='button'>{user}</button>
           </Link>
         </li>
-        <li className='border mr-4 border-black hover:border-white rounded-md p-1 px-2'>
+        <li className='border border-black hover:border-white rounded-md p-1 px-2'>
           <button type='button' onClick={logoutHandler}>
             {error?.message === 'Authentication required.'
               ? 'logging out...'

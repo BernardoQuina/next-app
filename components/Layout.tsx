@@ -9,7 +9,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Meta />
       <Nav />
       <div className='md:mx-auto md:w-full px-4 flex justify-center'>
-        <main className='pt-10 md:w-full'>{children}</main>
+        <main className='pt-10 w-full'>{children}</main>
       </div>
     </div>
   )

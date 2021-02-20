@@ -626,6 +626,13 @@ export type SinglePostQueryQuery = (
     & { author?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'name' | 'id'>
+    )>, comments: Array<(
+      { __typename?: 'Comment' }
+      & Pick<Comment, 'id' | 'text'>
+      & { author?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'name'>
+      )> }
     )> }
   )> }
 );
@@ -1047,6 +1054,14 @@ export const SinglePostQueryDocument = gql`
     author {
       name
       id
+    }
+    comments {
+      id
+      text
+      author {
+        id
+        name
+      }
     }
   }
 }
