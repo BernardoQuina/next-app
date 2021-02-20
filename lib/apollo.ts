@@ -48,7 +48,6 @@ const createClient = (_ctx: NextPageContext) => {
                 return [...existing, ...incoming]
               },
             },
-          
             myPosts: {
               keyArgs: [],
               merge(
@@ -57,6 +56,15 @@ const createClient = (_ctx: NextPageContext) => {
               ): Post[] {
                   return [...existing, ...incoming]
               },
+            },
+            comments: {
+              keyArgs: [],
+              merge(
+                existing: Array<Comment> | [] = [],
+                incoming: Array<Comment>,
+              ): Comment[] {
+                return [...existing, ...incoming]
+              }
             }
           },
         },

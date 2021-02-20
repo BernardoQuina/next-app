@@ -548,6 +548,24 @@ export type LoginMutation = (
   )> }
 );
 
+export type NewCommentMutationVariables = Exact<{
+  postId: Scalars['String'];
+  text: Scalars['String'];
+}>;
+
+
+export type NewCommentMutation = (
+  { __typename?: 'Mutation' }
+  & { createComment?: Maybe<(
+    { __typename?: 'Comment' }
+    & Pick<Comment, 'id' | 'text'>
+    & { author?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name'>
+    )> }
+  )> }
+);
+
 export type NewPostMutationVariables = Exact<{
   title: Scalars['String'];
   body: Scalars['String'];
@@ -622,12 +640,29 @@ export type PostsQuery = (
   )> }
 );
 
-export type SinglePostQueryQueryVariables = Exact<{
+export type SingleCommentQueryVariables = Exact<{
+  commentId: Scalars['String'];
+}>;
+
+
+export type SingleCommentQuery = (
+  { __typename?: 'Query' }
+  & { comment?: Maybe<(
+    { __typename?: 'Comment' }
+    & Pick<Comment, 'id' | 'text'>
+    & { author?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name'>
+    )> }
+  )> }
+);
+
+export type SinglePostQueryVariables = Exact<{
   postId: Scalars['String'];
 }>;
 
 
-export type SinglePostQueryQuery = (
+export type SinglePostQuery = (
   { __typename?: 'Query' }
   & { post?: Maybe<(
     { __typename?: 'Post' }
@@ -871,6 +906,44 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const NewCommentDocument = gql`
+    mutation NewComment($postId: String!, $text: String!) {
+  createComment(postId: $postId, text: $text) {
+    id
+    text
+    author {
+      id
+      name
+    }
+  }
+}
+    `;
+export type NewCommentMutationFn = Apollo.MutationFunction<NewCommentMutation, NewCommentMutationVariables>;
+
+/**
+ * __useNewCommentMutation__
+ *
+ * To run a mutation, you first call `useNewCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useNewCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [newCommentMutation, { data, loading, error }] = useNewCommentMutation({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *      text: // value for 'text'
+ *   },
+ * });
+ */
+export function useNewCommentMutation(baseOptions?: Apollo.MutationHookOptions<NewCommentMutation, NewCommentMutationVariables>) {
+        return Apollo.useMutation<NewCommentMutation, NewCommentMutationVariables>(NewCommentDocument, baseOptions);
+      }
+export type NewCommentMutationHookResult = ReturnType<typeof useNewCommentMutation>;
+export type NewCommentMutationResult = Apollo.MutationResult<NewCommentMutation>;
+export type NewCommentMutationOptions = Apollo.BaseMutationOptions<NewCommentMutation, NewCommentMutationVariables>;
 export const NewPostDocument = gql`
     mutation NewPost($title: String!, $body: String!, $published: Boolean!) {
   createPost(title: $title, body: $body, published: $published) {
@@ -1061,8 +1134,46 @@ export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Post
 export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
 export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
-export const SinglePostQueryDocument = gql`
-    query SinglePostQuery($postId: String!) {
+export const SingleCommentDocument = gql`
+    query SingleComment($commentId: String!) {
+  comment(where: {id: $commentId}) {
+    id
+    text
+    author {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useSingleCommentQuery__
+ *
+ * To run a query within a React component, call `useSingleCommentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSingleCommentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSingleCommentQuery({
+ *   variables: {
+ *      commentId: // value for 'commentId'
+ *   },
+ * });
+ */
+export function useSingleCommentQuery(baseOptions: Apollo.QueryHookOptions<SingleCommentQuery, SingleCommentQueryVariables>) {
+        return Apollo.useQuery<SingleCommentQuery, SingleCommentQueryVariables>(SingleCommentDocument, baseOptions);
+      }
+export function useSingleCommentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SingleCommentQuery, SingleCommentQueryVariables>) {
+          return Apollo.useLazyQuery<SingleCommentQuery, SingleCommentQueryVariables>(SingleCommentDocument, baseOptions);
+        }
+export type SingleCommentQueryHookResult = ReturnType<typeof useSingleCommentQuery>;
+export type SingleCommentLazyQueryHookResult = ReturnType<typeof useSingleCommentLazyQuery>;
+export type SingleCommentQueryResult = Apollo.QueryResult<SingleCommentQuery, SingleCommentQueryVariables>;
+export const SinglePostDocument = gql`
+    query SinglePost($postId: String!) {
   post(where: {id: $postId}) {
     id
     title
@@ -1087,27 +1198,27 @@ export const SinglePostQueryDocument = gql`
     `;
 
 /**
- * __useSinglePostQueryQuery__
+ * __useSinglePostQuery__
  *
- * To run a query within a React component, call `useSinglePostQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useSinglePostQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useSinglePostQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSinglePostQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSinglePostQueryQuery({
+ * const { data, loading, error } = useSinglePostQuery({
  *   variables: {
  *      postId: // value for 'postId'
  *   },
  * });
  */
-export function useSinglePostQueryQuery(baseOptions: Apollo.QueryHookOptions<SinglePostQueryQuery, SinglePostQueryQueryVariables>) {
-        return Apollo.useQuery<SinglePostQueryQuery, SinglePostQueryQueryVariables>(SinglePostQueryDocument, baseOptions);
+export function useSinglePostQuery(baseOptions: Apollo.QueryHookOptions<SinglePostQuery, SinglePostQueryVariables>) {
+        return Apollo.useQuery<SinglePostQuery, SinglePostQueryVariables>(SinglePostDocument, baseOptions);
       }
-export function useSinglePostQueryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SinglePostQueryQuery, SinglePostQueryQueryVariables>) {
-          return Apollo.useLazyQuery<SinglePostQueryQuery, SinglePostQueryQueryVariables>(SinglePostQueryDocument, baseOptions);
+export function useSinglePostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SinglePostQuery, SinglePostQueryVariables>) {
+          return Apollo.useLazyQuery<SinglePostQuery, SinglePostQueryVariables>(SinglePostDocument, baseOptions);
         }
-export type SinglePostQueryQueryHookResult = ReturnType<typeof useSinglePostQueryQuery>;
-export type SinglePostQueryLazyQueryHookResult = ReturnType<typeof useSinglePostQueryLazyQuery>;
-export type SinglePostQueryQueryResult = Apollo.QueryResult<SinglePostQueryQuery, SinglePostQueryQueryVariables>;
+export type SinglePostQueryHookResult = ReturnType<typeof useSinglePostQuery>;
+export type SinglePostLazyQueryHookResult = ReturnType<typeof useSinglePostLazyQuery>;
+export type SinglePostQueryResult = Apollo.QueryResult<SinglePostQuery, SinglePostQueryVariables>;

@@ -1,0 +1,10 @@
+query SingleComment($commentId: String!) {
+  comment(where: { id: $commentId }) {
+    id
+    text
+    author {
+      id
+      name
+    }
+  }
+}

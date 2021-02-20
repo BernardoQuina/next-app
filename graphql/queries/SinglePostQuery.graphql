@@ -1,4 +1,4 @@
-query SinglePostQuery ($postId: String!) {
+query SinglePost ($postId: String!) {
     post(where: { id: $postId }) {
       id
       title

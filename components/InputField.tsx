@@ -2,7 +2,7 @@ import { InputHTMLAttributes } from 'react'
 import { useField } from 'formik'
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
-  label: string
+  label?: string
   name: string
   placeholder?: string
   type: HTMLInputElement['type']
@@ -25,7 +25,7 @@ export const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
         </div>
       )}
       <div className={'px-2 mx-auto max-w-xs items-center' + flex}>
-          <p className='font-semibold mx-5'>{label}</p>
+        {label && <p className='font-semibold mx-5'>{label}</p>}
         <label htmlFor={field.name}></label>
         <input
           className='border-2 border-transparent mx-5 p-3 rounded-md focus:border-pink-600 shadow-inner outline-none'
