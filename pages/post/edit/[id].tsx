@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Layout } from '../../../components/Layout'
 import { InputField } from '../../../components/InputField'
 import {
-  useSinglePostQueryQuery,
+  useSinglePostQuery,
   useEditPostMutation,
 } from '../../../generated/graphql'
 import { withApollo } from '../../../lib/apollo'
@@ -18,7 +18,7 @@ const EditPost: NextPage<EditPostProps> = ({}) => {
 
   const id = router.query.id as string
 
-  const { data, loading, error } = useSinglePostQueryQuery({
+  const { data, loading, error } = useSinglePostQuery({
     variables: { postId: id },
   })
 

@@ -1,5 +1,6 @@
 fragment Comment on Comment {
   id
+  createdAt
   text
   author {
     id

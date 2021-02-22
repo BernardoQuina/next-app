@@ -12,6 +12,7 @@ query SinglePost ($postId: String!) {
       }
       comments {
         id
+        createdAt
         text
         author {
           id

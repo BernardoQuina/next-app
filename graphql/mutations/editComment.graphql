@@ -1,0 +1,11 @@
+mutation EditComment($commentId: String!, $text: String!) {
+  updateComment(whereId: $commentId, updateText: $text) {
+    id
+    text
+		createdAt
+    author {
+      id
+      name
+    }
+  }
+}
