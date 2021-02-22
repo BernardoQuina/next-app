@@ -1,35 +1,26 @@
-import { useState } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { Formik, Form } from 'formik'
 
 import { withApollo } from '../../lib/apollo'
 import { Meta } from '../../components/Meta'
-import {
-  useNewCommentMutation,
-  useSinglePostQuery,
-} from '../../generated/graphql'
+import { useSinglePostQuery } from '../../generated/graphql'
 import { Layout } from '../../components/Layout'
 import { styles } from '../../tailwind/styles'
 import { DeletePostButton } from '../../components/DeletePostButton'
 import { EditPostButton } from '../../components/EditPostButton'
 import { CommentList } from '../../components/CommentList'
-import { InputField } from '../../components/InputField'
 import NewCommentForm from '../../components/NewCommentForm'
 
 interface PostProps {}
 
 const Post: NextPage<PostProps> = () => {
-
   const router = useRouter()
 
   const id = router.query.id as string
 
-  const { data, loading, error, fetchMore } = useSinglePostQuery({
+  const { data, loading, error } = useSinglePostQuery({
     variables: { postId: id },
   })
-
-  const [newComment] = useNewCommentMutation()
 
   if (error) {
     return <div>{error.message}</div>
