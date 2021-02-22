@@ -3,6 +3,7 @@ import { Formik, Form } from 'formik'
 
 import {
   CommentFragment,
+  useDeleteCommentMutation,
   useEditCommentMutation,
   useMeQuery,
 } from '../generated/graphql'
@@ -19,6 +20,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   const { data } = useMeQuery({ skip: isServer() })
 
   const [editComment] = useEditCommentMutation()
+  const [deleteComment] = useDeleteCommentMutation()
 
   return (
     <div className='flex py-4'>
@@ -38,10 +40,11 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                 console.log(response.errors)
                 setErrors({ text: response.errors[0].message })
               }
-              // fetchMore({ variables: { postId: comment.postId } })
+
+              setCommenting(false)
             }}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, resetForm }) => (
               <Form className='md:flex max-w-lg'>
                 <InputField name='text' placeholder='comment...' type='text' />
 
@@ -64,7 +67,12 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                       </button>
                     </div>
                     <div>
-                      <button type='button' onClick={() => setCommenting(false)}>
+                      <button
+                        type='button'
+                        onClick={() =>{
+                          setCommenting(false)
+                          resetForm({})
+                        }}>
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
                           viewBox='0 0 20 20'
@@ -105,21 +113,18 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
           <div>
             <button
               type='button'
-              // onClick={async () => {
-              //   const response = await deletePost({
-              //     variables: { postId },
-              //     update: (cache) => {
-              //       cache.evict({ fieldName: 'posts' })
-              //       cache.evict({fieldName: 'myPosts'})
-              //     },
-              //   })
+              onClick={async () => {
+                const response = await deleteComment({
+                  variables: { commentId: comment.id! },
+                  update: (cache) => {
+                    cache.evict({ id: 'Comment:' + comment.id! })
+                  },
+                })
 
-              //   if (response.errors) {
-              //     console.log(response.errors)
-              //   } else if (response.data?.deletePost) {
-              //     router.push('/')
-              //   }
-              // }}
+                if (response.errors) {
+                  console.log(response.errors)
+                }
+              }}
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
