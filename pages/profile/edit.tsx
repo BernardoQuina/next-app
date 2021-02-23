@@ -30,7 +30,7 @@ const edit: NextPage<editProps> = ({}) => {
   const [editUser] = useEditUserMutation({ errorPolicy: 'all' })
 
   if (!data || loading) {
-    <div>loading...</div>
+    ;<div>loading...</div>
   }
 
   return (
@@ -62,13 +62,15 @@ const edit: NextPage<editProps> = ({}) => {
               confirmNewPassword,
             },
             update: (cache, { data }) => {
-              cache.writeQuery<MeQuery>({
-                query: MeDocument,
-                data: {
-                  __typename: 'Query',
-                  me: data?.updateUser,
-                },
-              })
+              if (data?.updateUser !== null) {
+                cache.writeQuery<MeQuery>({
+                  query: MeDocument,
+                  data: {
+                    __typename: 'Query',
+                    me: data?.updateUser,
+                  },
+                })
+              }
             },
           })
 
@@ -78,6 +80,7 @@ const edit: NextPage<editProps> = ({}) => {
             // backend doesn't specify the field error so all errors go to first field
             setErrors({ password: response.errors[0].message })
           } else if (response.data?.updateUser) {
+            console.log(response.data.updateUser)
             router.push('/profile')
           }
         }}

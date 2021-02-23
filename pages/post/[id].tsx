@@ -9,7 +9,7 @@ import { styles } from '../../tailwind/styles'
 import { DeletePostButton } from '../../components/DeletePostButton'
 import { EditPostButton } from '../../components/EditPostButton'
 import { CommentList } from '../../components/CommentList'
-import NewCommentForm from '../../components/NewCommentForm'
+import { NewCommentForm } from '../../components/NewCommentForm'
 
 interface PostProps {}
 

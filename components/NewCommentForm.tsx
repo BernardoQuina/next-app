@@ -7,7 +7,7 @@ interface NewCommentFormProps {
   postId: string
 }
 
-const NewCommentForm: React.FC<NewCommentFormProps> = ({ postId }) => {
+export const NewCommentForm: React.FC<NewCommentFormProps> = ({ postId }) => {
   const [newComment] = useNewCommentMutation()
 
   const { fetchMore } = useSinglePostQuery({
@@ -52,5 +52,3 @@ const NewCommentForm: React.FC<NewCommentFormProps> = ({ postId }) => {
     </Formik>
   )
 }
-
-export default NewCommentForm
