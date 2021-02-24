@@ -42,7 +42,7 @@ export const Nav: React.FC<NavProps> = () => {
 
   if (!data?.me) {
     userLogin = (
-      <ul className='flex'>
+      <ul className='sm:flex'>
         <li className='border ml-2 border-black hover:border-white rounded-md p-1 px-2'>
           <Link href='/login'>Login</Link>
         </li>
@@ -53,8 +53,8 @@ export const Nav: React.FC<NavProps> = () => {
     )
   } else {
     userLogin = (
-      <ul className='flex'>
-        <li className='border rounded-md min-w-max p-1 px-2 mx-4 border-black hover:border-white'>
+      <ul className='sm:flex'>
+        <li className='border rounded-md min-w-max p-1 px-2 sm:mx-4 border-black hover:border-white'>
           <Link href='/profile'>
             <button type='button'>{user}</button>
           </Link>
@@ -71,9 +71,9 @@ export const Nav: React.FC<NavProps> = () => {
   }
 
   return (
-    <nav className='bg-black text-white flex justify-center p-3'>
-      <ul className='flex w-full 2xl:w-5/12'>
-        <li className='border mx-2 border-black hover:border-white rounded-md p-1 px-2'>
+    <nav className='flex justify-center p-3 bg-black text-white'>
+      <ul className='sm:flex w-full 2xl:w-5/12'>
+        <li className='border md:mx-2 border-black hover:border-white rounded-md p-1 px-2'>
           <Link href='/'>Home</Link>
         </li>
         <li className='border border-black hover:border-white rounded-md p-1 px-2'>

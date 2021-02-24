@@ -5,10 +5,11 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string
   name: string
   placeholder?: string
+  styling?: string
   type: HTMLInputElement['type']
 }
 
-export const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
+export const InputField: React.FC<InputFieldProps> = ({ label, styling, ...props }) => {
   const [field, { error }] = useField(props)
 
   let flex = ''
