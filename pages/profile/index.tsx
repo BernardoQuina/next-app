@@ -14,7 +14,6 @@ import {
   useMyPostsQuery,
 } from '../../generated/graphql'
 import { withApollo } from '../../lib/apollo'
-import { styles } from '../../tailwind/styles'
 import { useIsAuth } from '../../utils/useIsAuth'
 import UserCard from '../../components/UserCard'
 
@@ -58,7 +57,7 @@ const profile: NextPage<profileProps> = () => {
           <PostList posts={data.myPosts as PostSnippetFragment[]} />
           {hasMore ? (
             <button
-              className={styles.button + 'mb-8'}
+              className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 mb-8'
               onClick={async () => {
                 const response: ApolloQueryResult<MyPostsQuery> = await fetchMore(
                   {

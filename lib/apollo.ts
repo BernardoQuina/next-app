@@ -12,9 +12,17 @@ import { createWithApollo } from './createWithApollo'
 const createClient = (_ctx: NextPageContext) => {
   let token: string | null
 
-  console.log('url: ', process.env.NEXT_PUBLIC_API_URL)
+
+  let uri
+
+  if (process.env.NODE_ENV === 'development') {
+    uri = 'http://localhost:4000/'
+  } else {
+    uri = process.env.NEXT_PUBLIC_API_URL
+  }
+
   const httpLink = createHttpLink({
-    uri: process.env.NEXT_PUBLIC_API_URL,
+    uri,
     credentials: 'include',
   })
 

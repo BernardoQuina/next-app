@@ -4,7 +4,6 @@ import { useState } from 'react'
 
 import { withApollo } from '../lib/apollo'
 import { usePostsQuery } from '../generated/graphql'
-import { styles } from '../tailwind/styles'
 import { Layout } from '../components/Layout'
 import { PostList } from '../components/PostList'
 import { Header } from '../components/Header'
@@ -38,7 +37,7 @@ const Home: NextPage<HomeProps> = () => {
       <div>
         <Header />
         <NextLink href='/new-post'>
-          <button className={styles.button} type='button'>
+          <button className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900' type='button'>
             new post
           </button>
         </NextLink>
@@ -51,7 +50,7 @@ const Home: NextPage<HomeProps> = () => {
             {loading && <div className='text-center'>loading...</div>}
             {hasMore ? (
               <button
-                className={styles.button + 'mb-8'}
+                className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 mb-8'
                 onClick={async () => {
                   const response = await fetchMore({
                     variables: {

@@ -5,7 +5,6 @@ import { withApollo } from '../../lib/apollo'
 import { Meta } from '../../components/Meta'
 import { useSinglePostQuery } from '../../generated/graphql'
 import { Layout } from '../../components/Layout'
-import { styles } from '../../tailwind/styles'
 import { DeletePostButton } from '../../components/DeletePostButton'
 import { EditPostButton } from '../../components/EditPostButton'
 import { CommentList } from '../../components/CommentList'
@@ -38,7 +37,7 @@ const Post: NextPage<PostProps> = () => {
         <div className='mt-10 px-6 pt-6 pb-6 border shadow-inner rounded-lg'>
           <div className='mb-7 items-baseline'>
             {data?.post?.published === false && (
-              <p className={styles.flag + ' mb-2'}>private</p>
+              <p className='max-w-min text-sm font-bold text-pink-600 rounded-md ml-auto px-2 py-1 bg-pink-200 mb-2'>private</p>
             )}
             <h1 className='text-2xl md:text-3xl font-bold'>
               {data?.post?.title}
@@ -61,7 +60,7 @@ const Post: NextPage<PostProps> = () => {
         )}
 
         <button
-          className={styles.button + ' mb-8'}
+          className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 mb-8'
           onClick={() => router.back()}
         >
           Go Back

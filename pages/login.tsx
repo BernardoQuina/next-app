@@ -6,7 +6,6 @@ import { withApollo } from '../lib/apollo'
 import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql'
 import { InputField } from '../components/InputField'
 import { Layout } from '../components/Layout'
-import { styles } from '../tailwind/styles'
 
 interface loginProps {}
 
@@ -63,7 +62,7 @@ const login: NextPage<loginProps> = ({}) => {
               type='password'
             />
             <button
-              className={styles.button}
+              className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
               type='submit'
             >
               login
