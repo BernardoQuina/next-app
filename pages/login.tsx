@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import { Formik, Form } from 'formik'
 
 import { withApollo } from '../lib/apollo'
@@ -56,11 +57,7 @@ const login: NextPage<loginProps> = ({}) => {
               label='Email'
               type='email'
             />
-            <InputField
-              name='password'
-              label='Password'
-              type='password'
-            />
+            <InputField name='password' label='Password' type='password' />
             <button
               className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
               type='submit'
@@ -70,6 +67,20 @@ const login: NextPage<loginProps> = ({}) => {
           </Form>
         )}
       </Formik>
+      <button
+        className='flex py-2 px-4 mx-auto max-w-max rounded-md border-0 shadow-md group hover:bg-blue-400'
+        type='button'
+      >
+        <p className='self-center mr-2 text-lg text-blue-500 group-hover:text-white'>
+          login with google
+        </p>
+        <Image
+          src='/google.png'
+          width={40}
+          height={40}
+          className='rounded-full group-hover:bg-white'
+        />
+      </button>
     </Layout>
   )
 }
