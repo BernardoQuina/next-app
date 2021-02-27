@@ -3,7 +3,7 @@ import NextLink from 'next/link'
 import { useState } from 'react'
 
 import { withApollo } from '../lib/apollo'
-import { usePostsQuery } from '../generated/graphql'
+import { useGoogleUserMutation, usePostsQuery } from '../generated/graphql'
 import { Layout } from '../components/Layout'
 import { PostList } from '../components/PostList'
 import { Header } from '../components/Header'
@@ -12,6 +12,12 @@ interface HomeProps {}
 
 const Home: NextPage<HomeProps> = () => {
   const [hasMore, setHasMore] = useState(true)
+
+  const [googleUser, {data: googleData}] = useGoogleUserMutation()
+
+  googleUser()
+
+  console.log('googleData: ', googleData)
 
   const { data, loading, error, fetchMore } = usePostsQuery({
     variables: { skip: 0, take: 8 },

@@ -332,6 +332,7 @@ export type QueryCommentsArgs = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<AuthPayload>;
+  googleUser?: Maybe<AuthPayload>;
   loginUser?: Maybe<AuthPayload>;
   updateUser?: Maybe<User>;
   deleteUser?: Maybe<User>;
@@ -558,6 +559,21 @@ export type EditUserMutation = (
   & { updateUser?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'email' | 'password' | 'createdAt' | 'updatedAt'>
+  )> }
+);
+
+export type GoogleUserMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GoogleUserMutation = (
+  { __typename?: 'Mutation' }
+  & { googleUser?: Maybe<(
+    { __typename?: 'AuthPayload' }
+    & Pick<AuthPayload, 'token'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name'>
+    )> }
   )> }
 );
 
@@ -973,6 +989,41 @@ export function useEditUserMutation(baseOptions?: Apollo.MutationHookOptions<Edi
 export type EditUserMutationHookResult = ReturnType<typeof useEditUserMutation>;
 export type EditUserMutationResult = Apollo.MutationResult<EditUserMutation>;
 export type EditUserMutationOptions = Apollo.BaseMutationOptions<EditUserMutation, EditUserMutationVariables>;
+export const GoogleUserDocument = gql`
+    mutation GoogleUser {
+  googleUser {
+    user {
+      id
+      name
+    }
+    token
+  }
+}
+    `;
+export type GoogleUserMutationFn = Apollo.MutationFunction<GoogleUserMutation, GoogleUserMutationVariables>;
+
+/**
+ * __useGoogleUserMutation__
+ *
+ * To run a mutation, you first call `useGoogleUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGoogleUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [googleUserMutation, { data, loading, error }] = useGoogleUserMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGoogleUserMutation(baseOptions?: Apollo.MutationHookOptions<GoogleUserMutation, GoogleUserMutationVariables>) {
+        return Apollo.useMutation<GoogleUserMutation, GoogleUserMutationVariables>(GoogleUserDocument, baseOptions);
+      }
+export type GoogleUserMutationHookResult = ReturnType<typeof useGoogleUserMutation>;
+export type GoogleUserMutationResult = Apollo.MutationResult<GoogleUserMutation>;
+export type GoogleUserMutationOptions = Apollo.BaseMutationOptions<GoogleUserMutation, GoogleUserMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   loginUser(email: $email, password: $password) {

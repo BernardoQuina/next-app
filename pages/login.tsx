@@ -15,6 +15,10 @@ const login: NextPage<loginProps> = ({}) => {
 
   const [login] = useLoginMutation({ errorPolicy: 'all' })
 
+  const googleLogin = () => {
+    window.open('http://localhost:4000/auth/google', '_self')
+  }
+
   return (
     <Layout>
       <Formik
@@ -70,9 +74,10 @@ const login: NextPage<loginProps> = ({}) => {
       <button
         className='flex py-2 px-4 mx-auto max-w-max rounded-md border-0 shadow-md group hover:bg-blue-400'
         type='button'
+        onClick={googleLogin}
       >
         <p className='self-center mr-2 text-lg text-blue-500 group-hover:text-white'>
-          login with google
+          Sign in with google
         </p>
         <Image
           src='/google.png'

@@ -1,0 +1,9 @@
+mutation GoogleUser {
+  googleUser {
+    user {
+      id
+      name
+    }
+    token
+  }
+}
