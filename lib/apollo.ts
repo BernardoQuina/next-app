@@ -10,9 +10,6 @@ import { NextPageContext } from 'next'
 import { createWithApollo } from './createWithApollo'
 
 const createClient = (_ctx: NextPageContext) => {
-  let token: string | null
-
-
   let uri
 
   if (process.env.NODE_ENV === 'development') {
@@ -27,16 +24,10 @@ const createClient = (_ctx: NextPageContext) => {
   })
 
   const authLink = setContext((_, { headers }) => {
-    // get the authentication token from local storage if it exists
-    if (typeof window !== 'undefined') {
-      token = localStorage.getItem('authToken')
-    }
-
     // return the headers to the context so httpLink can read them
     return {
       headers: {
         ...headers,
-        // Authorization: token ? `Bearer ${token}` : '',
       },
     }
   })
@@ -52,7 +43,7 @@ const createClient = (_ctx: NextPageContext) => {
               keyArgs: [],
               merge(
                 existing: Array<Post> | [] = [],
-                incoming: Array<Post>,
+                incoming: Array<Post>
               ): Post[] {
                 return [...existing, ...incoming]
               },
@@ -63,18 +54,18 @@ const createClient = (_ctx: NextPageContext) => {
                 existing: Array<Post> | [] = [],
                 incoming: Array<Post>
               ): Post[] {
-                  return [...existing, ...incoming]
+                return [...existing, ...incoming]
               },
             },
             comments: {
               keyArgs: [],
               merge(
                 existing: Array<Comment> | [] = [],
-                incoming: Array<Comment>,
+                incoming: Array<Comment>
               ): Comment[] {
                 return [...existing, ...incoming]
-              }
-            }
+              },
+            },
           },
         },
       },
