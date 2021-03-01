@@ -21,6 +21,7 @@ export type User = {
   email?: Maybe<Scalars['String']>;
   /** Only logged in user can query it but its hashed anyway */
   password?: Maybe<Scalars['String']>;
+  googleId?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   posts: Array<Post>;
@@ -110,6 +111,7 @@ export type CommentWhereUniqueInput = {
 export type UserWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
+  googleId?: Maybe<Scalars['String']>;
 };
 
 export type UserWhereInput = {
@@ -118,8 +120,9 @@ export type UserWhereInput = {
   NOT?: Maybe<Array<UserWhereInput>>;
   id?: Maybe<StringFilter>;
   name?: Maybe<StringFilter>;
-  password?: Maybe<StringFilter>;
+  password?: Maybe<StringNullableFilter>;
   email?: Maybe<StringFilter>;
+  googleId?: Maybe<StringNullableFilter>;
   createdAt?: Maybe<DateTimeFilter>;
   updatedAt?: Maybe<DateTimeFilter>;
   posts?: Maybe<PostListRelationFilter>;
@@ -131,6 +134,7 @@ export type UserOrderByInput = {
   name?: Maybe<SortOrder>;
   password?: Maybe<SortOrder>;
   email?: Maybe<SortOrder>;
+  googleId?: Maybe<SortOrder>;
   createdAt?: Maybe<SortOrder>;
   updatedAt?: Maybe<SortOrder>;
 };
@@ -198,6 +202,21 @@ export type StringFilter = {
   not?: Maybe<NestedStringFilter>;
 };
 
+export type StringNullableFilter = {
+  equals?: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Scalars['String']>>;
+  notIn?: Maybe<Array<Scalars['String']>>;
+  lt?: Maybe<Scalars['String']>;
+  lte?: Maybe<Scalars['String']>;
+  gt?: Maybe<Scalars['String']>;
+  gte?: Maybe<Scalars['String']>;
+  contains?: Maybe<Scalars['String']>;
+  startsWith?: Maybe<Scalars['String']>;
+  endsWith?: Maybe<Scalars['String']>;
+  mode?: Maybe<QueryMode>;
+  not?: Maybe<NestedStringNullableFilter>;
+};
+
 export type DateTimeFilter = {
   equals?: Maybe<Scalars['DateTime']>;
   in?: Maybe<Array<Scalars['DateTime']>>;
@@ -248,6 +267,20 @@ export type NestedStringFilter = {
   startsWith?: Maybe<Scalars['String']>;
   endsWith?: Maybe<Scalars['String']>;
   not?: Maybe<NestedStringFilter>;
+};
+
+export type NestedStringNullableFilter = {
+  equals?: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Scalars['String']>>;
+  notIn?: Maybe<Array<Scalars['String']>>;
+  lt?: Maybe<Scalars['String']>;
+  lte?: Maybe<Scalars['String']>;
+  gt?: Maybe<Scalars['String']>;
+  gte?: Maybe<Scalars['String']>;
+  contains?: Maybe<Scalars['String']>;
+  startsWith?: Maybe<Scalars['String']>;
+  endsWith?: Maybe<Scalars['String']>;
+  not?: Maybe<NestedStringNullableFilter>;
 };
 
 export type NestedDateTimeFilter = {
@@ -332,8 +365,8 @@ export type QueryCommentsArgs = {
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<AuthPayload>;
-  googleUser?: Maybe<AuthPayload>;
   loginUser?: Maybe<AuthPayload>;
+  logoutUser?: Maybe<Scalars['Boolean']>;
   updateUser?: Maybe<User>;
   deleteUser?: Maybe<User>;
   createPost?: Maybe<Post>;
@@ -562,21 +595,6 @@ export type EditUserMutation = (
   )> }
 );
 
-export type GoogleUserMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GoogleUserMutation = (
-  { __typename?: 'Mutation' }
-  & { googleUser?: Maybe<(
-    { __typename?: 'AuthPayload' }
-    & Pick<AuthPayload, 'token'>
-    & { user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'name'>
-    )> }
-  )> }
-);
-
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -593,6 +611,14 @@ export type LoginMutation = (
       & Pick<User, 'id' | 'name' | 'email'>
     )> }
   )> }
+);
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'logoutUser'>
 );
 
 export type NewCommentMutationVariables = Exact<{
@@ -989,41 +1015,6 @@ export function useEditUserMutation(baseOptions?: Apollo.MutationHookOptions<Edi
 export type EditUserMutationHookResult = ReturnType<typeof useEditUserMutation>;
 export type EditUserMutationResult = Apollo.MutationResult<EditUserMutation>;
 export type EditUserMutationOptions = Apollo.BaseMutationOptions<EditUserMutation, EditUserMutationVariables>;
-export const GoogleUserDocument = gql`
-    mutation GoogleUser {
-  googleUser {
-    user {
-      id
-      name
-    }
-    token
-  }
-}
-    `;
-export type GoogleUserMutationFn = Apollo.MutationFunction<GoogleUserMutation, GoogleUserMutationVariables>;
-
-/**
- * __useGoogleUserMutation__
- *
- * To run a mutation, you first call `useGoogleUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useGoogleUserMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [googleUserMutation, { data, loading, error }] = useGoogleUserMutation({
- *   variables: {
- *   },
- * });
- */
-export function useGoogleUserMutation(baseOptions?: Apollo.MutationHookOptions<GoogleUserMutation, GoogleUserMutationVariables>) {
-        return Apollo.useMutation<GoogleUserMutation, GoogleUserMutationVariables>(GoogleUserDocument, baseOptions);
-      }
-export type GoogleUserMutationHookResult = ReturnType<typeof useGoogleUserMutation>;
-export type GoogleUserMutationResult = Apollo.MutationResult<GoogleUserMutation>;
-export type GoogleUserMutationOptions = Apollo.BaseMutationOptions<GoogleUserMutation, GoogleUserMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   loginUser(email: $email, password: $password) {
@@ -1062,6 +1053,35 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const LogoutDocument = gql`
+    mutation Logout {
+  logoutUser
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, baseOptions);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const NewCommentDocument = gql`
     mutation NewComment($postId: String!, $text: String!) {
   createComment(postId: $postId, text: $text) {

@@ -2,7 +2,7 @@ import { useApolloClient } from '@apollo/client'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { useMeQuery } from '../generated/graphql'
+import { useLogoutMutation, useMeQuery } from '../generated/graphql'
 
 import { isServer } from '../utils/isServer'
 
@@ -20,6 +20,8 @@ export const Nav: React.FC<NavProps> = () => {
     errorPolicy: 'all',
   })
 
+  const [logout] = useLogoutMutation()
+
   useEffect(() => {
     if (!loading && data) {
       setUser(data.me?.name!)
@@ -29,6 +31,7 @@ export const Nav: React.FC<NavProps> = () => {
   }, [data, loading, user, error])
 
   const logoutHandler = async () => {
+    await logout()
     localStorage.removeItem('authToken')
     await apolloClient.resetStore()
     router.push('/login')
