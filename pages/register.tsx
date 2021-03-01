@@ -1,4 +1,5 @@
 import { NextPage } from 'next'
+import Image from 'next/image'
 import { Formik, Form } from 'formik'
 
 import { useRegisterMutation, MeQuery, MeDocument } from '../generated/graphql'
@@ -12,6 +13,10 @@ interface registerProps {}
 const register: NextPage<registerProps> = ({}) => {
   const router = useRouter()
   const [register] = useRegisterMutation({ errorPolicy: 'all' })
+
+  const googleLogin = () => {
+    router.push('https://api.bernardoquina.com/auth/google')
+  }
 
   return (
     <Layout>
@@ -78,14 +83,31 @@ const register: NextPage<registerProps> = ({}) => {
               type='password'
             />
             <button
-              className='flex self-center mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
+              className='flex self-center mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 disabled:opacity-30'
               type='submit'
+              disabled={true}
+              title='Please use google sign in for now'
             >
               register
             </button>
           </Form>
         )}
       </Formik>
+      <button
+        className='flex py-2 px-4 mx-auto max-w-max rounded-md border-0 shadow-md group hover:bg-blue-400'
+        type='button'
+        onClick={googleLogin}
+      >
+        <p className='self-center mr-2 text-lg text-blue-500 group-hover:text-white'>
+          Sign in with google
+        </p>
+        <Image
+          src='/google.png'
+          width={40}
+          height={40}
+          className='rounded-full group-hover:bg-white'
+        />
+      </button>
     </Layout>
   )
 }

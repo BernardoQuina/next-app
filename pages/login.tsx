@@ -16,7 +16,7 @@ const login: NextPage<loginProps> = ({}) => {
   const [login] = useLoginMutation({ errorPolicy: 'all' })
 
   const googleLogin = () => {
-    window.open('http://localhost:4000/auth/google', '_self')
+    router.push('https://api.bernardoquina.com/auth/google')
   }
 
   return (
@@ -63,8 +63,10 @@ const login: NextPage<loginProps> = ({}) => {
             />
             <InputField name='password' label='Password' type='password' />
             <button
-              className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
+              className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 disabled:opacity-30'
               type='submit'
+              disabled={true}
+              title='Please use google sign in for now'
             >
               login
             </button>

@@ -25,16 +25,13 @@ export const Nav: React.FC<NavProps> = () => {
   useEffect(() => {
     if (!loading && data) {
       setUser(data.me?.name!)
-    } else if (!localStorage.getItem('authToken') || error) {
-      setUser('')
     }
-  }, [data, loading, user, error])
+  }, [data, loading, user])
 
   const logoutHandler = async () => {
-    await logout()
-    localStorage.removeItem('authToken')
-    await apolloClient.resetStore()
     router.push('/login')
+    await logout()
+    await apolloClient.resetStore()
   }
 
   let userLogin

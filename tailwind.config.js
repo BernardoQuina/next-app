@@ -14,7 +14,8 @@ module.exports = {
       borderWidth: ['hover'],
       scale: ['active'],
       backgroundColor: ['active'],
-      borderColor: ['active']
+      borderColor: ['active'],
+      opacity: ['disabled']
     },
   },
   plugins: [],
