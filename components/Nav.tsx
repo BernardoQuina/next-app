@@ -1,6 +1,7 @@
 import { useApolloClient } from '@apollo/client'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useLogoutMutation, useMeQuery } from '../generated/graphql'
 
@@ -54,13 +55,28 @@ export const Nav: React.FC<NavProps> = () => {
   } else {
     userLogin = (
       <ul className='sm:flex'>
-        <li className='border rounded-md min-w-max p-1 px-2 sm:mx-4 border-black hover:border-white'>
+        <li className='border rounded-md min-w-max px-2 sm:mx-4 border-black'>
           <Link href='/profile'>
-            <button type='button'>{user}</button>
+            <button className='max-h-10 align-middle' type='button'>
+              {data.me.photo ? (
+                <Image
+                  className='rounded-full'
+                  src={data.me.photo}
+                  height={40}
+                  width={40}
+                />
+              ) : (
+                user
+              )}
+            </button>
           </Link>
         </li>
-        <li className='border border-black hover:border-white rounded-md p-1 px-2'>
-          <button type='button' onClick={logoutHandler}>
+        <li className='border border-black hover:border-white rounded-md p-1 px-2 self-center'>
+          <button
+            className='align-middle'
+            type='button'
+            onClick={logoutHandler}
+          >
             {error?.message === 'Authentication required.'
               ? 'logging out...'
               : 'logout'}
@@ -74,10 +90,14 @@ export const Nav: React.FC<NavProps> = () => {
     <nav className='flex justify-center p-3 bg-black text-white'>
       <ul className='sm:flex w-full 2xl:w-5/12'>
         <li className='border md:mx-2 border-black hover:border-white rounded-md p-1 px-2'>
-          <Link href='/'>Home</Link>
+          <Link href='/'>
+            <a className='align-middle'>Home</a>
+          </Link>
         </li>
         <li className='border border-black hover:border-white rounded-md p-1 px-2'>
-          <Link href='/about'>About</Link>
+          <Link href='/about'>
+          <a className='align-middle'>About</a>
+          </Link>
         </li>
       </ul>
 

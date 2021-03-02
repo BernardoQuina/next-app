@@ -45,6 +45,7 @@ const profile: NextPage<profileProps> = () => {
       <UserCard
         userName={userData?.me?.name!}
         userEmail={userData?.me?.email!}
+        userPhoto={userData?.me?.photo ? userData.me.photo : undefined}
       />
       {loading ? (
         <div>loading...</div>
