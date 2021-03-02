@@ -10,12 +10,8 @@ mutation Register(
     password: $password
     confirmPassword: $confirmPassword
   ) {
-    user {
-      id
-      name
-      email
-      password
-    }
-    token
+    id
+    name
+    email
   }
 }

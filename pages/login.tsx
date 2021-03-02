@@ -34,7 +34,7 @@ const login: NextPage<loginProps> = ({}) => {
                 query: MeDocument,
                 data: {
                   __typename: 'Query',
-                  me: data?.loginUser?.user,
+                  me: data?.loginUser,
                 },
               })
             },
@@ -44,8 +44,7 @@ const login: NextPage<loginProps> = ({}) => {
             console.log(response.errors)
             // backend doesn't specify the field error so all errors go to "name"
             setErrors({ email: response.errors[0].message })
-          } else if (response.data?.loginUser?.user) {
-            localStorage.setItem('authToken', response.data.loginUser.token!)
+          } else if (response.data?.loginUser) {
             router.push('/')
           }
         }}

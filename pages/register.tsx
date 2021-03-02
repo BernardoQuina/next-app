@@ -38,7 +38,7 @@ const register: NextPage<registerProps> = ({}) => {
                 query: MeDocument,
                 data: {
                   __typename: 'Query',
-                  me: data?.createUser?.user,
+                  me: data?.createUser,
                 },
               })
             },
@@ -47,8 +47,7 @@ const register: NextPage<registerProps> = ({}) => {
           if (response.errors) {
             // backend doesn't specify the field error so all errors go to "name"
             setErrors({ name: response.errors[0].message })
-          } else if (response.data?.createUser?.user) {
-            localStorage.setItem('authToken', response.data.createUser.token!)
+          } else if (response.data?.createUser) {
             router.push('/')
           }
         }}

@@ -36,7 +36,6 @@ const deleteUser: NextPage<deleteProps> = ({}) => {
             // backend doesn't specify the field error so all errors go to first field
             setErrors({ password: response.errors[0].message })
           } else if (response.data?.deleteUser) {
-            localStorage.removeItem('authToken')
             router.push('/register')
           }
         }}

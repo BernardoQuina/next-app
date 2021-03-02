@@ -43,12 +43,6 @@ export type UserCommentsArgs = {
   cursor?: Maybe<CommentWhereUniqueInput>;
 };
 
-export type AuthPayload = {
-  __typename?: 'AuthPayload';
-  user?: Maybe<User>;
-  token?: Maybe<Scalars['String']>;
-};
-
 export type UserSubResponse = {
   __typename?: 'userSubResponse';
   mutation?: Maybe<Scalars['String']>;
@@ -367,8 +361,8 @@ export type QueryCommentsArgs = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser?: Maybe<AuthPayload>;
-  loginUser?: Maybe<AuthPayload>;
+  createUser?: Maybe<User>;
+  loginUser?: Maybe<User>;
   logoutUser?: Maybe<Scalars['Boolean']>;
   updateUser?: Maybe<User>;
   deleteUser?: Maybe<User>;
@@ -607,12 +601,8 @@ export type LoginMutationVariables = Exact<{
 export type LoginMutation = (
   { __typename?: 'Mutation' }
   & { loginUser?: Maybe<(
-    { __typename?: 'AuthPayload' }
-    & Pick<AuthPayload, 'token'>
-    & { user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'name' | 'email'>
-    )> }
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name' | 'email'>
   )> }
 );
 
@@ -668,12 +658,8 @@ export type RegisterMutationVariables = Exact<{
 export type RegisterMutation = (
   { __typename?: 'Mutation' }
   & { createUser?: Maybe<(
-    { __typename?: 'AuthPayload' }
-    & Pick<AuthPayload, 'token'>
-    & { user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'name' | 'email' | 'password'>
-    )> }
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name' | 'email'>
   )> }
 );
 
@@ -1021,12 +1007,9 @@ export type EditUserMutationOptions = Apollo.BaseMutationOptions<EditUserMutatio
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   loginUser(email: $email, password: $password) {
-    user {
-      id
-      name
-      email
-    }
-    token
+    id
+    name
+    email
   }
 }
     `;
@@ -1168,13 +1151,9 @@ export const RegisterDocument = gql`
     password: $password
     confirmPassword: $confirmPassword
   ) {
-    user {
-      id
-      name
-      email
-      password
-    }
-    token
+    id
+    name
+    email
   }
 }
     `;
