@@ -15,7 +15,7 @@ const register: NextPage<registerProps> = ({}) => {
   const [register] = useRegisterMutation({ errorPolicy: 'all' })
 
   const googleLogin = () => {
-    router.push('https://api.bernardoquina.com/auth/google')
+    router.push(`${process.env.NEXT_PUBLIC_API_URL}/auth/google`)
   }
 
   return (
