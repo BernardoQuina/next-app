@@ -55,7 +55,7 @@ export const Nav: React.FC<NavProps> = () => {
   } else {
     userLogin = (
       <ul className='sm:flex'>
-        <li className='border rounded-md min-w-max px-2 sm:mx-4 border-black'>
+        <li className='border rounded-md min-w-max px-2 self-center sm:mx-4 border-black'>
           <Link href='/profile'>
             <button className='max-h-10 align-middle' type='button'>
               {data.me.photo ? (
@@ -66,7 +66,8 @@ export const Nav: React.FC<NavProps> = () => {
                   width={40}
                 />
               ) : (
-                user
+                <p className=''>{user}</p>
+                
               )}
             </button>
           </Link>
