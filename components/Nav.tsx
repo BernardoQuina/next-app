@@ -66,8 +66,14 @@ export const Nav: React.FC<NavProps> = () => {
                   width={40}
                 />
               ) : (
-                <p className=''>{user}</p>
-                
+                <div className='w-max mx-auto'>
+                  <Image
+                    className='rounded-full'
+                    src='/avatar.jpg'
+                    height={40}
+                    width={40}
+                  />
+                </div>
               )}
             </button>
           </Link>
@@ -97,7 +103,7 @@ export const Nav: React.FC<NavProps> = () => {
         </li>
         <li className='border border-black hover:border-white rounded-md p-1 px-2'>
           <Link href='/about'>
-          <a className='align-middle'>About</a>
+            <a className='align-middle'>About</a>
           </Link>
         </li>
       </ul>

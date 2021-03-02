@@ -85,8 +85,6 @@ const register: NextPage<registerProps> = ({}) => {
             <button
               className='flex self-center mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 disabled:opacity-30'
               type='submit'
-              disabled={true}
-              title='Please use google sign in for now'
             >
               register
             </button>
