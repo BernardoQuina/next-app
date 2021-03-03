@@ -7,16 +7,13 @@ import { withApollo } from '../lib/apollo'
 import { InputField } from '../components/InputField'
 import { useRouter } from 'next/router'
 import { Layout } from '../components/Layout'
+import { OauthSignIn } from '../components/OauthSignIn'
 
 interface registerProps {}
 
 const register: NextPage<registerProps> = ({}) => {
   const router = useRouter()
   const [register] = useRegisterMutation({ errorPolicy: 'all' })
-
-  const googleLogin = () => {
-    router.push(`${process.env.NEXT_PUBLIC_API_URL}/auth/google`)
-  }
 
   return (
     <Layout>
@@ -90,21 +87,7 @@ const register: NextPage<registerProps> = ({}) => {
           </Form>
         )}
       </Formik>
-      <button
-        className='flex py-2 px-4 mx-auto max-w-max rounded-md border-0 shadow-md group hover:bg-blue-400'
-        type='button'
-        onClick={googleLogin}
-      >
-        <p className='self-center mr-2 text-lg text-blue-500 group-hover:text-white'>
-          Sign in with google
-        </p>
-        <Image
-          src='/google.png'
-          width={40}
-          height={40}
-          className='rounded-full group-hover:bg-white'
-        />
-      </button>
+      <OauthSignIn />
     </Layout>
   )
 }
