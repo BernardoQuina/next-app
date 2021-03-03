@@ -1,6 +1,5 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 import { Formik, Form } from 'formik'
 
 import { withApollo } from '../lib/apollo'

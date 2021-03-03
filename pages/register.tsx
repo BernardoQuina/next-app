@@ -1,5 +1,4 @@
 import { NextPage } from 'next'
-import Image from 'next/image'
 import { Formik, Form } from 'formik'
 
 import { useRegisterMutation, MeQuery, MeDocument } from '../generated/graphql'
