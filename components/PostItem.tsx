@@ -8,7 +8,7 @@ interface PostItemProps {
 
 export const PostItem: React.FC<PostItemProps> = ({ post }) => {
   return (
-    <Link href={`/post/${post.id}`}>
+    <Link href={`/post/${post.id}`} passHref>
       <a className='border border-white p-4 rounded-md shadow-md hover:border-pink-600 hover:text-pink-600 transform active:scale-95'>
         <div className='flex'>
           <h3 className='text-lg font-bold'>{post.title}</h3>
