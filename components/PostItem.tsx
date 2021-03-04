@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import moment from 'moment'
+
 import { PostSnippetFragment } from '../generated/graphql'
 import { EditPostButton } from './EditPostButton'
 
@@ -16,7 +18,9 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
         </div>
         <div className='flex text-sm text-gray-400 mb-4'>
           <span>posted by</span>
-          <strong className='pl-2'>{post.author?.name}</strong>
+          <strong className='pl-2 pr-2'>{post.author?.name}</strong>
+          <p>|</p>
+          <p className='pl-2'>{moment(post.createdAt).fromNow()}</p>
         </div>
         <div className='flex'>
           <p>{post.textSnippet}</p>

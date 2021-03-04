@@ -1,6 +1,6 @@
 import { ApolloQueryResult } from '@apollo/client'
 import { NextPage } from 'next'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Layout } from '../../components/Layout'
 import { PostList } from '../../components/PostList'
@@ -32,6 +32,12 @@ const profile: NextPage<profileProps> = () => {
     errorPolicy: 'all',
   })
 
+  useEffect(() => {
+    if (data && (data.myPosts.length % 2 !== 0 || data.myPosts.length < 8)) {
+      setHasMore(false)
+    }
+  }, [data])
+
   return (
     <Layout>
       <Meta
@@ -50,9 +56,7 @@ const profile: NextPage<profileProps> = () => {
       {loading ? (
         <div>loading...</div>
       ) : !data ? (
-        <div className='mb-8 text-center text-lg font-semibold'>
-              no posts
-            </div>
+        <div className='mb-8 text-center text-lg font-semibold'>no posts</div>
       ) : (
         <>
           <PostList posts={data.myPosts as PostSnippetFragment[]} />
@@ -88,8 +92,8 @@ const profile: NextPage<profileProps> = () => {
               load more
             </button>
           ) : (
-            <div className='mb-8 text-center text-lg font-semibold'>
-              no more posts
+            <div className='mb-8 text-center text-5xl font-semibold text-gray-500'>
+              .
             </div>
           )}
         </>

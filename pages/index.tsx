@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import NextLink from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { withApollo } from '../lib/apollo'
 import { usePostsQuery } from '../generated/graphql'
@@ -18,6 +18,12 @@ const Home: NextPage<HomeProps> = () => {
     notifyOnNetworkStatusChange: true,
     errorPolicy: 'all',
   })
+
+  useEffect(() => {
+    if (data && (data.posts.length % 2 !== 0 || data.posts.length < 8)) {
+      setHasMore(false)
+    }
+  }, [data])
 
   if (error) {
     console.log(error)
@@ -37,7 +43,10 @@ const Home: NextPage<HomeProps> = () => {
       <div>
         <Header />
         <NextLink href='/new-post'>
-          <button className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900' type='button'>
+          <button
+            className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
+            type='button'
+          >
             new post
           </button>
         </NextLink>
@@ -78,8 +87,8 @@ const Home: NextPage<HomeProps> = () => {
                 load more
               </button>
             ) : (
-              <div className='mb-8 text-center text-lg font-semibold'>
-                no more posts
+              <div className='mb-8 text-center text-5xl font-semibold text-gray-500'>
+                .
               </div>
             )}
           </>

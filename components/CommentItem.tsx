@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Formik, Form } from 'formik'
+import moment from 'moment'
 
 import {
   CommentFragment,
@@ -25,7 +26,11 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   return (
     <div className='flex py-4'>
       <div className='w-10/12'>
-        <div className='text-lg font-semibold'>{comment.author?.name}</div>
+        <div className='md:flex align-bottom'>
+          <p className='mr-2 text-lg font-semibold'>{comment.author?.name}</p>
+          <p className='text-gray-400'>|</p>
+          <p className='ml-2 text-gray-400'>{moment(comment.createdAt).fromNow()}</p>
+        </div>
         {commenting ? (
           <Formik
             initialValues={{
@@ -69,10 +74,11 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                     <div>
                       <button
                         type='button'
-                        onClick={() =>{
+                        onClick={() => {
                           setCommenting(false)
                           resetForm({})
-                        }}>
+                        }}
+                      >
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
                           viewBox='0 0 20 20'

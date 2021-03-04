@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import moment from 'moment'
 
 import { withApollo } from '../../lib/apollo'
 import { Meta } from '../../components/Meta'
@@ -42,9 +43,14 @@ const Post: NextPage<PostProps> = () => {
             <h1 className='text-2xl md:text-3xl font-bold'>
               {data?.post?.title}
             </h1>
-            <p className='text-gray-400'>
-              posted by {data?.post?.author?.name}
+            <div className='md:flex text-gray-400'>
+            <p>posted by</p>
+            <p className='ml-2 mr-2 font-semibold'>
+              {data?.post?.author?.name}
             </p>
+            <p>|</p>
+            <p className='ml-2'>{moment(data.post?.createdAt).fromNow()}</p>
+            </div>
           </div>
           <p>{data?.post?.body}</p>
           <div className='flex mt-6'>
