@@ -38,18 +38,22 @@ const Post: NextPage<PostProps> = () => {
         <div className='mt-10 px-6 pt-6 pb-6 border shadow-inner rounded-lg'>
           <div className='mb-7 items-baseline'>
             {data?.post?.published === false && (
-              <p className='max-w-min text-sm font-bold text-pink-600 rounded-md ml-auto px-2 py-1 bg-pink-200 mb-2'>private</p>
+              <p className='max-w-min text-sm font-bold text-pink-600 rounded-md ml-auto px-2 py-1 bg-pink-200 mb-2'>
+                private
+              </p>
             )}
             <h1 className='text-2xl md:text-3xl font-bold'>
               {data?.post?.title}
             </h1>
             <div className='md:flex text-gray-400'>
-            <p>posted by</p>
-            <p className='ml-2 mr-2 font-semibold'>
-              {data?.post?.author?.name}
-            </p>
-            <p>|</p>
-            <p className='ml-2'>{moment(data.post?.createdAt).fromNow()}</p>
+              <div className='flex'>
+                <p>posted by</p>
+                <p className='ml-2 mr-2 font-semibold'>
+                  {data?.post?.author?.name}
+                </p>
+              </div>
+              <p className='hidden md:inline-block'>|</p>
+              <p className='md:ml-2'>{moment(data.post?.createdAt).fromNow()}</p>
             </div>
           </div>
           <p>{data?.post?.body}</p>

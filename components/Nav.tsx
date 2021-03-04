@@ -43,7 +43,7 @@ export const Nav: React.FC<NavProps> = () => {
 
   if (!data?.me) {
     userLogin = (
-      <ul className='sm:flex'>
+      <ul className='flex'>
         <li className='border ml-2 border-black hover:border-white rounded-md p-1 px-2'>
           <Link href='/login'>Login</Link>
         </li>
@@ -54,7 +54,7 @@ export const Nav: React.FC<NavProps> = () => {
     )
   } else {
     userLogin = (
-      <ul className='sm:flex'>
+      <ul className='flex'>
         <li className='border rounded-md min-w-max px-2 self-center sm:mx-4 border-black'>
           <Link href='/profile'>
             <button className='max-h-10 align-middle' type='button'>
@@ -78,15 +78,30 @@ export const Nav: React.FC<NavProps> = () => {
             </button>
           </Link>
         </li>
-        <li className='border border-black hover:border-white rounded-md p-1 px-2 self-center'>
+        <li className='border border-black rounded-md p-1 px-2 self-center'>
           <button
             className='align-middle'
             type='button'
             onClick={logoutHandler}
           >
-            {error?.message === 'Authentication required.'
-              ? 'logging out...'
-              : 'logout'}
+            {error?.message === 'Authentication required.' ? (
+              'logging out...'
+            ) : (
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='currentColor'
+                className='h-7 text-white transform hover:scale-105'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={1.5}
+                  d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'
+                />
+              </svg>
+            )}
           </button>
         </li>
       </ul>
@@ -95,7 +110,7 @@ export const Nav: React.FC<NavProps> = () => {
 
   return (
     <nav className='flex justify-center p-3 bg-black text-white'>
-      <ul className='sm:flex w-full 2xl:w-5/12'>
+      <ul className='flex w-full 2xl:w-5/12'>
         <li className='border md:mx-2 border-black hover:border-white rounded-md p-1 px-2'>
           <Link href='/'>
             <a className='align-middle'>Home</a>

@@ -28,8 +28,8 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
       <div className='w-10/12'>
         <div className='md:flex align-bottom'>
           <p className='mr-2 text-lg font-semibold'>{comment.author?.name}</p>
-          <p className='text-gray-400'>|</p>
-          <p className='ml-2 text-gray-400'>{moment(comment.createdAt).fromNow()}</p>
+          <p className='hidden md:inline-block text-gray-400'>|</p>
+          <p className='md:ml-2 text-gray-400'>{moment(comment.createdAt).fromNow()}</p>
         </div>
         {commenting ? (
           <Formik
