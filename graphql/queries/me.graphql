@@ -1,6 +1,8 @@
 query Me {
   me {
     id
+    googleId
+    facebookId
     name
     email
     photo

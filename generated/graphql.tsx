@@ -22,6 +22,7 @@ export type User = {
   /** Only logged in user can query it but its hashed anyway */
   password?: Maybe<Scalars['String']>;
   googleId?: Maybe<Scalars['String']>;
+  facebookId?: Maybe<Scalars['String']>;
   photo?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -107,6 +108,7 @@ export type UserWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   googleId?: Maybe<Scalars['String']>;
+  facebookId?: Maybe<Scalars['String']>;
 };
 
 export type UserWhereInput = {
@@ -118,6 +120,7 @@ export type UserWhereInput = {
   password?: Maybe<StringNullableFilter>;
   email?: Maybe<StringFilter>;
   googleId?: Maybe<StringNullableFilter>;
+  facebookId?: Maybe<StringNullableFilter>;
   photo?: Maybe<StringNullableFilter>;
   createdAt?: Maybe<DateTimeFilter>;
   updatedAt?: Maybe<DateTimeFilter>;
@@ -131,6 +134,7 @@ export type UserOrderByInput = {
   password?: Maybe<SortOrder>;
   email?: Maybe<SortOrder>;
   googleId?: Maybe<SortOrder>;
+  facebookId?: Maybe<SortOrder>;
   photo?: Maybe<SortOrder>;
   createdAt?: Maybe<SortOrder>;
   updatedAt?: Maybe<SortOrder>;
@@ -670,7 +674,7 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'email' | 'photo'>
+    & Pick<User, 'id' | 'googleId' | 'facebookId' | 'name' | 'email' | 'photo'>
   )> }
 );
 
@@ -1189,6 +1193,8 @@ export const MeDocument = gql`
     query Me {
   me {
     id
+    googleId
+    facebookId
     name
     email
     photo

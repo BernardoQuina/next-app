@@ -90,30 +90,76 @@ const edit: NextPage<editProps> = ({}) => {
             <h1 className='my-6 text-center text-4xl font-extrabold text-pink-600'>
               Edit profile
             </h1>
+            {data?.me?.facebookId || data?.me?.googleId ? (
+              <p className='my-6 mx-8 p-4 text-center rounded-md bg-pink-100'>
+                Since your profile is associated with google or facebook, you
+                can't edit it, only delete it.
+              </p>
+            ) : null}
             <InputField
               name='password'
               placeholder=''
-              label='Current password'
+              label={
+                data?.me?.facebookId || data?.me?.googleId
+                  ? undefined
+                  : 'Password'
+              }
               type='password'
+              hidden={data?.me?.facebookId || data?.me?.googleId ? true : false}
             />
-            <InputField name='updateName' label='Update name' type='text' />
-            <InputField name='updateEmail' label='Update email' type='email' />
+            <InputField
+              name='updateName'
+              label={
+                data?.me?.facebookId || data?.me?.googleId
+                  ? 'Name'
+                  : 'Update name'
+              }
+              type='text'
+              disabled={
+                data?.me?.facebookId || data?.me?.googleId ? true : false
+              }
+            />
+            <InputField
+              name='updateEmail'
+              label={
+                data?.me?.facebookId || data?.me?.googleId
+                  ? 'Email'
+                  : 'Update email'
+              }
+              type='email'
+              disabled={
+                data?.me?.facebookId || data?.me?.googleId ? true : false
+              }
+            />
             <InputField
               name='updatePassword'
               placeholder=''
-              label='New password'
+              label={
+                data?.me?.facebookId || data?.me?.googleId
+                  ? undefined
+                  : 'New password'
+              }
               type='password'
+              hidden={data?.me?.facebookId || data?.me?.googleId ? true : false}
             />
             <InputField
               name='confirmNewPassword'
               placeholder=''
-              label='Confirm new password'
+              label={
+                data?.me?.facebookId || data?.me?.googleId
+                  ? undefined
+                  : 'Confirm new password'
+              }
               type='password'
+              hidden={data?.me?.facebookId || data?.me?.googleId ? true : false}
             />
             <div className='flex'>
               <button
-                className='mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
+                className='mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 disabled:opacity-25'
                 type='submit'
+                disabled={
+                  data?.me?.facebookId || data?.me?.googleId ? true : false
+                }
               >
                 edit
               </button>

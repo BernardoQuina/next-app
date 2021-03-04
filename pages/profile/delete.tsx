@@ -2,15 +2,20 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { Formik, Form } from 'formik'
 
-import { useDeleteUserMutation } from '../../generated/graphql'
+import { useDeleteUserMutation, useMeQuery } from '../../generated/graphql'
 import { withApollo } from '../../lib/apollo'
 import { InputField } from '../../components/InputField'
 import { Layout } from '../../components/Layout'
-
+import { isServer } from '../../utils/isServer'
 interface deleteProps {}
 
 const deleteUser: NextPage<deleteProps> = ({}) => {
   const router = useRouter()
+
+  const { data } = useMeQuery({
+    skip: isServer(),
+    errorPolicy: 'all',
+  })
 
   const [deleteUser] = useDeleteUserMutation({ errorPolicy: 'all' })
 
@@ -48,8 +53,13 @@ const deleteUser: NextPage<deleteProps> = ({}) => {
             <InputField
               name='password'
               placeholder=''
-              label='Password'
+              label={
+                data?.me?.facebookId || data?.me?.googleId ? undefined : 'Password'
+              }
               type='password'
+              hidden={
+                data?.me?.facebookId || data?.me?.googleId ? true : false
+              }
             />
 
             <button
