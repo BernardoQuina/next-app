@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Formik, Form } from 'formik'
-import moment from 'moment'
+import {DateTime} from 'luxon'
 
 import {
   CommentFragment,
@@ -29,7 +29,9 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
         <div className='md:flex align-bottom'>
           <p className='mr-2 text-lg font-semibold'>{comment.author?.name}</p>
           <p className='hidden md:inline-block text-gray-400'>|</p>
-          <p className='md:ml-2 text-gray-400'>{moment(comment.createdAt).fromNow()}</p>
+          <p className='md:ml-2 text-gray-400'>
+            {DateTime.fromISO(comment.createdAt).setLocale('en').toRelative()}
+          </p>
         </div>
         {commenting ? (
           <Formik

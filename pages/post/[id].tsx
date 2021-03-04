@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import moment from 'moment'
+import { DateTime } from 'luxon'
 
 import { withApollo } from '../../lib/apollo'
 import { Meta } from '../../components/Meta'
@@ -53,7 +53,9 @@ const Post: NextPage<PostProps> = () => {
                 </p>
               </div>
               <p className='hidden md:inline-block'>|</p>
-              <p className='md:ml-2'>{moment(data.post?.createdAt).fromNow()}</p>
+              <p className='md:ml-2'>
+                {DateTime.fromISO(data.post?.createdAt).setLocale('en').toRelative()}
+              </p>
             </div>
           </div>
           <p>{data?.post?.body}</p>

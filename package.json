@@ -14,11 +14,12 @@
     "autoprefixer": "^10.2.4",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
-    "moment": "^2.29.1",
+    "luxon": "^1.26.0",
     "next": "^10.0.7",
     "postcss": "^8.2.5",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "sharp": "^0.27.2",
     "tailwindcss": "^2.0.3"
   },
   "devDependencies": {
@@ -27,6 +28,7 @@
     "@graphql-codegen/typescript-operations": "1.17.14",
     "@graphql-codegen/typescript-react-apollo": "2.2.1",
     "@types/lodash": "^4.14.168",
+    "@types/luxon": "^1.26.1",
     "@types/node": "^14.14.22",
     "@types/react": "^17.0.1",
     "typescript": "^4.1.3"

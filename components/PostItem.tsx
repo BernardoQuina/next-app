@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import moment from 'moment'
+import { DateTime } from 'luxon'
 
 import { PostSnippetFragment } from '../generated/graphql'
 import { EditPostButton } from './EditPostButton'
@@ -14,13 +14,19 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
       <a className='border border-white p-4 rounded-md shadow-md hover:border-pink-600 hover:text-pink-600 transform active:scale-95'>
         <div className='flex'>
           <h3 className='text-lg font-bold'>{post.title}</h3>
-          {post.published === false && <p className='max-w-min text-sm font-bold text-pink-600 rounded-md ml-auto px-2 py-1 bg-pink-200'>private</p>}
+          {post.published === false && (
+            <p className='max-w-min text-sm font-bold text-pink-600 rounded-md ml-auto px-2 py-1 bg-pink-200'>
+              private
+            </p>
+          )}
         </div>
         <div className='flex text-sm text-gray-400 mb-4'>
           <span>posted by</span>
           <strong className='pl-2 pr-2'>{post.author?.name}</strong>
           <p>|</p>
-          <p className='pl-2'>{moment(post.createdAt).fromNow()}</p>
+          <p className='pl-2'>
+            {DateTime.fromISO(post.createdAt).setLocale('en').toRelative()}
+          </p>
         </div>
         <div className='flex'>
           <p>{post.textSnippet}</p>
