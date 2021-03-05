@@ -12,33 +12,26 @@ const UserCard: React.FC<UserCardProps> = ({
   userEmail,
   userPhoto,
 }) => {
-  // useEffect(() => {
-  //   if (userPhoto) {
-  //     console.log(userPhoto)
-  //   }
-  // }, [userPhoto])
-
   return (
     <div className='flex max-w-max mx-auto px-6 py-4 m-6 rounded-md shadow-lg'>
       <div className='md:flex'>
         {userPhoto ? (
           <div className='w-max mx-auto'>
             <Image
-            className='rounded-full'
-            src={userPhoto}
-            height={60}
-            width={60}
-          />
+              className='rounded-full'
+              src={userPhoto}
+              height={60}
+              width={60}
+            />
           </div>
-          
         ) : (
           <div className='w-max mx-auto'>
             <Image
-            className='rounded-full'
-            src='/avatar.jpg'
-            height={60}
-            width={60}
-          />
+              className='rounded-full'
+              src='/avatar.jpg'
+              height={60}
+              width={60}
+            />
           </div>
         )}
 
@@ -49,7 +42,7 @@ const UserCard: React.FC<UserCardProps> = ({
       </div>
 
       <Link href='/profile/edit'>
-        <button type='button'>
+        <button type='button' className='focus:outline-none'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 20 20'

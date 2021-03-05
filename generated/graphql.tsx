@@ -403,7 +403,7 @@ export type MutationUpdateUserArgs = {
 
 
 export type MutationDeleteUserArgs = {
-  password: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
 };
 
 
@@ -495,7 +495,7 @@ export type PostSnippetFragment = (
 
 export type CommentFragment = (
   { __typename?: 'Comment' }
-  & Pick<Comment, 'id' | 'createdAt' | 'text'>
+  & Pick<Comment, 'id' | 'createdAt' | 'text' | 'postId'>
   & { author?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name'>
@@ -738,11 +738,7 @@ export type SinglePostQuery = (
       & Pick<User, 'name' | 'id'>
     )>, comments: Array<(
       { __typename?: 'Comment' }
-      & Pick<Comment, 'id' | 'createdAt' | 'text'>
-      & { author?: Maybe<(
-        { __typename?: 'User' }
-        & Pick<User, 'id' | 'name'>
-      )> }
+      & CommentFragment
     )> }
   )> }
 );
@@ -770,6 +766,7 @@ export const CommentFragmentDoc = gql`
     id
     name
   }
+  postId
 }
     `;
 export const DeleteCommentDocument = gql`
@@ -1351,17 +1348,11 @@ export const SinglePostDocument = gql`
       id
     }
     comments {
-      id
-      createdAt
-      text
-      author {
-        id
-        name
-      }
+      ...Comment
     }
   }
 }
-    `;
+    ${CommentFragmentDoc}`;
 
 /**
  * __useSinglePostQuery__

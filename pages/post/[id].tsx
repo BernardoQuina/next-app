@@ -20,6 +20,7 @@ const Post: NextPage<PostProps> = () => {
 
   const { data, loading, error } = useSinglePostQuery({
     variables: { postId: id },
+    partialRefetch: true
   })
 
   if (error) {

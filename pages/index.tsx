@@ -44,7 +44,7 @@ const Home: NextPage<HomeProps> = () => {
         <Header />
         <NextLink href='/new-post'>
           <button
-            className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
+            className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 focus:outline-none hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
             type='button'
           >
             new post

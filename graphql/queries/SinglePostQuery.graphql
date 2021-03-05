@@ -11,13 +11,7 @@ query SinglePost ($postId: String!) {
         id
       }
       comments {
-        id
-        createdAt
-        text
-        author {
-          id
-          name
-        }
+        ...Comment
       }
     }
   }

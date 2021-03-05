@@ -6,4 +6,5 @@ fragment Comment on Comment {
     id
     name
   }
+  postId
 }

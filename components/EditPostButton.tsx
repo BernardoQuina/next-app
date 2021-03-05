@@ -21,7 +21,7 @@ export const EditPostButton: React.FC<EditPostButtonProps> = ({
   return (
     <div className='ml-auto'>
       <NextLink href={`/post/edit/${postId}`}>
-        <button type='button'>
+        <button type='button' className='focus:outline-none'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 20 20'
