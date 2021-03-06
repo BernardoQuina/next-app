@@ -4,11 +4,10 @@ import { useTransition, animated } from 'react-spring'
 
 const MyApp = ({ Component, pageProps, router }: AppProps) => {
   const transitions = useTransition(router, (router) => router.pathname, {
-    from: { opacity: 0, transform: 'translate(100%, 0)' },
-    enter: { opacity: 1, transform: 'translate(0%, 0)' },
+    from: { opacity: 0, transform: 'scale(2)' },
+    enter: { opacity: 1, transform: ' scale(1)' },
     leave: {
-      opacity: 0.8,
-      transform: 'translate(-100%, 0)',
+      opacity: 0,
       top: 0,
       right: 0,
       bottom: 0,
