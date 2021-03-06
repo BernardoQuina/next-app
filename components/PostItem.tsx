@@ -15,7 +15,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
         <div className='flex'>
           <h3 className='text-lg font-bold'>{post.title}</h3>
           {post.published === false && (
-            <p className='max-w-min text-sm font-bold text-pink-600 rounded-md ml-auto px-2 py-1 bg-pink-200'>
+            <p className='max-w-min max-h-7 text-sm font-bold text-pink-600 rounded-md ml-auto px-2 py-1 bg-pink-200'>
               private
             </p>
           )}

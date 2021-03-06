@@ -20,14 +20,12 @@ const Post: NextPage<PostProps> = () => {
 
   const { data, loading, error } = useSinglePostQuery({
     variables: { postId: id },
-    partialRefetch: true
+    partialRefetch: true,
   })
 
   if (error) {
     return <div>{error.message}</div>
   }
-
-  if (loading || !data) return <span>loading...</span>
 
   return (
     <Layout>
@@ -37,36 +35,52 @@ const Post: NextPage<PostProps> = () => {
           description={data?.post?.body as string}
         />
         <div className='mt-10 px-6 pt-6 pb-6 border shadow-inner rounded-lg'>
-          <div className='mb-7 items-baseline'>
-            {data?.post?.published === false && (
-              <p className='max-w-min text-sm font-bold text-pink-600 rounded-md ml-auto px-2 py-1 bg-pink-200 mb-2'>
-                private
-              </p>
-            )}
-            <h1 className='text-2xl md:text-3xl font-bold'>
-              {data?.post?.title}
-            </h1>
-            <div className='md:flex text-gray-400'>
-              <div className='flex'>
-                <p>posted by</p>
-                <p className='ml-2 mr-2 font-semibold'>
-                  {data?.post?.author?.name}
-                </p>
+          {loading || !data ? (
+            <>
+              <div className='mb-4 h-6 w-3/4 rounded-lg text-2xl  md:text-3xl font-bold bg-pink-300 animate-pulse'></div>
+              <div className='mb-4 h-5 w-2/4 rounded-lg text-2xl  md:text-3xl font-bold bg-pink-300 animate-pulse'></div>
+              <div className='mb-2 h-4 w-full rounded-md text-2xl  md:text-3xl font-bold bg-pink-300 animate-pulse'></div>
+              <div className='h-4 w-2/3 rounded-md text-2xl  md:text-3xl font-bold bg-pink-300 animate-pulse'></div>
+            </>
+          ) : (
+            <>
+              <div className='mb-7 items-baseline'>
+                {data?.post?.published === false && (
+                  <p className='max-w-min text-sm font-bold text-pink-600 rounded-md ml-auto px-2 py-1 bg-pink-200 mb-2'>
+                    private
+                  </p>
+                )}
+                <h1 className='text-2xl md:test-3xl font-bold'>
+                  {data.post?.title}
+                </h1>
+                <div className='md:flex text-gray-400'>
+                  <div className='flex'>
+                    <p>posted by</p>
+                    <p className='ml-2 mr-2 font-semibold'>
+                      {data.post?.author?.name}
+                    </p>
+                  </div>
+                  <p className='hidden md:inline-block'>|</p>
+                  <p className='md:ml-2'>
+                    {DateTime.fromISO(data.post?.createdAt)
+                      .setLocale('en')
+                      .toRelative()}
+                  </p>
+                </div>
+                <p>{data?.post?.body}</p>
               </div>
-              <p className='hidden md:inline-block'>|</p>
-              <p className='md:ml-2'>
-                {DateTime.fromISO(data.post?.createdAt).setLocale('en').toRelative()}
-              </p>
-            </div>
-          </div>
-          <p>{data?.post?.body}</p>
-          <div className='flex mt-6'>
-            <DeletePostButton postId={id} authorId={data.post?.author?.id!} />
-            <EditPostButton authorId={data.post?.author?.id!} postId={id} />
-          </div>
+              <div className='flex mt-6'>
+                <DeletePostButton
+                  postId={id}
+                  authorId={data.post?.author?.id!}
+                />
+                <EditPostButton authorId={data.post?.author?.id!} postId={id} />
+              </div>
+            </>
+          )}
         </div>
         <NewCommentForm postId={id} />
-        {data.post?.comments.length ? (
+        {data && data.post?.comments.length ? (
           <CommentList comments={data.post.comments} />
         ) : (
           <br />
