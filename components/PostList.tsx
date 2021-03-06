@@ -1,5 +1,3 @@
-import {motion, AnimatePresence} from 'framer-motion'
-
 import { PostSnippetFragment } from '../generated/graphql'
 import { PostItem } from './PostItem'
 
