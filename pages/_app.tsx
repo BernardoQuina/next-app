@@ -1,24 +1,24 @@
-import 'tailwindcss/tailwind.css'
 import { AppProps } from 'next/app'
-import { useTransition, animated } from 'react-spring'
+import 'tailwindcss/tailwind.css'
+import { motion } from 'framer-motion'
 
 const MyApp = ({ Component, pageProps, router }: AppProps) => {
-  const transitions = useTransition(router, (router) => router.pathname, {
-    from: { opacity: 0, transform: 'scale(1.5)' },
-    enter: { opacity: 1, transform: ' scale(1)' },
-    leave: { display: 'none' },
-    initial: { opacity: 0 },
-    config: { mass: 1, tension: 500, friction: 100, clamp: true },
-  })
-
   return (
-    <>
-      {transitions.map(({ item, props, key }) => (
-        <animated.div key={key} style={props}>
-          <Component location={item} {...pageProps} />
-        </animated.div>
-      ))}
-    </>
+    <motion.div
+      key={router.route}
+      initial='pageInitial'
+      animate='pageAnimate'
+      variants={{
+        pageInitial: {
+          opacity: 0,
+        },
+        pageAnimate: {
+          opacity: 1,
+        },
+      }}
+    >
+      <Component {...pageProps} />
+    </motion.div>
   )
 }
 
