@@ -8,7 +8,7 @@ interface CommentListProps {
 export const CommentList: React.FC<CommentListProps> = ({ comments }) => {
   return (
     <div className='px-8 divide-y divide-pink-400 border shadow-inner rounded-md py-5 '>
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {comments
           .slice() // unfreeze
           .sort((a, b) => {
