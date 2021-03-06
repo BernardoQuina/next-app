@@ -1,6 +1,6 @@
 import { CommentFragment } from '../generated/graphql'
 import { CommentItem } from './CommentItem'
-import { useTransition, animated, useSpring } from 'react-spring'
+import { useTransition, animated } from 'react-spring'
 import { CSSProperties } from 'react'
 interface CommentListProps {
   comments: CommentFragment[]
@@ -34,16 +34,8 @@ export const CommentList: React.FC<CommentListProps> = ({ comments }) => {
     }
   )
 
-  const animation = useSpring({
-    from: { height: '0%' },
-    height: '100%',
-  })
-
   return (
-    <animated.div
-      style={animation}
-      className='px-8 divide-y divide-pink-400 border shadow-inner rounded-md py-5 '
-    >
+    <div className='px-8 divide-y divide-pink-400 border shadow-inner rounded-md py-5 '>
       {transition
         .slice() // unfreeze
         .sort((a, b) => {
@@ -57,6 +49,6 @@ export const CommentList: React.FC<CommentListProps> = ({ comments }) => {
             <CommentItem comment={comment} key={comment.id} />
           </animated.div>
         ))}
-    </animated.div>
+    </div>
   )
 }
