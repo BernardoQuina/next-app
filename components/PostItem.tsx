@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { DateTime } from 'luxon'
+import { motion } from 'framer-motion'
 
 import { PostSnippetFragment } from '../generated/graphql'
 import { EditPostButton } from './EditPostButton'
@@ -11,7 +12,30 @@ interface PostItemProps {
 export const PostItem: React.FC<PostItemProps> = ({ post }) => {
   return (
     <Link href={`/post/${post.id}`} passHref>
-      <a className='border border-white p-4 rounded-md shadow-md hover:border-pink-600 hover:text-pink-600 transform active:scale-95'>
+      <motion.a
+        exit='exit'
+        initial='hidden'
+        animate='visible'
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ type: 'just' }}
+        variants={{
+          hidden: {
+            opacity: 0,
+            y: 50,
+            scale: 0.3,
+          },
+          visible: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            transition: {
+              delay: (Math.floor(Math.random() * (5 - 1 + 1)) + 1) / 10,
+            },
+          },
+        }}
+        className='border border-white p-4 rounded-md shadow-md hover:border-pink-600 hover:text-pink-600'
+      >
         <div className='flex'>
           <h3 className='text-lg font-bold'>{post.title}</h3>
           {post.published === false && (
@@ -32,7 +56,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
           <p>{post.textSnippet}</p>
           <EditPostButton postId={post.id!} authorId={post.author?.id!} />
         </div>
-      </a>
+      </motion.a>
     </Link>
   )
 }
