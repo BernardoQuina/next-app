@@ -7,7 +7,16 @@ interface CommentListProps {
 
 export const CommentList: React.FC<CommentListProps> = ({ comments }) => {
   return (
-    <div className='px-8 divide-y divide-pink-400 border shadow-inner rounded-md py-5 '>
+    <motion.div
+      key={comments[0].postId}
+      initial={{ opacity: 0, height: '0px', width: '80%' }}
+      animate={{
+        opacity: 1,
+        height: '100%',
+        width: '100%',
+      }}
+      className='px-8 divide-y divide-pink-400 border shadow-inner rounded-md py-5 '
+    >
       <AnimatePresence initial={false}>
         {comments
           .slice() // unfreeze
@@ -51,6 +60,6 @@ export const CommentList: React.FC<CommentListProps> = ({ comments }) => {
             </motion.div>
           ))}
       </AnimatePresence>
-    </div>
+    </motion.div>
   )
 }

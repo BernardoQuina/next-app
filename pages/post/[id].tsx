@@ -67,7 +67,7 @@ const Post: NextPage<PostProps> = () => {
                       .toRelative()}
                   </p>
                 </div>
-                <p>{data?.post?.body}</p>
+                <p className='mt-4'>{data?.post?.body}</p>
               </div>
               <div className='flex mt-6'>
                 <DeletePostButton
