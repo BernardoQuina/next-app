@@ -8,11 +8,11 @@ const MyApp = ({ Component, pageProps, router }: AppProps) => {
       key={router.route}
       initial={router.pathname === '/' ? 'homeInitial' : 'pageInitial'}
       animate={router.pathname === '/' ? 'goHome' : 'pageAnimate'}
-      transition={{duration: 0.5}}
+      transition={{duration: 0.6}}
       variants={{
         homeInitial: {
-          opacity: 0.5,
-          x: -800
+          opacity: 0.7,
+          x: -1000
         },
         pageInitial: {
           opacity: 0,

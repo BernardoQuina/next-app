@@ -30,7 +30,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
             y: 0,
             scale: 1,
             transition: {
-              delay: (Math.floor(Math.random() * (5 - 1 + 1)) + 1) / 10,
+              delay: (Math.floor(Math.random() * (10 - 5 + 1)) + 5) / 10,
             },
           },
         }}
