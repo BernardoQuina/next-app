@@ -7,14 +7,10 @@ import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql'
 import { InputField } from '../components/InputField'
 import { Layout } from '../components/Layout'
 import { OauthSignIn } from '../components/OauthSignIn'
-import { useState } from 'react'
-
 interface loginProps {}
 
 const login: NextPage<loginProps> = ({}) => {
   const router = useRouter()
-
-  const [loading, setLoading] = useState(false)
 
   const [login] = useLoginMutation({ errorPolicy: 'all' })
 

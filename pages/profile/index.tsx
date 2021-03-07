@@ -26,7 +26,7 @@ const profile: NextPage<profileProps> = () => {
 
   const { data: userData } = useMeQuery()
 
-  const { data, loading, error, fetchMore } = useMyPostsQuery({
+  const { data, loading, fetchMore } = useMyPostsQuery({
     variables: { skip: 0, take: 8 },
     notifyOnNetworkStatusChange: true,
     errorPolicy: 'all',
