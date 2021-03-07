@@ -26,7 +26,7 @@ const profile: NextPage<profileProps> = () => {
 
   const { data: userData } = useMeQuery()
 
-  const { data, loading, fetchMore } = useMyPostsQuery({
+  const { data, loading, error, fetchMore } = useMyPostsQuery({
     variables: { skip: 0, take: 8 },
     notifyOnNetworkStatusChange: true,
     errorPolicy: 'all',
@@ -37,6 +37,15 @@ const profile: NextPage<profileProps> = () => {
       setHasMore(false)
     }
   }, [data])
+
+  if (!loading && !data) {
+    return (
+      <div>
+        <p>your query failed...</p>
+        <p>{error?.message}</p>
+      </div>
+    )
+  }
 
   return (
     <Layout>
@@ -53,13 +62,14 @@ const profile: NextPage<profileProps> = () => {
         userEmail={userData?.me?.email!}
         userPhoto={userData?.me?.photo ? userData.me.photo : undefined}
       />
-      {loading ? (
-        <div>loading...</div>
-      ) : !data ? (
+      {!data ? (
+        <div className='mb-8 text-center text-lg font-semibold'>loading</div>
+      ) : !data && !loading ? (
         <div className='mb-8 text-center text-lg font-semibold'>no posts</div>
       ) : (
         <>
-          <PostList posts={data.myPosts as PostSnippetFragment[]} />
+          <PostList posts={data?.myPosts as PostSnippetFragment[]} />
+          {loading && <div className='text-center'>loading...</div>}
           {hasMore ? (
             <button
               className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 mb-8'
