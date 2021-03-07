@@ -8,25 +8,25 @@ const MyApp = ({ Component, pageProps, router }: AppProps) => {
       key={router.route}
       initial={router.pathname === '/' ? 'homeInitial' : 'pageInitial'}
       animate={router.pathname === '/' ? 'goHome' : 'pageAnimate'}
-      transition={{duration: 0.6}}
+      transition={{ duration: router.pathname === '/' ? 0.4 : 0.6 }}
       variants={{
         homeInitial: {
           opacity: 0.7,
-          x: -1000
+          x: -3000,
         },
         pageInitial: {
           opacity: 0,
-          scale: 0.5
+          scale: 0.5,
         },
         goHome: {
           opacity: 1,
-          x: 0
+          x: 0,
         },
         pageAnimate: {
           opacity: 1,
           width: '100%',
-          scale: 1
-        }
+          scale: 1,
+        },
       }}
     >
       <Component {...pageProps} />

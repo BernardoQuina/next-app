@@ -15,7 +15,8 @@ module.exports = {
       scale: ['active'],
       backgroundColor: ['active'],
       borderColor: ['active'],
-      opacity: ['disabled']
+      opacity: ['disabled'],
+      animation: ['active', 'focus']
     },
   },
   plugins: [],

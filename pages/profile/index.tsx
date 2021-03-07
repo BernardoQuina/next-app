@@ -38,15 +38,6 @@ const profile: NextPage<profileProps> = () => {
     }
   }, [data])
 
-  if (!loading && !data) {
-    return (
-      <div>
-        <p>your query failed...</p>
-        <p>{error?.message}</p>
-      </div>
-    )
-  }
-
   return (
     <Layout>
       <Meta
@@ -62,10 +53,10 @@ const profile: NextPage<profileProps> = () => {
         userEmail={userData?.me?.email!}
         userPhoto={userData?.me?.photo ? userData.me.photo : undefined}
       />
-      {!data ? (
-        <div className='mb-8 text-center text-lg font-semibold'>loading</div>
-      ) : !data && !loading ? (
+      {!data && !loading ? (
         <div className='mb-8 text-center text-lg font-semibold'>no posts</div>
+      ) : !data? (
+        <div className='mb-8 text-center text-lg font-semibold'>loading...</div>
       ) : (
         <>
           <PostList posts={data?.myPosts as PostSnippetFragment[]} />

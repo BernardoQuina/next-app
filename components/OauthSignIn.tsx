@@ -17,7 +17,7 @@ export const OauthSignIn: React.FC<OauthSignInProps> = ({}) => {
   return (
     <>
       <button
-        className='flex my-8 py-2 px-4 mx-auto max-w-max rounded-md border-0 shadow-md group hover:bg-blue-400'
+        className='flex my-8 py-2 px-4 mx-auto max-w-max rounded-md border-0 shadow-md group hover:bg-blue-400 focus:animate-bounce focus:outline-none'
         type='button'
         onClick={googleLogin}
       >
@@ -32,7 +32,7 @@ export const OauthSignIn: React.FC<OauthSignInProps> = ({}) => {
         />
       </button>
       <button
-        className='flex my-8 py-2 px-4 mx-auto max-w-max rounded-md border-0 shadow-md group hover:bg-blue-500'
+        className='flex my-8 py-2 px-4 mx-auto max-w-max rounded-md border-0 shadow-md group hover:bg-blue-500 focus:animate-bounce focus:outline-none'
         type='button'
         onClick={facebookLogin}
       >
