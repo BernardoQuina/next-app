@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { DateTime } from 'luxon'
@@ -6,7 +5,7 @@ import { motion, Variants } from 'framer-motion'
 
 import { withApollo } from '../../lib/apollo'
 import { Meta } from '../../components/Meta'
-import { SinglePostQuery, useSinglePostQuery } from '../../generated/graphql'
+import { useSinglePostQuery } from '../../generated/graphql'
 import { Layout } from '../../components/Layout'
 import { DeletePostButton } from '../../components/DeletePostButton'
 import { EditPostButton } from '../../components/EditPostButton'
