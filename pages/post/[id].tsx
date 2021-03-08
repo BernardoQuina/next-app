@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { DateTime } from 'luxon'
@@ -11,28 +12,18 @@ import { DeletePostButton } from '../../components/DeletePostButton'
 import { EditPostButton } from '../../components/EditPostButton'
 import { CommentList } from '../../components/CommentList'
 import { NewCommentForm } from '../../components/NewCommentForm'
-import { useState } from 'react'
 
 interface PostProps {}
 
 const Post: NextPage<PostProps> = () => {
   const router = useRouter()
-  // moving data to state because data is removed on unmount but during animation...
-  const [statePost, setStatePost] = useState<SinglePostQuery['post']>()
 
   const id = router.query.id as string
 
   const { data, loading } = useSinglePostQuery({
     variables: { postId: id },
-    fetchPolicy: 'cache-first',
-    skip: id ? false : true,
-    pollInterval: 5000,
-    onCompleted({ post }) {
-      if (post) {
-        setStatePost(post)
-      }
-    },
   })
+
 
   return (
     <motion.div
@@ -49,7 +40,7 @@ const Post: NextPage<PostProps> = () => {
             description={data?.post?.body as string}
           />
           <div className='mt-10 px-6 pt-6 pb-6 border shadow-inner rounded-lg'>
-            {loading || !statePost ? (
+            {loading || !data?.post ? (
               <>
                 <div className='mb-4 h-6 w-3/4 rounded-lg text-2xl  md:text-3xl font-bold bg-pink-300 animate-pulse'></div>
                 <div className='mb-4 h-5 w-2/4 rounded-lg text-2xl  md:text-3xl font-bold bg-pink-300 animate-pulse'></div>
@@ -59,37 +50,37 @@ const Post: NextPage<PostProps> = () => {
             ) : (
               <>
                 <div className='mb-7 items-baseline'>
-                  {statePost.published === false && (
+                  {data?.post.published === false && (
                     <p className='max-w-min text-sm font-bold text-pink-600 rounded-md ml-auto px-2 py-1 bg-pink-200 mb-2'>
                       private
                     </p>
                   )}
                   <h1 className='text-2xl md:test-3xl font-bold'>
-                    {statePost.title}
+                    {data?.post.title}
                   </h1>
                   <div className='md:flex text-gray-400'>
                     <div className='flex'>
                       <p>posted by</p>
                       <p className='ml-2 mr-2 font-semibold'>
-                        {statePost.author?.name}
+                        {data?.post.author?.name}
                       </p>
                     </div>
                     <p className='hidden md:inline-block'>|</p>
                     <p className='md:ml-2'>
-                      {DateTime.fromISO(statePost.createdAt)
+                      {DateTime.fromISO(data?.post.createdAt)
                         .setLocale('en')
                         .toRelative()}
                     </p>
                   </div>
-                  <p className='mt-4'>{statePost.body}</p>
+                  <p className='mt-4'>{data?.post.body}</p>
                 </div>
                 <div className='flex mt-6'>
                   <DeletePostButton
                     postId={id}
-                    authorId={statePost.author?.id!}
+                    authorId={data?.post.author?.id!}
                   />
                   <EditPostButton
-                    authorId={statePost.author?.id!}
+                    authorId={data?.post.author?.id!}
                     postId={id}
                   />
                 </div>
@@ -97,8 +88,8 @@ const Post: NextPage<PostProps> = () => {
             )}
           </div>
           <NewCommentForm postId={id} />
-          {statePost && statePost.comments.length ? (
-            <CommentList comments={statePost.comments} />
+          {data?.post && data?.post.comments.length ? (
+            <CommentList comments={data?.post.comments} />
           ) : (
             <br />
           )}
