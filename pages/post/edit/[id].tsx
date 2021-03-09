@@ -10,6 +10,8 @@ import {
 } from '../../../generated/graphql'
 import { withApollo } from '../../../lib/apollo'
 import { DeletePostButton } from '../../../components/DeletePostButton'
+import { motion } from 'framer-motion'
+import { variants } from '../../../utils/animations'
 
 interface EditPostProps {}
 
@@ -35,75 +37,85 @@ const EditPost: NextPage<EditPostProps> = ({}) => {
   }
 
   return (
-    <Layout>
-      <Formik
-        initialValues={{
-          updateTitle: data.post.title,
-          updateBody: data.post.body,
-          updatePublished: data.post.published!,
-        }}
-        onSubmit={async (values, { setErrors }) => {
-          const response = await editPost({
-            variables: { postId: id, ...values },
-            update: (cache) => {
-              cache.evict({ fieldName: 'posts' })
-              cache.evict({ fieldName: 'myPosts' })
-            },
-          })
+    <motion.div
+      initial='initial'
+      animate='animate'
+      exit='exit'
+      variants={variants}
+    >
+      <Layout>
+        <Formik
+          initialValues={{
+            updateTitle: data.post.title,
+            updateBody: data.post.body,
+            updatePublished: data.post.published!,
+          }}
+          onSubmit={async (values, { setErrors }) => {
+            const response = await editPost({
+              variables: { postId: id, ...values },
+              update: (cache) => {
+                cache.evict({ fieldName: 'posts' })
+                cache.evict({ fieldName: 'myPosts' })
+              },
+            })
 
-          if (response.errors) {
-            console.log(response.errors)
-            // backend doesn't specify the field error so all errors go to "title"
-            setErrors({ updateTitle: response.errors[0].message })
-          } else if (response.data?.updatePost) {
-            router.push(`/post/${response.data.updatePost.id}`)
-          }
-        }}
-      >
-        {({ initialValues }) => (
-          <Form className='max-w-lg mx-auto border hover:border-pink-600 shadow-xl rounded-lg mb-10 pb-6'>
-            <h2 className='my-6 text-center text-2xl font-extrabold text-pink-600'>
-              What's to change?
-            </h2>
-            <InputField
-              name='updateTitle'
-              placeholder='Post title'
-              label='Title'
-              type='text'
-            />
-            <InputField
-              name='updateBody'
-              placeholder='post body'
-              label='Body'
-              type='text'
-            />
-            <div>
+            if (response.errors) {
+              console.log(response.errors)
+              // backend doesn't specify the field error so all errors go to "title"
+              setErrors({ updateTitle: response.errors[0].message })
+            } else if (response.data?.updatePost) {
+              router.push(`/post/${response.data.updatePost.id}`)
+            }
+          }}
+        >
+          {({ initialValues }) => (
+            <Form className='max-w-lg mx-auto border hover:border-pink-600 shadow-xl rounded-lg mb-10 pb-6'>
+              <h2 className='my-6 text-center text-2xl font-extrabold text-pink-600'>
+                What's to change?
+              </h2>
               <InputField
-                name='updatePublished'
-                label='public'
-                type='checkbox'
-                onClick={() =>
-                  initialValues.updatePublished
-                    ? (initialValues.updatePublished = false)
-                    : (initialValues.updatePublished = true)
-                }
+                name='updateTitle'
+                placeholder='Post title'
+                label='Title'
+                type='text'
               />
-            </div>
+              <InputField
+                name='updateBody'
+                placeholder='post body'
+                label='Body'
+                type='text'
+              />
+              <div>
+                <InputField
+                  name='updatePublished'
+                  label='public'
+                  type='checkbox'
+                  onClick={() =>
+                    initialValues.updatePublished
+                      ? (initialValues.updatePublished = false)
+                      : (initialValues.updatePublished = true)
+                  }
+                />
+              </div>
 
-            <div className='flex ml-6 mr-12'>
-              <DeletePostButton postId={id} authorId={data.post?.author?.id!} />
+              <div className='flex ml-6 mr-12'>
+                <DeletePostButton
+                  postId={id}
+                  authorId={data.post?.author?.id!}
+                />
 
-              <button
-                className='flex self-center mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
-                type='submit'
-              >
-                edit
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </Layout>
+                <button
+                  className='flex self-center mx-auto py-2 px-4 focus:bg-pink-600 focus:text-white focus:outline-none rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
+                  type='submit'
+                >
+                  edit
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </Layout>
+    </motion.div>
   )
 }
 

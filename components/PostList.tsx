@@ -1,7 +1,8 @@
-import { motion, Variants } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 import { PostSnippetFragment } from '../generated/graphql'
 import { PostItem } from './PostItem'
+import { stagger } from '../utils/animations'
 
 interface PostListProps {
   posts: PostSnippetFragment[]
@@ -20,10 +21,3 @@ export const PostList: React.FC<PostListProps> = ({ posts }) => {
   )
 }
 
-const stagger: Variants = {
-  animate: {
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-}

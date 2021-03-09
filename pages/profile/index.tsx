@@ -16,6 +16,8 @@ import {
 import { withApollo } from '../../lib/apollo'
 import { useIsAuth } from '../../utils/useIsAuth'
 import UserCard from '../../components/UserCard'
+import { motion } from 'framer-motion'
+import { variants } from '../../utils/animations'
 
 interface profileProps {}
 
@@ -39,67 +41,76 @@ const profile: NextPage<profileProps> = () => {
   }, [data])
 
   return (
-    <Layout>
-      <Meta
-        title='GraphQL Prisma 2 | Profile'
-        description='here you can find all your posts, including private ones'
-      />
-      <Header
-        title='User profile'
-        body='Find your profile details & your posts here'
-      />
-      <UserCard
-        userName={userData?.me?.name!}
-        userEmail={userData?.me?.email!}
-        userPhoto={userData?.me?.photo ? userData.me.photo : undefined}
-      />
-      {!data && !loading ? (
-        <div className='mb-8 text-center text-lg font-semibold'>no posts</div>
-      ) : !data? (
-        <div className='mb-8 text-center text-lg font-semibold'>loading...</div>
-      ) : (
-        <>
-          <PostList posts={data?.myPosts as PostSnippetFragment[]} />
-          {loading && <div className='text-center'>loading...</div>}
-          {hasMore ? (
-            <button
-              className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 mb-8'
-              onClick={async () => {
-                const response: ApolloQueryResult<MyPostsQuery> = await fetchMore(
-                  {
-                    variables: {
-                      skip: data?.myPosts?.length,
-                      take: 4,
-                    },
-                  }
-                )
+    <motion.div
+      initial='initial'
+      animate='animate'
+      exit='exit'
+      variants={variants}
+    >
+      <Layout>
+        <Meta
+          title='GraphQL Prisma 2 | Profile'
+          description='here you can find all your posts, including private ones'
+        />
+        <Header
+          title='User profile'
+          body='Find your profile details & your posts here'
+        />
+        <UserCard
+          userName={userData?.me?.name!}
+          userEmail={userData?.me?.email!}
+          userPhoto={userData?.me?.photo ? userData.me.photo : undefined}
+        />
+        {!data && !loading ? (
+          <div className='mb-8 text-center text-lg font-semibold'>no posts</div>
+        ) : !data ? (
+          <div className='mb-8 text-center text-lg font-semibold'>
+            loading...
+          </div>
+        ) : (
+          <>
+            <PostList posts={data?.myPosts as PostSnippetFragment[]} />
+            {loading && <div className='text-center'>loading...</div>}
+            {hasMore ? (
+              <button
+                className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 mb-8'
+                onClick={async () => {
+                  const response: ApolloQueryResult<MyPostsQuery> = await fetchMore(
+                    {
+                      variables: {
+                        skip: data?.myPosts?.length,
+                        take: 4,
+                      },
+                    }
+                  )
 
-                if (
-                  response.data === null ||
-                  response.data.myPosts?.length! < 4
-                ) {
-                  setHasMore(false)
-                }
-
-                if (response.errors) {
                   if (
-                    response.errors[0].message === 'Could not find any posts.'
+                    response.data === null ||
+                    response.data.myPosts?.length! < 4
                   ) {
                     setHasMore(false)
                   }
-                }
-              }}
-            >
-              load more
-            </button>
-          ) : (
-            <div className='mb-8 text-center text-5xl font-semibold text-gray-500'>
-              .
-            </div>
-          )}
-        </>
-      )}
-    </Layout>
+
+                  if (response.errors) {
+                    if (
+                      response.errors[0].message === 'Could not find any posts.'
+                    ) {
+                      setHasMore(false)
+                    }
+                  }
+                }}
+              >
+                load more
+              </button>
+            ) : (
+              <div className='mb-8 text-center text-5xl font-semibold text-gray-500'>
+                .
+              </div>
+            )}
+          </>
+        )}
+      </Layout>
+    </motion.div>
   )
 }
 

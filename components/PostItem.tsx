@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { DateTime } from 'luxon'
-import { motion, Variants } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 import { PostSnippetFragment } from '../generated/graphql'
 import { EditPostButton } from './EditPostButton'
+import { fadeInUp } from '../utils/animations'
 
 interface PostItemProps {
   post: PostSnippetFragment
@@ -42,19 +43,4 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
       </motion.a>
     </Link>
   )
-}
-
-const fadeInUp: Variants = {
-  initial: {
-    y: 60,
-    opacity: 0
-  },
-  animate: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: [0.6, -0.05, 0.01, 0.99]
-    }
-  }
 }

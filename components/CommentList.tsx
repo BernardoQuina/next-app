@@ -9,11 +9,10 @@ export const CommentList: React.FC<CommentListProps> = ({ comments }) => {
   return (
     <motion.div
       key={comments[0].postId}
-      initial={{ opacity: 0, height: '20%', width: '80%' }}
+      initial={{ opacity: 0, scale: 0.5 }}
       animate={{
         opacity: 1,
-        height: '100%',
-        width: '100%',
+        scale: 1,
       }}
       transition={{ duration: 0.5 }}
       className='px-8 divide-y divide-pink-400 border shadow-inner rounded-md py-5 '
@@ -30,19 +29,19 @@ export const CommentList: React.FC<CommentListProps> = ({ comments }) => {
           .map((comment) => (
             <motion.div
               key={comment.id}
+              initial='initial'
+              animate='animate'
               exit='exit'
-              initial='hidden'
-              animate='visible'
               transition={{ type: 'just' }}
               variants={{
-                hidden: {
+                initial: {
                   opacity: 0,
                   x: 200,
                   y: -200,
                   width: '50%',
                   height: '0px',
                 },
-                visible: {
+                animate: {
                   opacity: 1,
                   x: 0,
                   y: 0,

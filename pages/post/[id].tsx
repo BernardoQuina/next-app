@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { DateTime } from 'luxon'
-import { motion, Variants } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 import { withApollo } from '../../lib/apollo'
 import { Meta } from '../../components/Meta'
@@ -11,6 +11,7 @@ import { DeletePostButton } from '../../components/DeletePostButton'
 import { EditPostButton } from '../../components/EditPostButton'
 import { CommentList } from '../../components/CommentList'
 import { NewCommentForm } from '../../components/NewCommentForm'
+import { variants } from '../../utils/animations'
 
 interface PostProps {}
 
@@ -26,8 +27,8 @@ const Post: NextPage<PostProps> = () => {
 
   return (
     <motion.div
-      initial='hidden'
-      animate='active'
+      initial='initial'
+      animate='animate'
       exit='exit'
       transition={{ duration: 0.3 }}
       variants={variants}
@@ -103,18 +104,6 @@ const Post: NextPage<PostProps> = () => {
       </Layout>
     </motion.div>
   )
-}
-
-const variants: Variants = {
-  hidden: {
-    opacity: 0,
-  },
-  active: {
-    opacity: 1,
-  },
-  exit: {
-    opacity: 0,
-  },
 }
 
 export default withApollo({ ssr: true })(Post)

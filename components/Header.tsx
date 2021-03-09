@@ -9,14 +9,14 @@ export const Header: React.FC<HeaderProps> = ({ title, body }) => {
   return (
     <>
       <motion.div
-        initial='hidden'
-        animate='visible'
+        initial='initial'
+        animate='animate'
         variants={{
-          hidden: {
+          initial: {
             scale: 0.8,
             opacity: 0,
           },
-          visible: {
+          animate: {
             scale: [.9, 1.1, 1],
             opacity: 1,
             transition: { delay: 0.2 },

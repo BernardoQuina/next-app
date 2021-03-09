@@ -1,12 +1,14 @@
+import { useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import NextLink from 'next/link'
-import { useEffect, useState } from 'react'
+
 import { withApollo } from '../lib/apollo'
 import { usePostsQuery } from '../generated/graphql'
 import { Layout } from '../components/Layout'
 import { PostList } from '../components/PostList'
 import { Header } from '../components/Header'
-import { motion, Variants } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { variants } from '../utils/animations'
 
 interface HomeProps {}
 
@@ -105,19 +107,6 @@ const Home: NextPage<HomeProps> = () => {
       </Layout>
     </motion.div>
   )
-}
-
-const variants: Variants = {
-  initial: {
-    opacity: 0,
-  },
-  animate: {
-    opacity: 1,
-    x: 0,
-  },
-  exit: {
-    opacity: 0,
-  },
 }
 
 export default withApollo({ ssr: true })(Home)
