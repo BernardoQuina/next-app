@@ -1,7 +1,6 @@
 import { NextPage } from 'next'
 import NextLink from 'next/link'
 import { useEffect, useState } from 'react'
-import {  } from '@apollo/client'
 import { withApollo } from '../lib/apollo'
 import { usePostsQuery } from '../generated/graphql'
 import { Layout } from '../components/Layout'
@@ -41,8 +40,8 @@ const Home: NextPage<HomeProps> = () => {
 
   return (
     <motion.div
-      initial='hidden'
-      animate='active'
+      initial='initial'
+      animate='animate'
       exit='exit'
       transition={{ duration: 0.3 }}
       variants={variants}
@@ -109,10 +108,10 @@ const Home: NextPage<HomeProps> = () => {
 }
 
 const variants: Variants = {
-  hidden: {
+  initial: {
     opacity: 0,
   },
-  active: {
+  animate: {
     opacity: 1,
     x: 0,
   },
