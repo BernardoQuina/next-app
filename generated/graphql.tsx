@@ -724,7 +724,7 @@ export type SingleCommentQuery = (
 );
 
 export type SinglePostQueryVariables = Exact<{
-  postId: Scalars['String'];
+  postId?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1335,7 +1335,7 @@ export type SingleCommentQueryHookResult = ReturnType<typeof useSingleCommentQue
 export type SingleCommentLazyQueryHookResult = ReturnType<typeof useSingleCommentLazyQuery>;
 export type SingleCommentQueryResult = Apollo.QueryResult<SingleCommentQuery, SingleCommentQueryVariables>;
 export const SinglePostDocument = gql`
-    query SinglePost($postId: String!) {
+    query SinglePost($postId: String) {
   post(where: {id: $postId}) {
     id
     title
@@ -1370,7 +1370,7 @@ export const SinglePostDocument = gql`
  *   },
  * });
  */
-export function useSinglePostQuery(baseOptions: Apollo.QueryHookOptions<SinglePostQuery, SinglePostQueryVariables>) {
+export function useSinglePostQuery(baseOptions?: Apollo.QueryHookOptions<SinglePostQuery, SinglePostQueryVariables>) {
         return Apollo.useQuery<SinglePostQuery, SinglePostQueryVariables>(SinglePostDocument, baseOptions);
       }
 export function useSinglePostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SinglePostQuery, SinglePostQueryVariables>) {
