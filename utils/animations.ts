@@ -24,7 +24,7 @@ export const stagger: Variants = {
 
 export const fadeInUp: Variants = {
   initial: {
-    y: 60,
+    y: 120,
     opacity: 0
   },
   animate: {
