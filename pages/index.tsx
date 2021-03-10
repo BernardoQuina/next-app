@@ -9,6 +9,7 @@ import { PostList } from '../components/PostList'
 import { Header } from '../components/Header'
 import { NewPostModal } from '../components/NewPostModal'
 import { variants } from '../utils/animations'
+import { Loader } from '../components/Loader'
 
 interface HomeProps {}
 
@@ -62,11 +63,11 @@ const Home: NextPage<HomeProps> = () => {
           </button>
 
           {!data ? (
-            <div className='text-center mx-auto'>loading...</div>
+            <Loader />
           ) : (
             <>
               <PostList posts={data.posts} />
-              {loading && <div className='text-center'>loading...</div>}
+              {loading && <Loader />}
               {hasMore ? (
                 <button
                   className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 mb-8'

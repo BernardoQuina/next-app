@@ -18,6 +18,7 @@ import { useIsAuth } from '../../utils/useIsAuth'
 import UserCard from '../../components/UserCard'
 import { motion } from 'framer-motion'
 import { variants } from '../../utils/animations'
+import { Loader } from '../../components/Loader'
 
 interface profileProps {}
 
@@ -64,13 +65,13 @@ const profile: NextPage<profileProps> = () => {
         {!data && !loading ? (
           <div className='mb-8 text-center text-lg font-semibold'>no posts</div>
         ) : !data ? (
-          <div className='mb-8 text-center text-lg font-semibold'>
-            loading...
-          </div>
+          <>
+            <Loader />
+          </>
         ) : (
           <>
             <PostList posts={data?.myPosts as PostSnippetFragment[]} />
-            {loading && <div className='text-center'>loading...</div>}
+            {loading && <Loader />}
             {hasMore ? (
               <button
                 className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 mb-8'

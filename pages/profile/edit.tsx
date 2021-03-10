@@ -16,6 +16,7 @@ import { InputField } from '../../components/InputField'
 import { isServer } from '../../utils/isServer'
 import { useIsAuth } from '../../utils/useIsAuth'
 import { variants } from '../../utils/animations'
+import { Loader } from '../../components/Loader'
 
 interface editProps {}
 
@@ -32,7 +33,7 @@ const edit: NextPage<editProps> = ({}) => {
   const [editUser] = useEditUserMutation({ errorPolicy: 'all' })
 
   if (!data || loading) {
-    ;<div>loading...</div>
+    <Loader />
   }
 
   return (
