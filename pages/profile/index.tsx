@@ -24,7 +24,7 @@ interface profileProps {}
 const profile: NextPage<profileProps> = () => {
   const [hasMore, setHasMore] = useState(true)
 
-  useIsAuth()
+  useIsAuth(true)
 
   const { data: userData } = useMeQuery()
 

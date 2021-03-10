@@ -27,7 +27,7 @@ const edit: NextPage<editProps> = ({}) => {
     errorPolicy: 'all',
   })
 
-  useIsAuth()
+  useIsAuth(true)
 
   const [editUser] = useEditUserMutation({ errorPolicy: 'all' })
 

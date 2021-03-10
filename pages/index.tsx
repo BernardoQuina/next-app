@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react'
 import { NextPage } from 'next'
-import NextLink from 'next/link'
+import { motion } from 'framer-motion'
 
 import { withApollo } from '../lib/apollo'
 import { usePostsQuery } from '../generated/graphql'
 import { Layout } from '../components/Layout'
 import { PostList } from '../components/PostList'
 import { Header } from '../components/Header'
-import { motion } from 'framer-motion'
+import { NewPostModal } from '../components/NewPostModal'
 import { variants } from '../utils/animations'
 
 interface HomeProps {}
 
 const Home: NextPage<HomeProps> = () => {
   const [hasMore, setHasMore] = useState(true)
+  const [showModal, setShowModal] = useState(false)
 
   const { data, loading, error, fetchMore } = usePostsQuery({
     variables: { skip: 0, take: 8 },
@@ -51,14 +52,14 @@ const Home: NextPage<HomeProps> = () => {
       <Layout>
         <div>
           <Header />
-          <NextLink href='/new-post'>
-            <button
-              className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 focus:outline-none hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
-              type='button'
-            >
-              new post
-            </button>
-          </NextLink>
+          <NewPostModal showModal={showModal} setShowModal={setShowModal} />
+          <button
+            className='flex mt-8 mx-auto py-2 px-4 rounded-md shadow-md text-lg  font-bold tracking-wide text-pink-600 focus:outline-none transform hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
+            type='button'
+            onClick={() => setShowModal(!showModal)}
+          >
+            new post
+          </button>
 
           {!data ? (
             <div className='text-center mx-auto'>loading...</div>

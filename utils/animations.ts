@@ -1,4 +1,4 @@
-import { Variants } from 'framer-motion';
+import { Variants } from 'framer-motion'
 
 // base variants
 export const variants: Variants = {
@@ -25,14 +25,26 @@ export const stagger: Variants = {
 export const fadeInUp: Variants = {
   initial: {
     y: 120,
-    opacity: 0
+    opacity: 0,
   },
   animate: {
     y: 0,
     opacity: 1,
     transition: {
       duration: 0.6,
-      ease: [0.6, -0.05, 0.01, 0.99]
-    }
-  }
+      ease: [0.6, -0.05, 0.01, 0.99],
+    },
+  },
+}
+
+export const backdrop: Variants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+  },
+  exit: {
+    opacity: 0,
+  },
 }
