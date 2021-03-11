@@ -7,6 +7,7 @@ import { useNewPostMutation } from '../generated/graphql'
 import { useIsAuth } from '../utils/useIsAuth'
 import { InputField } from './InputField'
 import { backdrop, scaleUp } from '../utils/animations'
+import { ImageUpload } from './ImageUpload'
 
 interface NewPostModalProps {
   showModal: boolean
@@ -93,6 +94,7 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
                     label='Body'
                     type='text'
                   />
+                  <ImageUpload />
                   <div>
                     <InputField
                       name='published'
