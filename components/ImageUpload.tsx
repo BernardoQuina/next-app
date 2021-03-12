@@ -15,7 +15,6 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   const [active, setActive] = useState(false)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    console.log(acceptedFiles)
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`
 
     acceptedFiles.forEach(async (acceptedFile) => {

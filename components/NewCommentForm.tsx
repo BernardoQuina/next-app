@@ -8,7 +8,7 @@ interface NewCommentFormProps {
 }
 
 export const NewCommentForm: React.FC<NewCommentFormProps> = ({ postId }) => {
-  const [newComment] = useNewCommentMutation()
+  const [newComment] = useNewCommentMutation({ errorPolicy: 'all' })
 
   const { fetchMore } = useSinglePostQuery({
     variables: { postId },
@@ -25,10 +25,10 @@ export const NewCommentForm: React.FC<NewCommentFormProps> = ({ postId }) => {
         })
 
         if (response.errors) {
-          console.log(response.errors)
           setErrors({ text: response.errors[0].message })
+        } else {
+          fetchMore({ variables: { postId } })
         }
-        fetchMore({ variables: { postId } })
       }}
     >
       {({ isSubmitting }) => (

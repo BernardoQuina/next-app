@@ -106,12 +106,6 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
                     uploadedImages={uploadedImages}
                     setUploadedImages={setUploadedImages}
                   />
-                  <InputField
-                    name='images'
-                    type='text'
-                    label='images'
-                    hidden={true}
-                  />
                   <div>
                     <InputField
                       name='published'

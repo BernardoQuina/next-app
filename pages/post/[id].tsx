@@ -76,6 +76,7 @@ const Post: NextPage<PostProps> = () => {
                     <div className='my-4'>
                       {data.post.images.map((image) => (
                         <Image
+                          key={image}
                           className='mt-4'
                           cloudName={
                             process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME

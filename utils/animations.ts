@@ -76,17 +76,13 @@ export const scaleUp: Variants = {
 
 export const loader: Variants = {
   animationOne: {
-    x: [-20, 20],
     y: [0, -30],
     transition: {
-      x: {
-        repeat: Infinity,
-        duration: 0.5
-      },
       y: {
         repeat: Infinity,
-        duration: 0.25,
-        ease: 'easeOut'
+        repeatType: 'reverse',
+        ease: 'easeOut',
+        duration: 0.4
       }
     }
   },
