@@ -2,6 +2,7 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { DateTime } from 'luxon'
 import { motion } from 'framer-motion'
+import { Image } from 'cloudinary-react'
 
 import { withApollo } from '../../lib/apollo'
 import { Meta } from '../../components/Meta'
@@ -23,7 +24,6 @@ const Post: NextPage<PostProps> = () => {
   const { data, loading } = useSinglePostQuery({
     variables: { postId: id },
   })
-
 
   return (
     <motion.div
@@ -72,8 +72,24 @@ const Post: NextPage<PostProps> = () => {
                         .toRelative()}
                     </p>
                   </div>
-                  <p className='mt-4'>{data?.post.body}</p>
+                  {data.post.images && (
+                    <div className='my-4'>
+                      {data.post.images.map((image) => (
+                        <Image
+                          className='mt-4'
+                          cloudName={
+                            process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+                          }
+                          publicId={image}
+                          width='auto'
+                          crop='scale'
+                          radius='20'
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
+                <p className='mt-4'>{data?.post.body}</p>
                 <div className='flex mt-6'>
                   <DeletePostButton
                     postId={id}

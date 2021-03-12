@@ -3,6 +3,7 @@ query SinglePost ($postId: String) {
       id
       title
       body
+      images
       published
       createdAt
       updatedAt

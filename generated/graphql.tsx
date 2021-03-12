@@ -55,6 +55,7 @@ export type Post = {
   id?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   body?: Maybe<Scalars['String']>;
+  images: Array<Scalars['String']>;
   published?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -147,6 +148,7 @@ export type PostWhereInput = {
   id?: Maybe<StringFilter>;
   title?: Maybe<StringFilter>;
   body?: Maybe<StringFilter>;
+  images?: Maybe<StringNullableListFilter>;
   published?: Maybe<BoolFilter>;
   createdAt?: Maybe<DateTimeFilter>;
   updatedAt?: Maybe<DateTimeFilter>;
@@ -159,6 +161,7 @@ export type PostOrderByInput = {
   id?: Maybe<SortOrder>;
   title?: Maybe<SortOrder>;
   body?: Maybe<SortOrder>;
+  images?: Maybe<SortOrder>;
   published?: Maybe<SortOrder>;
   createdAt?: Maybe<SortOrder>;
   updatedAt?: Maybe<SortOrder>;
@@ -245,6 +248,14 @@ export enum SortOrder {
   Asc = 'asc',
   Desc = 'desc'
 }
+
+export type StringNullableListFilter = {
+  equals?: Maybe<Array<Scalars['String']>>;
+  has?: Maybe<Scalars['String']>;
+  hasEvery?: Maybe<Array<Scalars['String']>>;
+  hasSome?: Maybe<Array<Scalars['String']>>;
+  isEmpty?: Maybe<Scalars['Boolean']>;
+};
 
 export type BoolFilter = {
   equals?: Maybe<Scalars['Boolean']>;
@@ -410,6 +421,7 @@ export type MutationDeleteUserArgs = {
 export type MutationCreatePostArgs = {
   title: Scalars['String'];
   body: Scalars['String'];
+  images: Array<Scalars['String']>;
   published: Scalars['Boolean'];
 };
 
@@ -639,6 +651,7 @@ export type NewCommentMutation = (
 export type NewPostMutationVariables = Exact<{
   title: Scalars['String'];
   body: Scalars['String'];
+  images: Array<Scalars['String']> | Scalars['String'];
   published: Scalars['Boolean'];
 }>;
 
@@ -647,7 +660,7 @@ export type NewPostMutation = (
   { __typename?: 'Mutation' }
   & { createPost?: Maybe<(
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title' | 'body' | 'published'>
+    & Pick<Post, 'id' | 'title' | 'body' | 'images' | 'published'>
   )> }
 );
 
@@ -732,7 +745,7 @@ export type SinglePostQuery = (
   { __typename?: 'Query' }
   & { post?: Maybe<(
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title' | 'body' | 'published' | 'createdAt' | 'updatedAt'>
+    & Pick<Post, 'id' | 'title' | 'body' | 'images' | 'published' | 'createdAt' | 'updatedAt'>
     & { author?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'name' | 'id'>
@@ -1108,11 +1121,12 @@ export type NewCommentMutationHookResult = ReturnType<typeof useNewCommentMutati
 export type NewCommentMutationResult = Apollo.MutationResult<NewCommentMutation>;
 export type NewCommentMutationOptions = Apollo.BaseMutationOptions<NewCommentMutation, NewCommentMutationVariables>;
 export const NewPostDocument = gql`
-    mutation NewPost($title: String!, $body: String!, $published: Boolean!) {
-  createPost(title: $title, body: $body, published: $published) {
+    mutation NewPost($title: String!, $body: String!, $images: [String!]!, $published: Boolean!) {
+  createPost(title: $title, body: $body, images: $images, published: $published) {
     id
     title
     body
+    images
     published
   }
 }
@@ -1134,6 +1148,7 @@ export type NewPostMutationFn = Apollo.MutationFunction<NewPostMutation, NewPost
  *   variables: {
  *      title: // value for 'title'
  *      body: // value for 'body'
+ *      images: // value for 'images'
  *      published: // value for 'published'
  *   },
  * });
@@ -1340,6 +1355,7 @@ export const SinglePostDocument = gql`
     id
     title
     body
+    images
     published
     createdAt
     updatedAt

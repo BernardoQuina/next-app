@@ -1,15 +1,18 @@
-import { useCallback, useState } from 'react'
+import { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useDropzone } from 'react-dropzone'
 import { Image } from 'cloudinary-react'
 
-interface ImageUploadProps {}
+interface ImageUploadProps {
+  uploadedImages: { public_id: string }[]
+  setUploadedImages: Dispatch<SetStateAction<{ public_id: string }[]>>
+}
 
-export const ImageUpload: React.FC<ImageUploadProps> = ({}) => {
+export const ImageUpload: React.FC<ImageUploadProps> = ({
+  uploadedImages,
+  setUploadedImages,
+}) => {
   const [active, setActive] = useState(false)
-  const [uploadedImages, setUploadedImages] = useState<{ public_id: string }[]>(
-    []
-  )
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     console.log(acceptedFiles)
@@ -31,7 +34,6 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({}) => {
 
       const data = await response.json()
 
-      console.log('data: ', data)
       setUploadedImages((existing) => [...existing, data])
     })
   }, [])
@@ -66,7 +68,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({}) => {
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 20 20'
                 fill='currentColor'
-                className='fixed h-5 sm:ml-14 ml-10 mt-4 text-gray-500 transform hover:scale-125'
+                className='absolute h-5 sm:ml-14 ml-10 mt-4 text-gray-500 transform hover:scale-125'
               >
                 <path
                   fillRule='evenodd'
@@ -90,7 +92,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({}) => {
                 fill='none'
                 viewBox='0 0 24 24'
                 stroke='currentColor'
-                className='fixed h-24 left-1/2 transform -translate-x-1/2 self-center text-gray-300'
+                className='absolute h-24 left-1/2 transform -translate-x-1/2 self-center text-gray-300'
               >
                 <path
                   strokeLinecap='round'
@@ -122,7 +124,6 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({}) => {
           type='button'
           className='focus:outline-none'
           onClick={() => setActive(true)}
-          hidden={true}
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'

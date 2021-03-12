@@ -1,12 +1,14 @@
-mutation NewPost ($title: String!, $body: String!, $published: Boolean!) {
+mutation NewPost ($title: String!, $body: String!, $images: [String!]! $published: Boolean!) {
   createPost(
     title: $title
     body: $body
+    images: $images
     published: $published
   ) {
     id
     title
     body
+    images
     published
   }
 }

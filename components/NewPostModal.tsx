@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Formik, Form } from 'formik'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -20,7 +20,11 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
 }) => {
   const router = useRouter()
 
-  const [newPost] = useNewPostMutation()
+  const [newPost] = useNewPostMutation({ errorPolicy: 'all' })
+
+  const [uploadedImages, setUploadedImages] = useState<{ public_id: string }[]>(
+    []
+  )
 
   useIsAuth(showModal)
 
@@ -28,7 +32,7 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
     <AnimatePresence exitBeforeEnter>
       {showModal && (
         <motion.div
-          className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50'
+          className='fixed overflow-y-scroll top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50'
           initial='initial'
           animate='animate'
           exit='exit'
@@ -38,11 +42,16 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
             initialValues={{
               title: '',
               body: '',
+              images: [''],
               published: true,
             }}
-            onSubmit={async ({ title, body, published }, { setErrors }) => {
+            onSubmit={async (
+              { title, body, images, published },
+              { setErrors }
+            ) => {
+              images = uploadedImages.map((images) => images.public_id)
               const response = await newPost({
-                variables: { title, body, published },
+                variables: { title, body, published, images },
                 update: (cache) => {
                   cache.evict({ fieldName: 'posts' })
                   cache.evict({ fieldName: 'myPosts' })
@@ -50,8 +59,7 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
               })
 
               if (response.errors) {
-                console.log(response.errors)
-                // backend doesn't specify the field error so all errors go to "name"
+                // backend doesn't specify the field error so all errors go to "title"
                 setErrors({ title: response.errors[0].message })
               } else if (response.data?.createPost) {
                 router.push(`/post/${response.data.createPost.id}`)
@@ -70,7 +78,7 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
                       xmlns='http://www.w3.org/2000/svg'
                       viewBox='0 0 20 20'
                       fill='currentColor'
-                      className='fixed h-6 ml-4 text-pink-600 transform hover:scale-125'
+                      className='absolute h-6 ml-4 text-pink-600 transform hover:scale-125'
                     >
                       <path
                         fillRule='evenodd'
@@ -94,7 +102,16 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
                     label='Body'
                     type='text'
                   />
-                  <ImageUpload />
+                  <ImageUpload
+                    uploadedImages={uploadedImages}
+                    setUploadedImages={setUploadedImages}
+                  />
+                  <InputField
+                    name='images'
+                    type='text'
+                    label='images'
+                    hidden={true}
+                  />
                   <div>
                     <InputField
                       name='published'
