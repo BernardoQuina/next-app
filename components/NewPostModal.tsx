@@ -8,6 +8,7 @@ import { useIsAuth } from '../utils/useIsAuth'
 import { InputField } from './InputField'
 import { backdrop, scaleUp } from '../utils/animations'
 import { ImageUpload } from './ImageUpload'
+import { X } from './svg/X'
 
 interface NewPostModalProps {
   showModal: boolean
@@ -32,7 +33,7 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
     <AnimatePresence exitBeforeEnter>
       {showModal && (
         <motion.div
-          className='fixed overflow-y-scroll top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50'
+          className='fixed overflow-y-scroll top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10'
           initial='initial'
           animate='animate'
           exit='exit'
@@ -74,18 +75,7 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
                     onClick={() => setShowModal(false)}
                     className='focus:outline-none'
                   >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 20 20'
-                      fill='currentColor'
-                      className='absolute h-6 ml-4 text-pink-600 transform hover:scale-125'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
-                        clipRule='evenodd'
-                      />
-                    </svg>
+                    <X tailwind='absolute h-6 ml-4 text-pink-600 transform hover:scale-125' />
                   </button>
                   <h2 className='text-center text-2xl font-extrabold text-pink-600'>
                     What's on your mind?

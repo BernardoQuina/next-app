@@ -1,8 +1,16 @@
-import { Dispatch, SetStateAction, useCallback, useState } from 'react'
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { motion } from 'framer-motion'
 import { useDropzone } from 'react-dropzone'
 import { Image, Placeholder } from 'cloudinary-react'
 import { Loader } from './Loader'
+import { X } from './svg/X'
+import { Photograph } from './svg/Photograph'
 
 interface ImageUploadProps {
   uploadedImages: { public_id: string }[]
@@ -54,6 +62,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     maxSize: 5242880,
   })
 
+  useEffect(() => {}, [uploadedImages])
+
   return (
     <>
       {active ? (
@@ -74,18 +84,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
               onClick={() => setActive(false)}
               className='focus:outline-none'
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='absolute h-5 sm:ml-14 ml-10 mt-4 text-gray-500 transform hover:scale-125'
-              >
-                <path
-                  fillRule='evenodd'
-                  d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
-                  clipRule='evenodd'
-                />
-              </svg>
+              <X tailwind='absolute h-5 sm:ml-14 ml-10 mt-4 text-gray-500 transform hover:scale-125' />
             </button>
             {/* Drop Zone div */}
             {fileRejections[0] && (
@@ -102,40 +101,49 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
               {...getRootProps()}
             >
               <input {...getInputProps()} />
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-                className='absolute h-24 left-1/2 transform -translate-x-1/2 self-center text-gray-300'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={loading ? 0 : 1.2}
-                  d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
-                />
-              </svg>
               {loading ? (
                 <Loader />
               ) : (
-                <ul className='px-6 z-10 flex'>
-                  {uploadedImages.map((file) => (
-                    <li key={file.public_id} className='self-center h-3/4 px-2'>
-                      <Image
-                        cloudName={
-                          process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-                        }
-                        publicId={file.public_id}
-                        height='250'
-                        crop='scale'
-                        radius='10'
+                <>
+                  <Photograph
+                    tailwind='absolute h-24 left-1/2 transform -translate-x-1/2 self-center text-gray-300'
+                    strokeWidth={1.2}
+                  />
+                  <ul className='px-6 z-10 flex'>
+                    {uploadedImages.map((file) => (
+                      <li
+                        key={file.public_id}
+                        className='self-center h-3/4 px-2'
                       >
-                        <Placeholder type='blur'></Placeholder>
-                      </Image>
-                    </li>
-                  ))}
-                </ul>
+                        <button
+                          className='absolute focus:outline-none'
+                          type='button'
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setUploadedImages(
+                              uploadedImages.filter(
+                                (image) => image.public_id !== file.public_id
+                              )
+                            )
+                          }}
+                        >
+                          <X tailwind='p-1 m-2 h-7 rounded-full text-white bg-gray-400 bg-opacity-75' />
+                        </button>
+                        <Image
+                          cloudName={
+                            process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+                          }
+                          publicId={file.public_id}
+                          height='250'
+                          crop='scale'
+                          radius='10'
+                        >
+                          <Placeholder type='blur'></Placeholder>
+                        </Image>
+                      </li>
+                    ))}
+                  </ul>
+                </>
               )}
             </div>
           </div>
@@ -148,20 +156,10 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           className='focus:outline-none'
           onClick={() => setActive(true)}
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-            className='h-8 text-pink-600 ml-12 sm:ml-32 transform hover:scale-110'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth={1.5}
-              d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
-            />
-          </svg>
+          <Photograph
+            tailwind='h-8 text-pink-600 ml-12 sm:ml-32 transform hover:scale-110'
+            strokeWidth={1.5}
+          />
         </motion.button>
       )}
     </>
