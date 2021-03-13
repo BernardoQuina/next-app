@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useDropzone } from 'react-dropzone'
-import { Image } from 'cloudinary-react'
+import { Image, Placeholder } from 'cloudinary-react'
+import { Loader } from './Loader'
 
 interface ImageUploadProps {
   uploadedImages: { public_id: string }[]
@@ -13,6 +14,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   setUploadedImages,
 }) => {
   const [active, setActive] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const url = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`
@@ -26,6 +28,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
         process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
       )
 
+      setLoading(true)
+
       const response = await fetch(url, {
         method: 'post',
         body: formData,
@@ -34,13 +38,20 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       const data = await response.json()
 
       setUploadedImages((existing) => [...existing, data])
+      setLoading(false)
     })
   }, [])
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    fileRejections,
+  } = useDropzone({
     onDrop,
     accept: 'image/*',
     multiple: false,
+    maxSize: 5242880,
   })
 
   return (
@@ -77,6 +88,11 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
               </svg>
             </button>
             {/* Drop Zone div */}
+            {fileRejections[0] && (
+              <div className='p-4 m-6 mt-10 flex self-center rounded-md bg-red-200 shadow-xl'>
+                Image size must not surpass 5 MB
+              </div>
+            )}
             <div
               className={
                 isDragActive
@@ -96,23 +112,31 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                 <path
                   strokeLinecap='round'
                   strokeLinejoin='round'
-                  strokeWidth={1.2}
+                  strokeWidth={loading ? 0 : 1.2}
                   d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
                 />
               </svg>
-              <ul className='px-6 z-10 flex'>
-                {uploadedImages.map((file) => (
-                  <li key={file.public_id} className='self-center h-3/4 px-2'>
-                    <Image
-                      cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
-                      publicId={file.public_id}
-                      height='250'
-                      crop='scale'
-                      radius='10'
-                    />
-                  </li>
-                ))}
-              </ul>
+              {loading ? (
+                <Loader />
+              ) : (
+                <ul className='px-6 z-10 flex'>
+                  {uploadedImages.map((file) => (
+                    <li key={file.public_id} className='self-center h-3/4 px-2'>
+                      <Image
+                        cloudName={
+                          process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+                        }
+                        publicId={file.public_id}
+                        height='250'
+                        crop='scale'
+                        radius='10'
+                      >
+                        <Placeholder type='blur'></Placeholder>
+                      </Image>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </motion.div>

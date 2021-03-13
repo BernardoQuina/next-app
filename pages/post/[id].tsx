@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { DateTime } from 'luxon'
 import { motion } from 'framer-motion'
-import { Image } from 'cloudinary-react'
+import { Image, Placeholder } from 'cloudinary-react'
 
 import { withApollo } from '../../lib/apollo'
 import { Meta } from '../../components/Meta'
@@ -85,7 +85,9 @@ const Post: NextPage<PostProps> = () => {
                           width='auto'
                           crop='scale'
                           radius='20'
-                        />
+                        >
+                          <Placeholder type='blur'></Placeholder>
+                        </Image>
                       ))}
                     </div>
                   )}
