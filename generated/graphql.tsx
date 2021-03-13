@@ -501,7 +501,7 @@ export type PostSnippetFragment = (
   & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'textSnippet'>
   & { author?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name'>
+    & Pick<User, 'id' | 'name' | 'photo'>
   )> }
 );
 
@@ -748,7 +748,7 @@ export type SinglePostQuery = (
     & Pick<Post, 'id' | 'title' | 'body' | 'images' | 'published' | 'createdAt' | 'updatedAt'>
     & { author?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'name' | 'id'>
+      & Pick<User, 'id' | 'name' | 'photo'>
     )>, comments: Array<(
       { __typename?: 'Comment' }
       & CommentFragment
@@ -767,6 +767,7 @@ export const PostSnippetFragmentDoc = gql`
   author {
     id
     name
+    photo
   }
 }
     `;
@@ -1360,8 +1361,9 @@ export const SinglePostDocument = gql`
     createdAt
     updatedAt
     author {
-      name
       id
+      name
+      photo
     }
     comments {
       ...Comment

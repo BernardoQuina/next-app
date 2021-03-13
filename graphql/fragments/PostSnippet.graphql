@@ -8,5 +8,6 @@ fragment PostSnippet on Post {
   author {
     id
     name
+    photo
   }
 }

@@ -51,23 +51,43 @@ const Post: NextPage<PostProps> = () => {
                       private
                     </p>
                   )}
+                  <div className='mb-4 md:flex text-gray-400'>
+                    <div className='flex'>
+                      {data?.post.author?.photo ? (
+                        <div>
+                          <Image
+                            className='rounded-full'
+                            src={data?.post.author.photo}
+                            height={50}
+                            width={50}
+                          />
+                        </div>
+                      ) : (
+                        <div className='w-max mx-auto'>
+                          <Image
+                            className='rounded-full'
+                            src='/avatar.jpg'
+                            height={50}
+                            width={50}
+                          />
+                        </div>
+                      )}
+                      <div className='md:flex md:mt-2'>
+                        <p className='mx-2 font-semibold'>
+                          {data?.post.author?.name}
+                        </p>
+                        <p className='hidden md:inline-block'>|</p>
+                        <p className='ml-2'>
+                          {DateTime.fromISO(data?.post.createdAt)
+                            .setLocale('en')
+                            .toRelative()}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                   <h1 className='text-2xl md:test-3xl font-bold'>
                     {data?.post.title}
                   </h1>
-                  <div className='md:flex text-gray-400'>
-                    <div className='flex'>
-                      <p>posted by</p>
-                      <p className='ml-2 mr-2 font-semibold'>
-                        {data?.post.author?.name}
-                      </p>
-                    </div>
-                    <p className='hidden md:inline-block'>|</p>
-                    <p className='md:ml-2'>
-                      {DateTime.fromISO(data?.post.createdAt)
-                        .setLocale('en')
-                        .toRelative()}
-                    </p>
-                  </div>
                   {data.post.images && (
                     <div className='flex'>
                       <ul className='my-4 flex mx-auto'>

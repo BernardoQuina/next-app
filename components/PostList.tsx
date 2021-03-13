@@ -12,7 +12,7 @@ export const PostList: React.FC<PostListProps> = ({ posts }) => {
   return (
     <motion.div
       variants={stagger}
-      className='my-10 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto'
+      className='my-10 grid grid-cols-1 gap-6 max-w-lg mx-auto'
     >
       {posts.map((post) => (
         <PostItem post={post} key={post.id} />

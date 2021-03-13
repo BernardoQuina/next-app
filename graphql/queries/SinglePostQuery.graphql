@@ -8,8 +8,9 @@ query SinglePost ($postId: String) {
       createdAt
       updatedAt
       author {
-        name
         id
+        name
+        photo
       }
       comments {
         ...Comment
