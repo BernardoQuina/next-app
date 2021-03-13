@@ -1,13 +1,8 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useDropzone } from 'react-dropzone'
 import { Image, Placeholder } from 'cloudinary-react'
+
 import { Loader } from './Loader'
 import { X } from './svg/X'
 import { Photograph } from './svg/Photograph'
@@ -62,8 +57,6 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     maxSize: 5242880,
   })
 
-  useEffect(() => {}, [uploadedImages])
-
   return (
     <>
       {active ? (
@@ -71,11 +64,11 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           initial={{
             opacity: 0.5,
             height: '0px',
-            scaleX: 0.1,
+            scale: 0.1,
             x: -100,
             y: -100,
           }}
-          animate={{ opacity: 1, height: '100%', scaleX: 1, x: 0, y: 0 }}
+          animate={{ opacity: 1, height: '100%', scale: 1, x: 0, y: 0 }}
           transition={{ duration: 0.6 }}
         >
           <div>

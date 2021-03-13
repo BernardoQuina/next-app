@@ -13,6 +13,7 @@ import { EditPostButton } from '../../components/EditPostButton'
 import { CommentList } from '../../components/CommentList'
 import { NewCommentForm } from '../../components/NewCommentForm'
 import { variants } from '../../utils/animations'
+import { PostPlaceholder } from '../../components/PostPlaceholder'
 
 interface PostProps {}
 
@@ -41,12 +42,7 @@ const Post: NextPage<PostProps> = () => {
           />
           <div className='mt-10 px-6 pt-6 pb-6 border shadow-inner rounded-lg'>
             {loading || !data?.post ? (
-              <>
-                <div className='mb-4 h-6 w-3/4 rounded-lg text-2xl  md:text-3xl font-bold bg-pink-300 animate-pulse'></div>
-                <div className='mb-4 h-5 w-2/4 rounded-lg text-2xl  md:text-3xl font-bold bg-pink-300 animate-pulse'></div>
-                <div className='mb-2 h-4 w-full rounded-md text-2xl  md:text-3xl font-bold bg-pink-300 animate-pulse'></div>
-                <div className='h-4 w-2/3 rounded-md text-2xl  md:text-3xl font-bold bg-pink-300 animate-pulse'></div>
-              </>
+              <PostPlaceholder />
             ) : (
               <>
                 <div className='mb-7 items-baseline'>
@@ -73,22 +69,25 @@ const Post: NextPage<PostProps> = () => {
                     </p>
                   </div>
                   {data.post.images && (
-                    <div className='my-4'>
-                      {data.post.images.map((image) => (
-                        <Image
-                          key={image}
-                          className='mt-4'
-                          cloudName={
-                            process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-                          }
-                          publicId={image}
-                          width='auto'
-                          crop='scale'
-                          radius='20'
-                        >
-                          <Placeholder type='blur'></Placeholder>
-                        </Image>
-                      ))}
+                    <div className='flex'>
+                      <ul className='my-4 flex mx-auto'>
+                        {data.post.images.map((image) => (
+                          <li className='mx-1 rounded-xl'>
+                            <Image
+                              key={image}
+                              className='rounded-lg max-h-96'
+                              cloudName={
+                                process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+                              }
+                              publicId={image}
+                              dpr='auto'
+                              crop='fill'
+                            >
+                              <Placeholder type='blur'></Placeholder>
+                            </Image>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
                 </div>

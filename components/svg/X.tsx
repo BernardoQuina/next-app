@@ -8,7 +8,7 @@ export const X: React.FC<XProps> = ({ tailwind }) => {
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 20 20'
       fill='currentColor'
-      className={ tailwind ? tailwind : undefined }
+      className={tailwind}
     >
       <path
         fillRule='evenodd'
