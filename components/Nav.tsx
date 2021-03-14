@@ -110,7 +110,7 @@ export const Nav: React.FC<NavProps> = () => {
 
   return (
     <nav className='flex justify-center p-3 bg-black text-white'>
-      <ul className='flex w-full 2xl:w-5/12'>
+      <ul className='flex w-1/2 2xl:w-5/12 mr-6'>
         <li className='border md:mx-2 border-black hover:border-white rounded-md p-1 px-2'>
           <Link href='/'>
             <a className='align-middle'>Home</a>

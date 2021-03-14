@@ -73,7 +73,7 @@ const Post: NextPage<PostProps> = () => {
                         </div>
                       )}
                       <div className='md:flex md:mt-2'>
-                        <p className='mx-2 font-semibold'>
+                        <p className='mx-2 font-semibold text-black'>
                           {data?.post.author?.name}
                         </p>
                         <p className='hidden md:inline-block'>|</p>

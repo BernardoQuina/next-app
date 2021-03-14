@@ -510,7 +510,7 @@ export type CommentFragment = (
   & Pick<Comment, 'id' | 'createdAt' | 'text' | 'postId'>
   & { author?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name'>
+    & Pick<User, 'id' | 'name' | 'photo'>
   )> }
 );
 
@@ -779,6 +779,7 @@ export const CommentFragmentDoc = gql`
   author {
     id
     name
+    photo
   }
   postId
 }

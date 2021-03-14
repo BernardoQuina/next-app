@@ -5,6 +5,7 @@ fragment Comment on Comment {
   author {
     id
     name
+    photo
   }
   postId
 }
