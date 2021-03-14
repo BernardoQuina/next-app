@@ -46,7 +46,7 @@ export const DeletePostButton: React.FC<DeletePostButtonProps> = ({
         viewBox='0 0 24 24'
         stroke='currentColor'
         fill='none'
-        className='w-8 p-1 rounded-lg bg-red-100 stroke-current text-red-600 transform hover:scale-110'
+        className='w-6 p-1 rounded-lg bg-red-100 stroke-current text-red-600 transform hover:scale-110'
       >
         <path
           strokeLinecap='round'

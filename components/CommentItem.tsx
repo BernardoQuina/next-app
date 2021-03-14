@@ -37,7 +37,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
             />
           </div>
         ) : (
-          <div className='w-max mx-auto'>
+          <div className='pr-3'>
             <Image
               className='rounded-full'
               src='/avatar.jpg'

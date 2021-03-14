@@ -45,7 +45,7 @@ const Post: NextPage<PostProps> = () => {
               <PostPlaceholder />
             ) : (
               <>
-                <div className='mb-7 items-baseline'>
+                <div className='mb-4 items-baseline'>
                   {data?.post.published === false && (
                     <p className='max-w-min text-sm font-bold text-pink-600 rounded-md ml-auto px-2 py-1 bg-pink-200 mb-2'>
                       private
@@ -88,7 +88,7 @@ const Post: NextPage<PostProps> = () => {
                   <h1 className='text-2xl md:test-3xl font-bold'>
                     {data?.post.title}
                   </h1>
-                  {data.post.images && (
+                  {data.post.images.length > 0 && (
                     <div className='flex'>
                       <ul className='my-4 flex mx-auto'>
                         {data.post.images.map((image) => (
@@ -111,7 +111,7 @@ const Post: NextPage<PostProps> = () => {
                     </div>
                   )}
                 </div>
-                <p className='mt-4'>{data?.post.body}</p>
+                <p className='mt-2'>{data?.post.body}</p>
                 <div className='flex mt-6'>
                   <DeletePostButton
                     postId={id}
