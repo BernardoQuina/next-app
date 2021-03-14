@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { useLogoutMutation, useMeQuery } from '../generated/graphql'
 
 import { isServer } from '../utils/isServer'
+import { Logout } from './svg/Logout'
 
 interface NavProps {}
 
@@ -87,20 +88,10 @@ export const Nav: React.FC<NavProps> = () => {
             {error?.message === 'Authentication required.' ? (
               'logging out...'
             ) : (
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-                className='h-7 text-white transform hover:scale-105'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={1.5}
-                  d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'
-                />
-              </svg>
+              <Logout
+                tailwind='h-7 text-white transform hover:scale-105'
+                strokeWidth={1.5}
+              />
             )}
           </button>
         </li>

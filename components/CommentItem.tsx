@@ -11,6 +11,9 @@ import {
 } from '../generated/graphql'
 import { isServer } from '../utils/isServer'
 import { InputField } from './InputField'
+import { Edit } from './svg/Edit'
+import { Delete } from './svg/Delete'
+import { X } from './svg/X'
 
 interface CommentItemProps {
   comment: CommentFragment
@@ -88,14 +91,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                     <div>
                       <div>
                         <button type='submit'>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            viewBox='0 0 20 20'
-                            fill='currentColor'
-                            className='w-6 p-1 rounded-md bg-green-200 fill-current text-green-600 transform hover:scale-110'
-                          >
-                            <path d='M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z' />
-                          </svg>
+                          <Edit tailwind='w-6 p-1 rounded-md bg-green-200 fill-current text-green-600 transform hover:scale-110' />
                         </button>
                       </div>
                       <div>
@@ -106,18 +102,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                             resetForm({})
                           }}
                         >
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            viewBox='0 0 20 20'
-                            fill='currentColor'
-                            className='w-6 p-1 rounded-md bg-red-200 fill-current text-red-600 transform hover:scale-110'
-                          >
-                            <path
-                              fillRule='evenodd'
-                              d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
-                              clipRule='evenodd'
-                            />
-                          </svg>
+                          <X tailwind='w-6 p-1 rounded-md bg-red-200 fill-current text-red-600 transform hover:scale-110' />
                         </button>
                       </div>
                     </div>
@@ -134,14 +119,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
         <div className='ml-auto'>
           <div className='mb-4'>
             <button type='button' onClick={() => setCommenting(true)}>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='w-6 p-1 rounded-md bg-pink-200 fill-current text-pink-600 transform hover:scale-110'
-              >
-                <path d='M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z' />
-              </svg>
+              <Edit tailwind='w-6 p-1 rounded-md bg-pink-200 fill-current text-pink-600 transform hover:scale-110' />
             </button>
           </div>
           <div>
@@ -160,20 +138,10 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                 }
               }}
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-                fill='none'
-                className='justify-self-end w-6 p-1 rounded-lg bg-red-100 stroke-current text-red-600 transform hover:scale-110'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
-                />
-              </svg>
+              <Delete
+                tailwind='justify-self-end w-6 p-1 rounded-lg bg-red-100 stroke-current text-red-600 transform hover:scale-110'
+                strokeWidth={2}
+              />
             </button>
           </div>
         </div>

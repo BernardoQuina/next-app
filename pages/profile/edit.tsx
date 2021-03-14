@@ -17,6 +17,7 @@ import { isServer } from '../../utils/isServer'
 import { useIsAuth } from '../../utils/useIsAuth'
 import { variants } from '../../utils/animations'
 import { Loader } from '../../components/Loader'
+import { Delete } from '../../components/svg/Delete'
 
 interface editProps {}
 
@@ -33,7 +34,7 @@ const edit: NextPage<editProps> = ({}) => {
   const [editUser] = useEditUserMutation({ errorPolicy: 'all' })
 
   if (!data || loading) {
-    <Loader />
+    ;<Loader />
   }
 
   return (
@@ -182,20 +183,10 @@ const edit: NextPage<editProps> = ({}) => {
               <div>
                 <Link href='/profile/delete'>
                   <button type='button' className='ml-6 mt-6'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      stroke='currentColor'
-                      fill='none'
-                      className='w-8 p-1 rounded-lg bg-red-100 stroke-current text-red-600 transform hover:scale-110'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        strokeWidth='2'
-                        d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'
-                      />
-                    </svg>
+                    <Delete
+                      tailwind='w-7 p-1 rounded-lg bg-red-100 stroke-current text-red-600 transform hover:scale-110'
+                      strokeWidth={2}
+                    />
                   </button>
                 </Link>
               </div>

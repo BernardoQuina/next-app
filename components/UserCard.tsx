@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import { Image } from 'cloudinary-react'
+import { Edit } from './svg/Edit'
 
 interface UserCardProps {
   userName: string
@@ -43,14 +44,7 @@ const UserCard: React.FC<UserCardProps> = ({
 
       <Link href='/profile/edit'>
         <button type='button' className='focus:outline-none'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            viewBox='0 0 20 20'
-            fill='currentColor'
-            className='w-7 p-1 self-start rounded-lg bg-pink-200 fill-current text-pink-600 transform hover:scale-110'
-          >
-            <path d='M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z' />
-          </svg>
+          <Edit tailwind='w-7 p-1 self-start rounded-lg bg-pink-200 fill-current text-pink-600 transform hover:scale-110' />
         </button>
       </Link>
     </div>

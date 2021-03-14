@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import { Image } from 'cloudinary-react'
 import { DateTime } from 'luxon'
 import { motion } from 'framer-motion'
 
@@ -23,25 +23,25 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
       >
         <div className='flex'>
           <div className='pr-4'>
-          {post.author?.photo ? (
-          <div className='w-max mx-auto'>
-            <Image
-              className='rounded-full'
-              src={post.author.photo}
-              height={50}
-              width={50}
-            />
-          </div>
-        ) : (
-          <div className='w-max mx-auto'>
-            <Image
-              className='rounded-full'
-              src='/avatar.jpg'
-              height={50}
-              width={50}
-            />
-          </div>
-        )}
+            {post.author?.photo ? (
+              <div className='w-max mx-auto'>
+                <Image
+                  className='rounded-full'
+                  src={post.author.photo}
+                  height={50}
+                  width={50}
+                />
+              </div>
+            ) : (
+              <div className='w-max mx-auto'>
+                <Image
+                  className='rounded-full'
+                  src='/avatar.jpg'
+                  height={50}
+                  width={50}
+                />
+              </div>
+            )}
           </div>
           <div className='w-full'>
             <div className='flex'>
@@ -63,7 +63,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
             <h3 className='text-lg font-bold'>{post.title}</h3>
             <p>{post.textSnippet}</p>
           </div>
-              <EditPostButton postId={post.id!} authorId={post.author?.id!} />
+          <EditPostButton postId={post.id!} authorId={post.author?.id!} />
         </div>
       </motion.a>
     </Link>
