@@ -197,7 +197,7 @@ declare module 'cloudinary-react' {
     useRootPath?: boolean;
     version?: string;
     publicId?: string;
-    
+    loading?: 'lazy'
   }
 
   export class CloudinaryComponent extends React.PureComponent<CloudinaryComponentProps, any> {}

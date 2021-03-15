@@ -92,18 +92,18 @@ const Post: NextPage<PostProps> = () => {
                     <div className='flex'>
                       <ul className='my-4 flex mx-auto'>
                         {data.post.images.map((image) => (
-                          <li className='mx-1 rounded-xl'>
+                          <li className='mx-1 rounded-xl' key={image}>
                             <Image
-                              key={image}
                               className='rounded-lg max-h-120'
                               cloudName={
                                 process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
                               }
                               publicId={image}
+                              loading='lazy'
                               dpr='auto'
                               crop='fill'
                             >
-                              <Placeholder type='blur'></Placeholder>
+                              <Placeholder type='vectorize'></Placeholder>
                             </Image>
                           </li>
                         ))}

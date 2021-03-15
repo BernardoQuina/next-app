@@ -127,11 +127,12 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                             process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
                           }
                           publicId={file.public_id}
+                          loading='lazy'
                           height='250'
                           crop='scale'
                           radius='10'
                         >
-                          <Placeholder type='blur'></Placeholder>
+                          <Placeholder type='vectorize'></Placeholder>
                         </Image>
                       </li>
                     ))}

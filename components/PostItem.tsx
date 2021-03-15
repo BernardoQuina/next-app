@@ -73,10 +73,11 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
                                 process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
                               }
                               publicId={image}
+                              loading='lazy'
                               dpr='auto'
                               crop='fill'
                             >
-                              <Placeholder type='blur'></Placeholder>
+                              <Placeholder type='vectorize'></Placeholder>
                             </Image>
                           </li>
                         ))}
