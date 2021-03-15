@@ -46,12 +46,14 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
           <div className='w-full'>
             <div className='flex'>
               <div className='flex text-sm text-gray-400'>
-                <strong className='md:pr-2'>{post.author?.name}</strong>
-                <p className='hidden md:inline-block'>|</p>
-                <p className='pl-2'>
+                <strong className='md:pr-2 text-black text-base'>
+                  {post.author?.name}
+                </strong>
+                <p className='pt-1 hidden md:inline-block'>|</p>
+                <p className='pl-2 pt-1'>
                   {DateTime.fromISO(post.createdAt)
                     .setLocale('en')
-                    .toRelative()}
+                    .toRelative({ style: 'narrow' })}
                 </p>
               </div>
               {post.published === false && (
@@ -59,31 +61,31 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
                   private
                 </p>
               )}
-            <EditPostButton postId={post.id!} authorId={post.author?.id!} />
+              <EditPostButton postId={post.id!} authorId={post.author?.id!} />
             </div>
             <h3 className='text-lg font-bold'>{post.title}</h3>
             {post.images.length > 0 && (
-                    <div className='flex'>
-                      <ul className='my-4 flex mx-auto'>
-                        {post.images.map((image) => (
-                          <li key={image} className='mx-1 rounded-xl'>
-                            <Image
-                              className='rounded-lg max-h-200'
-                              cloudName={
-                                process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-                              }
-                              publicId={image}
-                              loading='lazy'
-                              dpr='auto'
-                              crop='fill'
-                            >
-                              <Placeholder type='vectorize'></Placeholder>
-                            </Image>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+              <div className='flex'>
+                <ul className='my-4 flex mx-auto'>
+                  {post.images.map((image) => (
+                    <li key={image} className='mx-1 rounded-xl'>
+                      <Image
+                        className='rounded-lg max-h-200'
+                        cloudName={
+                          process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+                        }
+                        publicId={image}
+                        loading='lazy'
+                        dpr='auto'
+                        crop='fill'
+                      >
+                        <Placeholder type='vectorize'></Placeholder>
+                      </Image>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <p>{post.textSnippet}</p>
           </div>
         </div>

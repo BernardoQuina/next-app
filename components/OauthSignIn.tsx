@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { Image } from 'cloudinary-react'
 import { useRouter } from 'next/router'
 
 interface OauthSignInProps {}

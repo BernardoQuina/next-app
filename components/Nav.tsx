@@ -1,7 +1,7 @@
 import { useApolloClient } from '@apollo/client'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import Image from 'next/image'
+import { Image } from 'cloudinary-react'
 import { useEffect, useState } from 'react'
 import { useLogoutMutation, useMeQuery } from '../generated/graphql'
 
