@@ -498,7 +498,7 @@ export type SubscriptionCommentSubArgs = {
 
 export type PostSnippetFragment = (
   { __typename?: 'Post' }
-  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'textSnippet'>
+  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'textSnippet' | 'images'>
   & { author?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'photo'>
@@ -764,6 +764,7 @@ export const PostSnippetFragmentDoc = gql`
   published
   title
   textSnippet
+  images
   author {
     id
     name

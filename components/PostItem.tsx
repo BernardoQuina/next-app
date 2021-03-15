@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Image } from 'cloudinary-react'
+import { Image, Placeholder } from 'cloudinary-react'
 import { DateTime } from 'luxon'
 import { motion } from 'framer-motion'
 
@@ -61,6 +61,28 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
               )}
             </div>
             <h3 className='text-lg font-bold'>{post.title}</h3>
+            {post.images.length > 0 && (
+                    <div className='flex'>
+                      <ul className='my-4 flex mx-auto'>
+                        {post.images.map((image) => (
+                          <li className='mx-1 rounded-xl'>
+                            <Image
+                              key={image}
+                              className='rounded-lg max-h-120'
+                              cloudName={
+                                process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+                              }
+                              publicId={image}
+                              dpr='auto'
+                              crop='fill'
+                            >
+                              <Placeholder type='blur'></Placeholder>
+                            </Image>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
             <p>{post.textSnippet}</p>
           </div>
           <EditPostButton postId={post.id!} authorId={post.author?.id!} />

@@ -1,13 +1,15 @@
 module.exports = {
-  purge: [
-    './pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'
-  ],
+  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {
-      'sans': ['Inter', 'Arial', 'sans-serif']
+      sans: ['Inter', 'Arial', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      maxHeight: {
+        120: '30rem',
+      },
+    },
   },
   variants: {
     extend: {
@@ -16,7 +18,7 @@ module.exports = {
       backgroundColor: ['active'],
       borderColor: ['active'],
       opacity: ['disabled'],
-      animation: ['active', 'focus']
+      animation: ['active', 'focus'],
     },
   },
   plugins: [],

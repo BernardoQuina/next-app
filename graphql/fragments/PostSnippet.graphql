@@ -5,6 +5,7 @@ fragment PostSnippet on Post {
   published
   title
   textSnippet
+  images
   author {
     id
     name

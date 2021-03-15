@@ -95,7 +95,7 @@ const Post: NextPage<PostProps> = () => {
                           <li className='mx-1 rounded-xl'>
                             <Image
                               key={image}
-                              className='rounded-lg max-h-96'
+                              className='rounded-lg max-h-120'
                               cloudName={
                                 process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
                               }
