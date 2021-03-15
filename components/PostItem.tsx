@@ -68,7 +68,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
                         {post.images.map((image) => (
                           <li key={image} className='mx-1 rounded-xl'>
                             <Image
-                              className='rounded-lg max-h-120'
+                              className='rounded-lg max-h-200'
                               cloudName={
                                 process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
                               }
