@@ -46,8 +46,8 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
           <div className='w-full'>
             <div className='flex'>
               <div className='flex text-sm text-gray-400'>
-                <strong className='pr-2'>{post.author?.name}</strong>
-                <p>|</p>
+                <strong className='md:pr-2'>{post.author?.name}</strong>
+                <p className='hidden md:inline-block'>|</p>
                 <p className='pl-2'>
                   {DateTime.fromISO(post.createdAt)
                     .setLocale('en')
@@ -59,15 +59,15 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
                   private
                 </p>
               )}
+            <EditPostButton postId={post.id!} authorId={post.author?.id!} />
             </div>
             <h3 className='text-lg font-bold'>{post.title}</h3>
             {post.images.length > 0 && (
                     <div className='flex'>
                       <ul className='my-4 flex mx-auto'>
                         {post.images.map((image) => (
-                          <li className='mx-1 rounded-xl'>
+                          <li key={image} className='mx-1 rounded-xl'>
                             <Image
-                              key={image}
                               className='rounded-lg max-h-120'
                               cloudName={
                                 process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
@@ -85,7 +85,6 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
                   )}
             <p>{post.textSnippet}</p>
           </div>
-          <EditPostButton postId={post.id!} authorId={post.author?.id!} />
         </div>
       </motion.a>
     </Link>
