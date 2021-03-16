@@ -45,20 +45,45 @@ export const Nav: React.FC<NavProps> = () => {
   if (!data?.me) {
     userLogin = (
       <ul className='flex'>
-        <li className='border ml-2 border-black hover:border-white rounded-md p-1 px-2'>
-          <Link href='/login'>Login</Link>
+        <li className='ml-2 p-1 px-2'>
+          <Link href='/login'>
+            <button
+              type='button'
+              className={
+                router.pathname === '/login'
+                  ? 'align-middle transform hover:scale-110 font-semibold focus:outline-none'
+                  : 'align-middle transform hover:scale-110 hover:font-semibold focus:outline-none'
+              }
+            >
+              Login
+            </button>
+          </Link>
         </li>
-        <li className='border mr-auto border-black hover:border-white rounded-md p-1 px-2'>
-          <Link href='/register'>Register</Link>
+        <li className='mr-auto p-1 px-2'>
+          <Link href='/register'>
+            <button
+              type='button'
+              className={
+                router.pathname === '/register'
+                  ? 'align-middle transform hover:scale-110 font-semibold focus:outline-none'
+                  : 'align-middle transform hover:scale-110 hover:font-semibold focus:outline-none'
+              }
+            >
+              Register
+            </button>
+          </Link>
         </li>
       </ul>
     )
   } else {
     userLogin = (
       <ul className='flex'>
-        <li className='border rounded-md min-w-max px-2 self-center sm:mx-4 border-black'>
+        <li className='min-w-max px-2 self-center sm:mx-4'>
           <Link href='/profile'>
-            <button className='max-h-10 align-middle' type='button'>
+            <button
+              className='max-h-10 align-middle focus:outline-none'
+              type='button'
+            >
               {data.me.photo ? (
                 <Image
                   className='rounded-full'
@@ -81,7 +106,7 @@ export const Nav: React.FC<NavProps> = () => {
         </li>
         <li className='border border-black rounded-md p-1 px-2 self-center'>
           <button
-            className='align-middle'
+            className='align-middle focus:outline-none'
             type='button'
             onClick={logoutHandler}
           >
@@ -102,14 +127,32 @@ export const Nav: React.FC<NavProps> = () => {
   return (
     <nav className='flex justify-center p-3 bg-black text-white'>
       <ul className='flex w-1/2 2xl:w-5/12 mr-6'>
-        <li className='border md:mx-2 border-black hover:border-white rounded-md p-1 px-2'>
+        <li className='md:mx-2 p-1 px-2'>
           <Link href='/'>
-            <a className='align-middle'>Home</a>
+            <button
+              type='button'
+              className={
+                router.pathname === '/'
+                  ? 'align-middle transform hover:scale-110 font-semibold focus:outline-none'
+                  : 'align-middle transform hover:scale-110 hover:font-semibold focus:outline-none'
+              }
+            >
+              Home
+            </button>
           </Link>
         </li>
-        <li className='border border-black hover:border-white rounded-md p-1 px-2'>
+        <li className='p-1 px-2'>
           <Link href='/about'>
-            <a className='align-middle'>About</a>
+            <button
+              type='button'
+              className={
+                router.pathname === '/about'
+                  ? 'align-middle transform hover:scale-110 font-semibold focus:outline-none'
+                  : 'align-middle transform hover:scale-110 hover:font-semibold focus:outline-none'
+              }
+            >
+              About
+            </button>
           </Link>
         </li>
       </ul>
