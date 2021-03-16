@@ -142,11 +142,16 @@ const edit: NextPage<editProps> = ({}) => {
                 }
               />
               {data?.me?.facebookId || data?.me?.googleId ? null : (
-                <ImageUpload
-                  isAvatar={true}
-                  uploadedImages={uploadedImage}
-                  setUploadedImages={setUploadedImage}
-                />
+                <>
+                <div className='flex'>
+                  <p className='mx-auto mb-2 w-9/12 md:w-6/12 font-semibold'>Update photo</p>
+                </div>
+                  <ImageUpload
+                    isAvatar={true}
+                    uploadedImages={uploadedImage}
+                    setUploadedImages={setUploadedImage}
+                  />
+                </>
               )}
 
               <InputField

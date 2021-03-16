@@ -71,11 +71,9 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
             opacity: 0.5,
             height: '0px',
             scale: 0.1,
-            x: -100,
-            y: -100,
           }}
           animate={{ opacity: 1, height: '100%', scale: 1, x: 0, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
         >
           <div>
             <button
@@ -83,7 +81,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
               onClick={() => setActive(false)}
               className='focus:outline-none'
             >
-              <X tailwind='absolute h-5 sm:ml-14 ml-10 mt-4 text-gray-500 transform hover:scale-125' />
+              <X tailwind='absolute h-5 ml-2 mt-4 text-gray-500 transform hover:scale-125' />
             </button>
             {/* Drop Zone div */}
             {fileRejections[0] && (
@@ -95,7 +93,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
               className={
                 isDragActive
                   ? 'h-80 w-10/12 mx-auto flex items-center rounded-xl border-4 border-dashed border-pink-500 focus:outline-none cursor-pointer'
-                  : 'h-80 w-10/12 mx-auto flex items-center align-middle rounded-xl border-2 border-dashed focus:outline-none cursor-pointer'
+                  : 'h-80 w-11/12  flex items-center align-middle rounded-xl border-2 border-dashed focus:outline-none cursor-pointer'
               }
               {...getRootProps()}
             >
@@ -157,7 +155,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           onClick={() => setActive(true)}
         >
           <Photograph
-            tailwind='h-8 text-pink-600 ml-12 sm:ml-32 transform hover:scale-110'
+            tailwind='h-8 text-pink-600 ml-2 transform hover:scale-110'
             strokeWidth={1.5}
           />
         </motion.button>
