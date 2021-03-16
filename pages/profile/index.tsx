@@ -57,7 +57,7 @@ const profile: NextPage<profileProps> = () => {
           title='User profile'
           body='Find your profile details & your posts here'
         />
-        <UserCard user={userData?.me!} />
+        {!userData ? <Loader /> : <UserCard user={userData.me!} />}
         {!data && !loading ? (
           <div className='mb-8 text-center text-lg font-semibold'>no posts</div>
         ) : !data ? (
