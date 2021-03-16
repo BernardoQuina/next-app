@@ -407,6 +407,7 @@ export type MutationLoginUserArgs = {
 export type MutationUpdateUserArgs = {
   password: Scalars['String'];
   updateName?: Maybe<Scalars['String']>;
+  updatePhoto?: Maybe<Scalars['String']>;
   updateEmail?: Maybe<Scalars['String']>;
   updatePassword?: Maybe<Scalars['String']>;
   confirmNewPassword?: Maybe<Scalars['String']>;
@@ -514,6 +515,11 @@ export type CommentFragment = (
   )> }
 );
 
+export type UserFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'googleId' | 'facebookId' | 'createdAt' | 'updatedAt'>
+);
+
 export type DeleteCommentMutationVariables = Exact<{
   commentId: Scalars['String'];
 }>;
@@ -594,6 +600,7 @@ export type EditPostMutation = (
 export type EditUserMutationVariables = Exact<{
   password: Scalars['String'];
   updateName?: Maybe<Scalars['String']>;
+  updatePhoto?: Maybe<Scalars['String']>;
   updateEmail?: Maybe<Scalars['String']>;
   updatePassword?: Maybe<Scalars['String']>;
   confirmNewPassword?: Maybe<Scalars['String']>;
@@ -604,7 +611,7 @@ export type EditUserMutation = (
   { __typename?: 'Mutation' }
   & { updateUser?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'email' | 'password' | 'createdAt' | 'updatedAt'>
+    & Pick<User, 'id' | 'name' | 'photo' | 'email' | 'password' | 'createdAt' | 'updatedAt'>
   )> }
 );
 
@@ -783,6 +790,18 @@ export const CommentFragmentDoc = gql`
     photo
   }
   postId
+}
+    `;
+export const UserFragmentDoc = gql`
+    fragment User on User {
+  id
+  name
+  email
+  photo
+  googleId
+  facebookId
+  createdAt
+  updatedAt
 }
     `;
 export const DeleteCommentDocument = gql`
@@ -975,16 +994,18 @@ export type EditPostMutationHookResult = ReturnType<typeof useEditPostMutation>;
 export type EditPostMutationResult = Apollo.MutationResult<EditPostMutation>;
 export type EditPostMutationOptions = Apollo.BaseMutationOptions<EditPostMutation, EditPostMutationVariables>;
 export const EditUserDocument = gql`
-    mutation EditUser($password: String!, $updateName: String, $updateEmail: String, $updatePassword: String, $confirmNewPassword: String) {
+    mutation EditUser($password: String!, $updateName: String, $updatePhoto: String, $updateEmail: String, $updatePassword: String, $confirmNewPassword: String) {
   updateUser(
     password: $password
     updateName: $updateName
+    updatePhoto: $updatePhoto
     updateEmail: $updateEmail
     updatePassword: $updatePassword
     confirmNewPassword: $confirmNewPassword
   ) {
     id
     name
+    photo
     email
     password
     createdAt
@@ -1009,6 +1030,7 @@ export type EditUserMutationFn = Apollo.MutationFunction<EditUserMutation, EditU
  *   variables: {
  *      password: // value for 'password'
  *      updateName: // value for 'updateName'
+ *      updatePhoto: // value for 'updatePhoto'
  *      updateEmail: // value for 'updateEmail'
  *      updatePassword: // value for 'updatePassword'
  *      confirmNewPassword: // value for 'confirmNewPassword'

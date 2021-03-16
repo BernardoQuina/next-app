@@ -14,6 +14,7 @@ import { CommentList } from '../../components/CommentList'
 import { NewCommentForm } from '../../components/NewCommentForm'
 import { variants } from '../../utils/animations'
 import { PostPlaceholder } from '../../components/PostPlaceholder'
+import { Avatar } from '../../components/Avatar'
 
 interface PostProps {}
 
@@ -53,25 +54,7 @@ const Post: NextPage<PostProps> = () => {
                   )}
                   <div className='mb-4 md:flex text-gray-400'>
                     <div className='flex'>
-                      {data?.post.author?.photo ? (
-                        <div>
-                          <Image
-                            className='rounded-full'
-                            src={data?.post.author.photo}
-                            height={50}
-                            width={50}
-                          />
-                        </div>
-                      ) : (
-                        <div className='w-max mx-auto'>
-                          <Image
-                            className='rounded-full'
-                            src='/avatar.jpg'
-                            height={50}
-                            width={50}
-                          />
-                        </div>
-                      )}
+                      <Avatar user={data.post.author!} height={50} />
                       <div className='md:flex md:mt-2'>
                         <p className='mx-2 font-semibold text-black'>
                           {data?.post.author?.name}

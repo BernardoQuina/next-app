@@ -10,11 +10,13 @@ import { Photograph } from './svg/Photograph'
 interface ImageUploadProps {
   uploadedImages: { public_id: string }[]
   setUploadedImages: Dispatch<SetStateAction<{ public_id: string }[]>>
+  isAvatar?: boolean
 }
 
 export const ImageUpload: React.FC<ImageUploadProps> = ({
   uploadedImages,
   setUploadedImages,
+  isAvatar,
 }) => {
   const [active, setActive] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -56,6 +58,10 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     multiple: false,
     maxSize: 5242880,
   })
+
+  if (isAvatar && uploadedImages.length > 1) {
+    uploadedImages.pop()
+  }
 
   return (
     <>

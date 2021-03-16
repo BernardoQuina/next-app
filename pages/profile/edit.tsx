@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -13,6 +14,7 @@ import {
 } from '../../generated/graphql'
 import { Layout } from '../../components/Layout'
 import { InputField } from '../../components/InputField'
+import { ImageUpload } from '../../components/ImageUpload'
 import { isServer } from '../../utils/isServer'
 import { useIsAuth } from '../../utils/useIsAuth'
 import { variants } from '../../utils/animations'
@@ -23,6 +25,10 @@ interface editProps {}
 
 const edit: NextPage<editProps> = ({}) => {
   const router = useRouter()
+
+  const [uploadedImage, setUploadedImage] = useState<{ public_id: string }[]>(
+    []
+  )
 
   const { data, loading } = useMeQuery({
     skip: isServer(),
@@ -49,6 +55,7 @@ const edit: NextPage<editProps> = ({}) => {
           initialValues={{
             password: '',
             updateName: data?.me?.name!,
+            updatePhoto: data?.me?.photo,
             updateEmail: data?.me?.email!,
             updatePassword: '',
             confirmNewPassword: '',
@@ -57,16 +64,22 @@ const edit: NextPage<editProps> = ({}) => {
             {
               password,
               updateName,
+              updatePhoto,
               updateEmail,
               updatePassword,
               confirmNewPassword,
             },
             { setErrors }
           ) => {
+            updatePhoto = uploadedImage[0]
+              ? uploadedImage[0].public_id
+              : undefined
+
             const response = await editUser({
               variables: {
                 password,
                 updateName,
+                updatePhoto,
                 updateEmail,
                 updatePassword,
                 confirmNewPassword,
@@ -85,12 +98,9 @@ const edit: NextPage<editProps> = ({}) => {
             })
 
             if (response.errors) {
-              console.log('here')
-              console.log(response.errors[0].message)
               // backend doesn't specify the field error so all errors go to first field
               setErrors({ password: response.errors[0].message })
             } else if (response.data?.updateUser) {
-              console.log(response.data.updateUser)
               router.push('/profile')
             }
           }}
@@ -131,6 +141,14 @@ const edit: NextPage<editProps> = ({}) => {
                   data?.me?.facebookId || data?.me?.googleId ? true : false
                 }
               />
+              {data?.me?.facebookId || data?.me?.googleId ? null : (
+                <ImageUpload
+                  isAvatar={true}
+                  uploadedImages={uploadedImage}
+                  setUploadedImages={setUploadedImage}
+                />
+              )}
+
               <InputField
                 name='updateEmail'
                 label={

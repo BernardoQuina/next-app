@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Formik, Form } from 'formik'
 import { DateTime } from 'luxon'
-import { Image } from 'cloudinary-react'
 
 import {
   CommentFragment,
@@ -11,6 +10,7 @@ import {
 } from '../generated/graphql'
 import { isServer } from '../utils/isServer'
 import { InputField } from './InputField'
+import { Avatar } from './Avatar'
 import { Edit } from './svg/Edit'
 import { Delete } from './svg/Delete'
 import { X } from './svg/X'
@@ -30,25 +30,9 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   return (
     <div className='flex py-2'>
       <div className='w-10/12 flex'>
-        {comment.author?.photo ? (
-          <div className='pr-3'>
-            <Image
-              className='rounded-full'
-              src={comment.author.photo}
-              height={50}
-              width={50}
-            />
-          </div>
-        ) : (
-          <div className='pr-3'>
-            <Image
-              className='rounded-full'
-              src='/avatar.jpg'
-              height={50}
-              width={50}
-            />
-          </div>
-        )}
+        <div className='pr-3'>
+          <Avatar user={comment.author!} height={50} />
+        </div>
         <div>
           <div className='md:flex align-bottom'>
             <p className='mr-2 font-semibold'>{comment.author?.name}</p>
@@ -68,7 +52,6 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                 })
 
                 if (response.errors) {
-                  console.log(response.errors)
                   setErrors({ text: response.errors[0].message })
                 }
 
@@ -126,16 +109,12 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
             <button
               type='button'
               onClick={async () => {
-                const response = await deleteComment({
+                await deleteComment({
                   variables: { commentId: comment.id! },
                   update: (cache) => {
                     cache.evict({ id: 'Comment:' + comment.id! })
                   },
                 })
-
-                if (response.errors) {
-                  console.log(response.errors)
-                }
               }}
             >
               <Delete

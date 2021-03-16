@@ -1,44 +1,22 @@
 import Link from 'next/link'
-import { Image } from 'cloudinary-react'
+
 import { Edit } from './svg/Edit'
+import { UserFragment } from '../generated/graphql'
+import { Avatar } from './Avatar'
 
 interface UserCardProps {
-  userName: string
-  userEmail: string
-  userPhoto?: string
+  user: UserFragment
 }
 
-const UserCard: React.FC<UserCardProps> = ({
-  userName,
-  userEmail,
-  userPhoto,
-}) => {
+const UserCard: React.FC<UserCardProps> = ({ user }) => {
   return (
     <div className='flex max-w-max mx-auto px-6 py-4 m-6 rounded-md shadow-lg'>
       <div className='md:flex'>
-        {userPhoto ? (
-          <div className='w-max mx-auto'>
-            <Image
-              className='rounded-full'
-              src={userPhoto}
-              height={60}
-              width={60}
-            />
-          </div>
-        ) : (
-          <div className='w-max mx-auto'>
-            <Image
-              className='rounded-full'
-              src='/avatar.jpg'
-              height={60}
-              width={60}
-            />
-          </div>
-        )}
+        <Avatar user={user} height={60} />
 
         <div className='mx-auto md:mx-6'>
-          <div className='font-bold text-xl text-center'>{userName}</div>
-          <div className='font-medium text-gray-400'>{userEmail}</div>
+          <div className='font-bold text-xl text-center'>{user.name}</div>
+          <div className='font-medium text-gray-400'>{user.email}</div>
         </div>
       </div>
 

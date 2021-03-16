@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { PostSnippetFragment } from '../generated/graphql'
 import { EditPostButton } from './EditPostButton'
 import { fadeInUp } from '../utils/animations'
+import { Avatar } from './Avatar'
 
 interface PostItemProps {
   post: PostSnippetFragment
@@ -23,25 +24,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
       >
         <div className='flex'>
           <div className='pr-4'>
-            {post.author?.photo ? (
-              <div className='w-max mx-auto'>
-                <Image
-                  className='rounded-full'
-                  src={post.author.photo}
-                  height={50}
-                  width={50}
-                />
-              </div>
-            ) : (
-              <div className='w-max mx-auto'>
-                <Image
-                  className='rounded-full'
-                  src='/avatar.jpg'
-                  height={50}
-                  width={50}
-                />
-              </div>
-            )}
+            <Avatar user={post.author!} height={50} />
           </div>
           <div className='w-full'>
             <div className='flex'>

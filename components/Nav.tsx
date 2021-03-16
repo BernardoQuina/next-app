@@ -1,12 +1,12 @@
 import { useApolloClient } from '@apollo/client'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Image } from 'cloudinary-react'
 import { useEffect, useState } from 'react'
 import { useLogoutMutation, useMeQuery } from '../generated/graphql'
 
 import { isServer } from '../utils/isServer'
 import { Logout } from './svg/Logout'
+import { Avatar } from './Avatar'
 
 interface NavProps {}
 
@@ -84,23 +84,7 @@ export const Nav: React.FC<NavProps> = () => {
               className='max-h-10 align-middle focus:outline-none'
               type='button'
             >
-              {data.me.photo ? (
-                <Image
-                  className='rounded-full'
-                  src={data.me.photo}
-                  height={40}
-                  width={40}
-                />
-              ) : (
-                <div className='w-max mx-auto'>
-                  <Image
-                    className='rounded-full'
-                    src='/avatar.jpg'
-                    height={40}
-                    width={40}
-                  />
-                </div>
-              )}
+              <Avatar height={40} user={data.me} />
             </button>
           </Link>
         </li>
