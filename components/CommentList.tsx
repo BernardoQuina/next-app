@@ -15,7 +15,7 @@ export const CommentList: React.FC<CommentListProps> = ({ comments }) => {
         scale: 1,
       }}
       transition={{ duration: 0.5 }}
-      className='px-4 divide-y divide-pink-400 border shadow-inner rounded-md py-4 '
+      className='px-4 divide-y divide-pink-400 border shadow-inner rounded-md'
     >
       <AnimatePresence initial={false}>
         {comments

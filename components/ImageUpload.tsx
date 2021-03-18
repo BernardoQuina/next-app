@@ -42,6 +42,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
 
       const data = await response.json()
 
+
       setUploadedImages((existing) => [...existing, data])
       setLoading(false)
     })

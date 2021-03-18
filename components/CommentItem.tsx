@@ -28,7 +28,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   const [deleteComment] = useDeleteCommentMutation()
 
   return (
-    <div className='flex py-2'>
+    <div className='flex py-4'>
       <div className='w-10/12 flex'>
         <div className='pr-3'>
           <Avatar user={comment.author!} height={50} />

@@ -1,7 +1,9 @@
 import { InputHTMLAttributes } from 'react'
 import { useField } from 'formik'
 
-type NewInputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
+type NewInputFieldProps = InputHTMLAttributes<
+  HTMLInputElement | HTMLTextAreaElement
+> & {
   label?: string
   showLabel?: boolean
   name: string
@@ -29,7 +31,7 @@ export const NewInputField: React.FC<NewInputFieldProps> = ({
   }
 
   return (
-    <div className='my-6 mx-auto'>
+    <div>
       {error && (
         <div className='p-4 m-6 flex self-center rounded-md bg-red-200 shadow-xl'>
           {error}
@@ -45,8 +47,9 @@ export const NewInputField: React.FC<NewInputFieldProps> = ({
                 ? inputStyling
                 : 'border-2 border-transparent mx-5 p-3 rounded-md focus:border-pink-600 shadow-inner outline-none'
             }
-            {...field}
             maxLength={maxLength}
+            {...field}
+            {...props}
             id={field.name}
             placeholder={props.placeholder}
           ></textarea>
@@ -57,6 +60,7 @@ export const NewInputField: React.FC<NewInputFieldProps> = ({
                 ? inputStyling
                 : 'border-2 border-transparent mx-5 p-3 rounded-md focus:border-pink-600 shadow-inner outline-none'
             }
+            maxLength={maxLength}
             {...field}
             {...props}
             id={field.name}

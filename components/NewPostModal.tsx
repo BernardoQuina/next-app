@@ -89,7 +89,7 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
                     </div>
                     <div className='w-full'>
                       <NewInputField
-                        inputStyling='w-11/12 px-2 border-b text-xl focus:outline-none'
+                        inputStyling='w-11/12 my-6 px-2 border-b text-xl focus:outline-none'
                         name='title'
                         placeholder='Title'
                         label='Title'
@@ -98,7 +98,7 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
                         maxLength={50}
                       />
                       <NewInputField
-                        inputStyling='w-11/12 px-2 text-lg border-b focus:outline-none'
+                        inputStyling='w-11/12 my-2 px-2 text-lg border-b focus:outline-none'
                         name='body'
                         placeholder='Whats happening?'
                         label='Body'
@@ -109,6 +109,7 @@ export const NewPostModal: React.FC<NewPostModalProps> = ({
                       />
                       <div>
                         <NewInputField
+                          inputStyling='my-6'
                           name='published'
                           label='public'
                           type='checkbox'
