@@ -24,7 +24,7 @@ const Post: NextPage<PostProps> = () => {
 
   const id = router.query.id as string
 
-  const { data, loading, refetch } = useSinglePostQuery({
+  const { data, loading } = useSinglePostQuery({
     variables: { postId: id },
   })
 
@@ -109,7 +109,6 @@ const Post: NextPage<PostProps> = () => {
                 <PostLikesNComments
                   postId={id}
                   postLikeCount={data.post.likeCount}
-                  refetch={refetch}
                 />
               </>
             )}

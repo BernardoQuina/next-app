@@ -20,7 +20,7 @@ const Home: NextPage<HomeProps> = () => {
   const { data, loading, error, fetchMore } = usePostsQuery({
     variables: { skip: 0, take: 8 },
     notifyOnNetworkStatusChange: true,
-    errorPolicy: 'all',
+    errorPolicy: 'all'
   })
 
   useEffect(() => {

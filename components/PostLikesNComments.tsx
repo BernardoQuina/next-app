@@ -1,34 +1,17 @@
-import { ApolloQueryResult } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 
-import {
-  useMeQuery,
-  useLikePostMutation,
-  Exact,
-  Maybe,
-  SinglePostQuery,
-} from '../generated/graphql'
+import { useMeQuery, useLikePostMutation } from '../generated/graphql'
 import { isServer } from '../utils/isServer'
 import { Heart } from './svg/Heart'
 
 interface PostLikesNCommentsProps {
   postId: string
   postLikeCount: any
-  refetch: (
-    variables?:
-      | Partial<
-          Exact<{
-            postId?: Maybe<string> | undefined
-          }>
-        >
-      | undefined
-  ) => Promise<ApolloQueryResult<SinglePostQuery>>
 }
 
 export const PostLikesNComments: React.FC<PostLikesNCommentsProps> = ({
   postId,
   postLikeCount,
-  refetch,
 }) => {
   const { data: meData, refetch: refetchMe } = useMeQuery({
     errorPolicy: 'all',
@@ -47,26 +30,35 @@ export const PostLikesNComments: React.FC<PostLikesNCommentsProps> = ({
     } else {
       setILikeIt(false)
     }
-    console.log('current state', ILikeIt)
   }, [meData])
 
   return (
     <div>
       <button
-        className='flex focus:outline-none group transform active:scale-90'
-        onClick={async () => {
-          const response = await likePost({
+        type='button'
+        className='flex mt-2 focus:outline-none group transform active:scale-90'
+        onClick={async (e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          await likePost({
             variables: { postId },
-            update: (cache) => {
-              cache.evict({ fieldName: 'posts' })
-              cache.evict({ fieldName: 'myPosts' })
+            update: (cache, { data }) => {
+              cache.modify({
+                id: 'Post:' + postId,
+                fields: {
+                  likeCount() {
+                    if (data?.likePost?.active) {
+                      return postLikeCount + 1
+                    } else {
+                      return postLikeCount - 1
+                    }
+                  },
+                },
+              })
             },
           })
 
-          await refetch() // updates posts likes
           await refetchMe()
-          console.log('state on like: ', ILikeIt)
-          console.log('response: ', response)
         }}
       >
         <Heart
@@ -77,7 +69,7 @@ export const PostLikesNComments: React.FC<PostLikesNCommentsProps> = ({
           }
           strokeWidth={1.5}
         />
-        <p className={ILikeIt ? 'text-pink-600' : 'text-gray-500'}>
+        <p className={ILikeIt ? 'ml-1 text-pink-600' : 'ml-1 text-gray-500'}>
           {postLikeCount}
         </p>
       </button>

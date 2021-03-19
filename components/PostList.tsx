@@ -20,4 +20,3 @@ export const PostList: React.FC<PostListProps> = ({ posts }) => {
     </motion.div>
   )
 }
-
