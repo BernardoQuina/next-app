@@ -21,5 +21,9 @@ mutation EditUser(
     password
     createdAt
     updatedAt
+    likes {
+      active
+      postId
+    }
   }
 }

@@ -6,6 +6,8 @@ fragment PostSnippet on Post {
   title
   textSnippet
   images
+  likeCount
+  commentCount
   author {
     id
     name

@@ -1,0 +1,8 @@
+fragment BasicUserInfo on User {
+  id
+  name
+  email
+  photo
+  googleId
+  facebookId
+}

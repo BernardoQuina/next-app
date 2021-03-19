@@ -17,7 +17,7 @@ module.exports = {
     extend: {
       fontWeight: ['hover'],
       borderWidth: ['hover'],
-      scale: ['active', 'hover'],
+      scale: ['active', 'hover', 'group-hover'],
       backgroundColor: ['active'],
       borderColor: ['active'],
       opacity: ['disabled'],

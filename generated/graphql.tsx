@@ -28,6 +28,7 @@ export type User = {
   updatedAt?: Maybe<Scalars['DateTime']>;
   posts: Array<Post>;
   comments: Array<Comment>;
+  likes: Array<Like>;
 };
 
 
@@ -42,6 +43,13 @@ export type UserCommentsArgs = {
   take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   cursor?: Maybe<CommentWhereUniqueInput>;
+};
+
+
+export type UserLikesArgs = {
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<LikeWhereUniqueInput>;
 };
 
 export type UserSubResponse = {
@@ -62,7 +70,10 @@ export type Post = {
   author?: Maybe<User>;
   userId?: Maybe<Scalars['String']>;
   comments: Array<Comment>;
+  likes: Array<Like>;
   textSnippet?: Maybe<Scalars['String']>;
+  commentCount?: Maybe<Scalars['Int']>;
+  likeCount?: Maybe<Scalars['Int']>;
 };
 
 
@@ -70,6 +81,13 @@ export type PostCommentsArgs = {
   take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   cursor?: Maybe<CommentWhereUniqueInput>;
+};
+
+
+export type PostLikesArgs = {
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<LikeWhereUniqueInput>;
 };
 
 export type PostSubResponse = {
@@ -96,6 +114,17 @@ export type CommentSubResponse = {
   data?: Maybe<Comment>;
 };
 
+export type Like = {
+  __typename?: 'Like';
+  active?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  author?: Maybe<User>;
+  userId?: Maybe<Scalars['String']>;
+  post?: Maybe<Post>;
+  postId?: Maybe<Scalars['String']>;
+};
+
 
 export type PostWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
@@ -103,6 +132,10 @@ export type PostWhereUniqueInput = {
 
 export type CommentWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
+};
+
+export type LikeWhereUniqueInput = {
+  userId_postId?: Maybe<LikeUserIdPostIdCompoundUniqueInput>;
 };
 
 export type UserWhereUniqueInput = {
@@ -127,6 +160,7 @@ export type UserWhereInput = {
   updatedAt?: Maybe<DateTimeFilter>;
   posts?: Maybe<PostListRelationFilter>;
   comments?: Maybe<CommentListRelationFilter>;
+  likes?: Maybe<LikeListRelationFilter>;
 };
 
 export type UserOrderByInput = {
@@ -155,6 +189,7 @@ export type PostWhereInput = {
   author?: Maybe<UserWhereInput>;
   userId?: Maybe<StringFilter>;
   comments?: Maybe<CommentListRelationFilter>;
+  likes?: Maybe<LikeListRelationFilter>;
 };
 
 export type PostOrderByInput = {
@@ -189,6 +224,32 @@ export type CommentOrderByInput = {
   updatedAt?: Maybe<SortOrder>;
   userId?: Maybe<SortOrder>;
   postId?: Maybe<SortOrder>;
+};
+
+export type LikeWhereInput = {
+  AND?: Maybe<Array<LikeWhereInput>>;
+  OR?: Maybe<Array<LikeWhereInput>>;
+  NOT?: Maybe<Array<LikeWhereInput>>;
+  active?: Maybe<BoolFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  author?: Maybe<UserWhereInput>;
+  userId?: Maybe<StringFilter>;
+  post?: Maybe<PostWhereInput>;
+  postId?: Maybe<StringFilter>;
+};
+
+export type LikeOrderByInput = {
+  active?: Maybe<SortOrder>;
+  createdAt?: Maybe<SortOrder>;
+  updatedAt?: Maybe<SortOrder>;
+  userId?: Maybe<SortOrder>;
+  postId?: Maybe<SortOrder>;
+};
+
+export type LikeUserIdPostIdCompoundUniqueInput = {
+  userId: Scalars['String'];
+  postId: Scalars['String'];
 };
 
 export type StringFilter = {
@@ -242,6 +303,12 @@ export type CommentListRelationFilter = {
   every?: Maybe<CommentWhereInput>;
   some?: Maybe<CommentWhereInput>;
   none?: Maybe<CommentWhereInput>;
+};
+
+export type LikeListRelationFilter = {
+  every?: Maybe<LikeWhereInput>;
+  some?: Maybe<LikeWhereInput>;
+  none?: Maybe<LikeWhereInput>;
 };
 
 export enum SortOrder {
@@ -324,6 +391,9 @@ export type Query = {
   comment?: Maybe<Comment>;
   comments: Array<Comment>;
   commentCount?: Maybe<Scalars['Int']>;
+  like?: Maybe<Like>;
+  likes: Array<Like>;
+  likeCount?: Maybe<Scalars['Int']>;
 };
 
 
@@ -374,6 +444,20 @@ export type QueryCommentsArgs = {
   cursor?: Maybe<CommentWhereUniqueInput>;
 };
 
+
+export type QueryLikeArgs = {
+  where: LikeWhereUniqueInput;
+};
+
+
+export type QueryLikesArgs = {
+  where?: Maybe<LikeWhereInput>;
+  orderBy?: Maybe<Array<LikeOrderByInput>>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<LikeWhereUniqueInput>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<User>;
@@ -387,6 +471,7 @@ export type Mutation = {
   createComment?: Maybe<Comment>;
   updateComment?: Maybe<Comment>;
   deleteComment?: Maybe<Comment>;
+  likePost?: Maybe<Like>;
 };
 
 
@@ -456,6 +541,11 @@ export type MutationDeleteCommentArgs = {
   id: Scalars['String'];
 };
 
+
+export type MutationLikePostArgs = {
+  postId: Scalars['String'];
+};
+
 export type Subscription = {
   __typename?: 'Subscription';
   userSub?: Maybe<UserSubResponse>;
@@ -499,11 +589,16 @@ export type SubscriptionCommentSubArgs = {
 
 export type PostSnippetFragment = (
   { __typename?: 'Post' }
-  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'textSnippet' | 'images'>
+  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'textSnippet' | 'images' | 'likeCount' | 'commentCount'>
   & { author?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'photo'>
   )> }
+);
+
+export type BasicUserInfoFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'googleId' | 'facebookId'>
 );
 
 export type CommentFragment = (
@@ -518,6 +613,23 @@ export type CommentFragment = (
 export type UserFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'googleId' | 'facebookId' | 'createdAt' | 'updatedAt'>
+  & { likes: Array<(
+    { __typename?: 'Like' }
+    & Pick<Like, 'postId' | 'active'>
+  )> }
+);
+
+export type LikePostMutationVariables = Exact<{
+  postId: Scalars['String'];
+}>;
+
+
+export type LikePostMutation = (
+  { __typename?: 'Mutation' }
+  & { likePost?: Maybe<(
+    { __typename?: 'Like' }
+    & Pick<Like, 'active' | 'createdAt' | 'userId' | 'postId'>
+  )> }
 );
 
 export type DeleteCommentMutationVariables = Exact<{
@@ -612,6 +724,10 @@ export type EditUserMutation = (
   & { updateUser?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'photo' | 'email' | 'password' | 'createdAt' | 'updatedAt'>
+    & { likes: Array<(
+      { __typename?: 'Like' }
+      & Pick<Like, 'active' | 'postId'>
+    )> }
   )> }
 );
 
@@ -626,6 +742,10 @@ export type LoginMutation = (
   & { loginUser?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'email'>
+    & { likes: Array<(
+      { __typename?: 'Like' }
+      & Pick<Like, 'active' | 'postId'>
+    )> }
   )> }
 );
 
@@ -684,6 +804,10 @@ export type RegisterMutation = (
   & { createUser?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'email'>
+    & { likes: Array<(
+      { __typename?: 'Like' }
+      & Pick<Like, 'active' | 'postId'>
+    )> }
   )> }
 );
 
@@ -694,7 +818,7 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'googleId' | 'facebookId' | 'name' | 'email' | 'photo'>
+    & UserFragment
   )> }
 );
 
@@ -752,7 +876,7 @@ export type SinglePostQuery = (
   { __typename?: 'Query' }
   & { post?: Maybe<(
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title' | 'body' | 'images' | 'published' | 'createdAt' | 'updatedAt'>
+    & Pick<Post, 'id' | 'title' | 'body' | 'images' | 'published' | 'likeCount' | 'commentCount' | 'createdAt' | 'updatedAt'>
     & { author?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'name' | 'photo'>
@@ -772,11 +896,23 @@ export const PostSnippetFragmentDoc = gql`
   title
   textSnippet
   images
+  likeCount
+  commentCount
   author {
     id
     name
     photo
   }
+}
+    `;
+export const BasicUserInfoFragmentDoc = gql`
+    fragment BasicUserInfo on User {
+  id
+  name
+  email
+  photo
+  googleId
+  facebookId
 }
     `;
 export const CommentFragmentDoc = gql`
@@ -802,8 +938,47 @@ export const UserFragmentDoc = gql`
   facebookId
   createdAt
   updatedAt
+  likes {
+    postId
+    active
+  }
 }
     `;
+export const LikePostDocument = gql`
+    mutation LikePost($postId: String!) {
+  likePost(postId: $postId) {
+    active
+    createdAt
+    userId
+    postId
+  }
+}
+    `;
+export type LikePostMutationFn = Apollo.MutationFunction<LikePostMutation, LikePostMutationVariables>;
+
+/**
+ * __useLikePostMutation__
+ *
+ * To run a mutation, you first call `useLikePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLikePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [likePostMutation, { data, loading, error }] = useLikePostMutation({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useLikePostMutation(baseOptions?: Apollo.MutationHookOptions<LikePostMutation, LikePostMutationVariables>) {
+        return Apollo.useMutation<LikePostMutation, LikePostMutationVariables>(LikePostDocument, baseOptions);
+      }
+export type LikePostMutationHookResult = ReturnType<typeof useLikePostMutation>;
+export type LikePostMutationResult = Apollo.MutationResult<LikePostMutation>;
+export type LikePostMutationOptions = Apollo.BaseMutationOptions<LikePostMutation, LikePostMutationVariables>;
 export const DeleteCommentDocument = gql`
     mutation DeleteComment($commentId: String!) {
   deleteComment(id: $commentId) {
@@ -1010,6 +1185,10 @@ export const EditUserDocument = gql`
     password
     createdAt
     updatedAt
+    likes {
+      active
+      postId
+    }
   }
 }
     `;
@@ -1049,6 +1228,10 @@ export const LoginDocument = gql`
     id
     name
     email
+    likes {
+      active
+      postId
+    }
   }
 }
     `;
@@ -1195,6 +1378,10 @@ export const RegisterDocument = gql`
     id
     name
     email
+    likes {
+      active
+      postId
+    }
   }
 }
     `;
@@ -1229,15 +1416,10 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutatio
 export const MeDocument = gql`
     query Me {
   me {
-    id
-    googleId
-    facebookId
-    name
-    email
-    photo
+    ...User
   }
 }
-    `;
+    ${UserFragmentDoc}`;
 
 /**
  * __useMeQuery__
@@ -1382,6 +1564,8 @@ export const SinglePostDocument = gql`
     body
     images
     published
+    likeCount
+    commentCount
     createdAt
     updatedAt
     author {

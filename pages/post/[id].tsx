@@ -15,6 +15,7 @@ import { NewCommentForm } from '../../components/NewCommentForm'
 import { variants } from '../../utils/animations'
 import { PostPlaceholder } from '../../components/PostPlaceholder'
 import { Avatar } from '../../components/Avatar'
+import { PostLikesNComments } from '../../components/PostLikesNComments'
 
 interface PostProps {}
 
@@ -23,7 +24,7 @@ const Post: NextPage<PostProps> = () => {
 
   const id = router.query.id as string
 
-  const { data, loading } = useSinglePostQuery({
+  const { data, loading, refetch } = useSinglePostQuery({
     variables: { postId: id },
   })
 
@@ -105,6 +106,11 @@ const Post: NextPage<PostProps> = () => {
                     postId={id}
                   />
                 </div>
+                <PostLikesNComments
+                  postId={id}
+                  postLikeCount={data.post.likeCount}
+                  refetch={refetch}
+                />
               </>
             )}
           </div>
@@ -116,7 +122,7 @@ const Post: NextPage<PostProps> = () => {
           )}
 
           <button
-            className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 mb-8'
+            className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 mb-8 focus:outline-none'
             onClick={() => router.back()}
           >
             Go Back

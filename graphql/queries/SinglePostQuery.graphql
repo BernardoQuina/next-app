@@ -5,6 +5,8 @@ query SinglePost ($postId: String) {
       body
       images
       published
+      likeCount
+      commentCount
       createdAt
       updatedAt
       author {

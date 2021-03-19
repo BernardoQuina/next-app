@@ -13,5 +13,9 @@ mutation Register(
     id
     name
     email
+    likes {
+      active
+      postId
+    }
   }
 }
