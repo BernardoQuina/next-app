@@ -23,10 +23,10 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
       <Link key={post.id} href={`/post/${post.id}`} passHref>
         <motion.a
           // whileHover={{ scale: 1.05 }}
-          // whileTap={{ scale: 0.9 }}
+          whileTap={{ scale: 0.95 }}
           transition={{ type: 'just' }}
           variants={fadeInUp}
-          className='border border-white py-4 px-2 rounded-md shadow-md hover:border-pink-600 hover:text-pink-600'
+          className='py-4 px-2 rounded-md shadow-md hover:text-pink-600'
         >
           <div className='flex'>
             <div className='pr-4'>
