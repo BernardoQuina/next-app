@@ -15,12 +15,12 @@ interface HomeProps {}
 
 const Home: NextPage<HomeProps> = () => {
   const [hasMore, setHasMore] = useState(true)
-  const [showModal, setShowModal] = useState(false)
+  const [showNewPostModal, setShowNewPostModal] = useState(false)
 
   const { data, loading, error, fetchMore } = usePostsQuery({
     variables: { skip: 0, take: 8 },
     notifyOnNetworkStatusChange: true,
-    errorPolicy: 'all'
+    errorPolicy: 'all',
   })
 
   useEffect(() => {
@@ -53,11 +53,14 @@ const Home: NextPage<HomeProps> = () => {
       <Layout>
         <div>
           <Header />
-          <NewPostModal showModal={showModal} setShowModal={setShowModal} />
+          <NewPostModal
+            showModal={showNewPostModal}
+            setShowModal={setShowNewPostModal}
+          />
           <button
             className='flex mt-8 mx-auto py-2 px-4 rounded-md shadow-md text-lg  font-bold tracking-wide text-pink-600 focus:outline-none transform hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900'
             type='button'
-            onClick={() => setShowModal(!showModal)}
+            onClick={() => setShowNewPostModal(!showNewPostModal)}
           >
             new post
           </button>

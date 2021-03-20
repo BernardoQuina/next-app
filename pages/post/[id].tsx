@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { DateTime } from 'luxon'
@@ -11,15 +12,17 @@ import { Layout } from '../../components/Layout'
 import { DeletePostButton } from '../../components/DeletePostButton'
 import { EditPostButton } from '../../components/EditPostButton'
 import { CommentList } from '../../components/CommentList'
-import { NewCommentForm } from '../../components/NewCommentForm'
 import { variants } from '../../utils/animations'
 import { PostPlaceholder } from '../../components/PostPlaceholder'
 import { Avatar } from '../../components/Avatar'
 import { PostLikesNComments } from '../../components/PostLikesNComments'
+import { NewCommentModal } from '../../components/NewCommentModal'
 
 interface PostProps {}
 
 const Post: NextPage<PostProps> = () => {
+  const [showModal, setShowModal] = useState(false)
+
   const router = useRouter()
 
   const id = router.query.id as string
@@ -109,11 +112,18 @@ const Post: NextPage<PostProps> = () => {
                 <PostLikesNComments
                   postId={id}
                   postLikeCount={data.post.likeCount}
+                  postCommentCount={data.post.commentCount}
+                  setShowCommentModal={setShowModal}
+                  showCommentModal={showModal}
                 />
               </>
             )}
           </div>
-          <NewCommentForm postId={id} />
+          <NewCommentModal
+            postId={id}
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
           {data?.post && data?.post.comments.length ? (
             <CommentList comments={data?.post.comments} />
           ) : (
