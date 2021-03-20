@@ -20,7 +20,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
 
   return (
     <>
-      <Link key={post.id} href={`/post/${post.id}`} passHref>
+      <Link key={post.id} href={`/post/${post.id}`} passHref scroll={false}>
         <motion.a
           // whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
