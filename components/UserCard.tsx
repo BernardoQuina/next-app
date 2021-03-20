@@ -9,6 +9,10 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user }) => {
+  if (!user) {
+    return null
+  }
+
   return (
     <div className='flex max-w-max mx-auto px-6 py-4 m-6 rounded-md shadow-lg'>
       <div className='md:flex'>
