@@ -56,7 +56,7 @@ const Post: NextPage<PostProps> = () => {
                       private
                     </p>
                   )}
-                  <div className='mb-4 md:flex text-gray-400'>
+                  <div className='mb-4 flex text-gray-400'>
                     <div className='flex'>
                       <Avatar user={data.post.author!} height={50} />
                       <div className='md:flex md:mt-2'>

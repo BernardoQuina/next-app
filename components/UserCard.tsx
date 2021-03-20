@@ -18,7 +18,7 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
       <div className='md:flex'>
         <Avatar user={user} height={60} />
 
-        <div className='mx-auto md:mx-6'>
+        <div className='mx-auto mt-2 md:mx-6'>
           <div className='font-bold text-xl text-center'>{user.name}</div>
           <div className='font-medium text-gray-400'>{user.email}</div>
         </div>

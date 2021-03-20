@@ -30,7 +30,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   return (
     <div className='flex py-4'>
       <div className='w-10/12 flex'>
-        <div className='pr-3'>
+        <div className='pr-3 min-w-max'>
           <Avatar user={comment.author!} height={50} />
         </div>
         <div>

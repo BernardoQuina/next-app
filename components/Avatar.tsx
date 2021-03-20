@@ -11,14 +11,14 @@ export const Avatar: React.FC<AvatarProps> = ({ height, user }) => {
     <>
       {user.photo && (user.googleId || user.facebookId) ? (
         <Image
-          className='rounded-full'
+          className='rounded-full mx-auto'
           src={user.photo}
           height={height}
           width={height}
         />
       ) : user.photo ? (
         <Image
-          className='rounded-full'
+          className='rounded-full mx-auto'
           cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
           publicId={user.photo}
           height={height}
