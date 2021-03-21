@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 import { useMeQuery, useLikePostMutation } from '../generated/graphql'
@@ -20,6 +21,8 @@ export const PostLikesNComments: React.FC<PostLikesNCommentsProps> = ({
   showCommentModal,
   setShowCommentModal,
 }) => {
+  const router = useRouter()
+
   const { data: meData, refetch: refetchMe } = useMeQuery({
     errorPolicy: 'all',
     skip: isServer(),
@@ -27,7 +30,7 @@ export const PostLikesNComments: React.FC<PostLikesNCommentsProps> = ({
 
   const [ILikeIt, setILikeIt] = useState<boolean>()
 
-  const [likePost] = useLikePostMutation()
+  const [likePost] = useLikePostMutation({errorPolicy: 'all'})
 
   useEffect(() => {
     if (
@@ -47,7 +50,13 @@ export const PostLikesNComments: React.FC<PostLikesNCommentsProps> = ({
         onClick={async (e) => {
           e.preventDefault()
           e.stopPropagation()
-          await likePost({
+
+          if (!meData?.me) {
+            router.push('/login')
+            return
+          }
+
+          const response = await likePost({
             variables: { postId },
             update: (cache, { data }) => {
               cache.modify({
@@ -64,6 +73,10 @@ export const PostLikesNComments: React.FC<PostLikesNCommentsProps> = ({
               })
             },
           })
+
+          if (response.errors) {
+            console.log(response.errors)
+          }
 
           await refetchMe()
         }}
