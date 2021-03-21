@@ -9,12 +9,15 @@ import { useRouter } from 'next/router'
 import { Layout } from '../components/Layout'
 import { OauthSignIn } from '../components/OauthSignIn'
 import { variants } from '../utils/animations'
+import { useIsAuth } from '../utils/useIsAuth'
 
 interface registerProps {}
 
 const register: NextPage<registerProps> = ({}) => {
   const router = useRouter()
   const [register] = useRegisterMutation({ errorPolicy: 'all' })
+
+  useIsAuth()
 
   return (
     <motion.div

@@ -9,12 +9,15 @@ import { InputField } from '../components/InputField'
 import { Layout } from '../components/Layout'
 import { OauthSignIn } from '../components/OauthSignIn'
 import { variants } from '../utils/animations'
+import { useIsAuth } from '../utils/useIsAuth'
 interface loginProps {}
 
 const login: NextPage<loginProps> = ({}) => {
   const router = useRouter()
 
   const [login] = useLoginMutation({ errorPolicy: 'all' })
+
+  useIsAuth()
 
   return (
     <motion.div

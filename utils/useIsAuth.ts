@@ -12,5 +12,9 @@ export const useIsAuth = (push?: boolean) => {
     if (!loading && !data?.me && push) {
       router.push('/login')
     }
+
+    if (data?.me && (router.pathname === '/login' || router.pathname === '/register')) {
+      router.push('/')
+    }
   }, [loading, data, push])
 }
