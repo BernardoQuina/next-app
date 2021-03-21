@@ -24,7 +24,7 @@ export const CommentList: React.FC<CommentListProps> = ({ comments }) => {
             const c = new Date(a.createdAt)
             const d = new Date(b.createdAt)
 
-            return c < d ? 1 : -1
+            return c > d ? 1 : -1
           })
           .map((comment) => (
             <motion.div
