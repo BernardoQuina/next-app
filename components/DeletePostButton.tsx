@@ -25,20 +25,26 @@ export const DeletePostButton: React.FC<DeletePostButtonProps> = ({
 
   return (
     <button
+      className='focus:outline-none'
       type='button'
       onClick={async () => {
-        const response = await deletePost({
-          variables: { postId },
-          update: (cache) => {
-            cache.evict({ fieldName: 'posts' })
-            cache.evict({ fieldName: 'myPosts' })
-          },
-        })
+        const deleteConfirmed = window.confirm(
+          'Are you sure you want to delete this post?'
+        )
+        if (deleteConfirmed) {
+          const response = await deletePost({
+            variables: { postId },
+            update: (cache) => {
+              cache.evict({ fieldName: 'posts' })
+              cache.evict({ fieldName: 'myPosts' })
+            },
+          })
 
-        if (response.errors) {
-          console.log(response.errors)
-        } else if (response.data?.deletePost) {
-          router.push('/')
+          if (response.errors) {
+            console.log(response.errors)
+          } else if (response.data?.deletePost) {
+            router.push('/')
+          }
         }
       }}
     >
