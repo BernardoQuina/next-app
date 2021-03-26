@@ -40,7 +40,7 @@ const edit: NextPage<editProps> = ({}) => {
   const [editUser] = useEditUserMutation({ errorPolicy: 'all' })
 
   if (!data || loading) {
-    ;<Loader />
+    return <Loader />
   }
 
   return (
