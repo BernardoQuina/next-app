@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { Formik, Form } from 'formik'
 import { motion } from 'framer-motion'
 
@@ -67,6 +68,11 @@ const login: NextPage<loginProps> = ({}) => {
                 type='email'
               />
               <InputField name='password' label='Password' type='password' />
+              <Link href='/forgot-password'>
+                <p className='text-center ml-24 -mt-8 hover:underline cursor-pointer'>
+                  forgot password?
+                </p>
+              </Link>
               <button
                 className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 hover:text-white active:bg-pink-900 active:border-pink-900 disabled:opacity-30'
                 type='submit'
