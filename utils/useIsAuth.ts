@@ -13,7 +13,12 @@ export const useIsAuth = (push?: boolean) => {
       router.push('/login')
     }
 
-    if (data?.me && (router.pathname === '/login' || router.pathname === '/register')) {
+    if (
+      data?.me &&
+      (router.pathname === '/login' ||
+        router.pathname === '/register' ||
+        router.pathname.includes('change-password'))
+    ) {
       router.push('/')
     }
   }, [loading, data, push])
