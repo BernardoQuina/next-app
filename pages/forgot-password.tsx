@@ -1,7 +1,6 @@
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import { Formik, Form } from 'formik'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 import { withApollo } from '../lib/apollo'
 import { useForgotPasswordMutation } from '../generated/graphql'
@@ -13,7 +12,6 @@ import { useState } from 'react'
 interface forgotPasswordProps {}
 
 const forgotPassword: NextPage<forgotPasswordProps> = ({}) => {
-  const router = useRouter()
 
   const [complete, setComplete] = useState(false)
 
