@@ -2,7 +2,11 @@ import { useApolloClient } from '@apollo/client'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { useLogoutMutation, useMeQuery } from '../generated/graphql'
+import {
+  useLogoutMutation,
+  useMeQuery,
+  useMyPostsSubSubscription,
+} from '../generated/graphql'
 
 import { isServer } from '../utils/isServer'
 import { Logout } from './svg/Logout'
@@ -24,6 +28,10 @@ export const Nav: React.FC<NavProps> = () => {
 
   const [logout] = useLogoutMutation()
 
+  const { data: subData } = useMyPostsSubSubscription()
+
+  console.log('subscription data: ', subData)
+
   useEffect(() => {
     if (!loading && data) {
       setUser(data.me?.name!)
@@ -33,7 +41,7 @@ export const Nav: React.FC<NavProps> = () => {
   const logoutHandler = async () => {
     router.push('/login')
     await logout()
-    await apolloClient.resetStore()
+    await apolloClient.clearStore()
   }
 
   let userLogin

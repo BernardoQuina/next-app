@@ -1,0 +1,10 @@
+subscription UserPostsSub ($userId: String!) {
+  postSubByUser(userId: $userId) {
+    mutation
+    data {
+      id
+      title
+      body
+    }
+  }
+}

@@ -66,6 +66,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
                           publicId={image}
                           loading='lazy'
                           dpr='auto'
+                          quality='70'
                           crop='fill'
                         >
                           <Placeholder type='vectorize'></Placeholder>

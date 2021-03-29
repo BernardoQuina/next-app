@@ -1,0 +1,10 @@
+subscription MyPostsSub {
+  myPostSub {
+    mutation
+    data {
+      id
+      title
+      body
+    }
+  }
+}

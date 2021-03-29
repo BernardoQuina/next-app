@@ -578,12 +578,12 @@ export type SubscriptionUserSubArgs = {
 
 
 export type SubscriptionPostSubByUserArgs = {
-  userId: Scalars['ID'];
+  userId: Scalars['String'];
 };
 
 
 export type SubscriptionPostSubArgs = {
-  postId: Scalars['ID'];
+  postId: Scalars['String'];
 };
 
 
@@ -926,6 +926,38 @@ export type SinglePostQuery = (
     )>, comments: Array<(
       { __typename?: 'Comment' }
       & CommentFragment
+    )> }
+  )> }
+);
+
+export type MyPostsSubSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyPostsSubSubscription = (
+  { __typename?: 'Subscription' }
+  & { myPostSub?: Maybe<(
+    { __typename?: 'postSubResponse' }
+    & Pick<PostSubResponse, 'mutation'>
+    & { data?: Maybe<(
+      { __typename?: 'Post' }
+      & Pick<Post, 'id' | 'title' | 'body'>
+    )> }
+  )> }
+);
+
+export type UserPostsSubSubscriptionVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type UserPostsSubSubscription = (
+  { __typename?: 'Subscription' }
+  & { postSubByUser?: Maybe<(
+    { __typename?: 'postSubResponse' }
+    & Pick<PostSubResponse, 'mutation'>
+    & { data?: Maybe<(
+      { __typename?: 'Post' }
+      & Pick<Post, 'id' | 'title' | 'body'>
     )> }
   )> }
 );
@@ -1722,3 +1754,70 @@ export function useSinglePostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type SinglePostQueryHookResult = ReturnType<typeof useSinglePostQuery>;
 export type SinglePostLazyQueryHookResult = ReturnType<typeof useSinglePostLazyQuery>;
 export type SinglePostQueryResult = Apollo.QueryResult<SinglePostQuery, SinglePostQueryVariables>;
+export const MyPostsSubDocument = gql`
+    subscription MyPostsSub {
+  myPostSub {
+    mutation
+    data {
+      id
+      title
+      body
+    }
+  }
+}
+    `;
+
+/**
+ * __useMyPostsSubSubscription__
+ *
+ * To run a query within a React component, call `useMyPostsSubSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useMyPostsSubSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyPostsSubSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyPostsSubSubscription(baseOptions?: Apollo.SubscriptionHookOptions<MyPostsSubSubscription, MyPostsSubSubscriptionVariables>) {
+        return Apollo.useSubscription<MyPostsSubSubscription, MyPostsSubSubscriptionVariables>(MyPostsSubDocument, baseOptions);
+      }
+export type MyPostsSubSubscriptionHookResult = ReturnType<typeof useMyPostsSubSubscription>;
+export type MyPostsSubSubscriptionResult = Apollo.SubscriptionResult<MyPostsSubSubscription>;
+export const UserPostsSubDocument = gql`
+    subscription UserPostsSub($userId: String!) {
+  postSubByUser(userId: $userId) {
+    mutation
+    data {
+      id
+      title
+      body
+    }
+  }
+}
+    `;
+
+/**
+ * __useUserPostsSubSubscription__
+ *
+ * To run a query within a React component, call `useUserPostsSubSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUserPostsSubSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserPostsSubSubscription({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUserPostsSubSubscription(baseOptions: Apollo.SubscriptionHookOptions<UserPostsSubSubscription, UserPostsSubSubscriptionVariables>) {
+        return Apollo.useSubscription<UserPostsSubSubscription, UserPostsSubSubscriptionVariables>(UserPostsSubDocument, baseOptions);
+      }
+export type UserPostsSubSubscriptionHookResult = ReturnType<typeof useUserPostsSubSubscription>;
+export type UserPostsSubSubscriptionResult = Apollo.SubscriptionResult<UserPostsSubSubscription>;
