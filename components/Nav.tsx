@@ -5,12 +5,14 @@ import { useEffect, useState } from 'react'
 import {
   useLogoutMutation,
   useMeQuery,
-  useMyPostsSubSubscription,
+  useMyLikeNotificationsQuery,
 } from '../generated/graphql'
 
 import { isServer } from '../utils/isServer'
 import { Logout } from './svg/Logout'
 import { Avatar } from './Avatar'
+import { Bell } from './svg/Bell'
+import NotificationsModal from './NotificationsModal'
 
 interface NavProps {}
 
@@ -18,6 +20,7 @@ export const Nav: React.FC<NavProps> = () => {
   const router = useRouter()
 
   const [user, setUser] = useState('')
+  const [showNotifications, setShowNotifications] = useState(false)
 
   const apolloClient = useApolloClient()
 
@@ -26,11 +29,14 @@ export const Nav: React.FC<NavProps> = () => {
     errorPolicy: 'all',
   })
 
+  const { data: notificationData } = useMyLikeNotificationsQuery({
+    skip: isServer(),
+    errorPolicy: 'all',
+  })
+
+  console.log('notifications', notificationData?.myLikeNotifications)
+
   const [logout] = useLogoutMutation()
-
-  const { data: subData } = useMyPostsSubSubscription()
-
-  console.log('subscription data: ', subData)
 
   useEffect(() => {
     if (!loading && data) {
@@ -86,6 +92,19 @@ export const Nav: React.FC<NavProps> = () => {
   } else {
     userLogin = (
       <ul className='flex'>
+        <li className='p-1 px-2 self-center' hidden={true}>
+          <button
+            className='align-middle focus:outline-none'
+            type='button'
+            onClick={() => setShowNotifications(!showNotifications)}
+          >
+            <Bell
+              tailwind='h-7 text-white transform hover:scale-105'
+              strokeWidth={1.5}
+            />
+          </button>
+          <NotificationsModal showModal={showNotifications} />
+        </li>
         <li className='min-w-max px-2 self-center sm:mx-4'>
           <Link href='/profile'>
             <button
@@ -96,7 +115,7 @@ export const Nav: React.FC<NavProps> = () => {
             </button>
           </Link>
         </li>
-        <li className='border border-black rounded-md p-1 px-2 self-center'>
+        <li className='p-1 px-2 self-center'>
           <button
             className='align-middle focus:outline-none'
             type='button'
@@ -117,7 +136,7 @@ export const Nav: React.FC<NavProps> = () => {
   }
 
   return (
-    <nav className='flex justify-center p-3 bg-black text-white'>
+    <nav className='fixed w-full flex justify-center p-3 bg-black text-white z-20'>
       <ul className='flex w-1/2 2xl:w-5/12 mr-6'>
         <li className='md:mx-2 p-1 px-2'>
           <Link href='/'>

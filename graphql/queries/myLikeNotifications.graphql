@@ -1,0 +1,9 @@
+query MyLikeNotifications {
+  myLikeNotifications {
+    id
+    userId
+    message
+    read
+    postId
+  }
+}

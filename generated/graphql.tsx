@@ -29,6 +29,7 @@ export type User = {
   posts: Array<Post>;
   comments: Array<Comment>;
   likes: Array<Like>;
+  likeNotification: Array<LikeNotification>;
 };
 
 
@@ -52,6 +53,13 @@ export type UserLikesArgs = {
   cursor?: Maybe<LikeWhereUniqueInput>;
 };
 
+
+export type UserLikeNotificationArgs = {
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<LikeNotificationWhereUniqueInput>;
+};
+
 export type UserSubResponse = {
   __typename?: 'userSubResponse';
   mutation?: Maybe<Scalars['String']>;
@@ -71,6 +79,7 @@ export type Post = {
   userId?: Maybe<Scalars['String']>;
   comments: Array<Comment>;
   likes: Array<Like>;
+  likesNotifications: Array<LikeNotification>;
   textSnippet?: Maybe<Scalars['String']>;
   commentCount?: Maybe<Scalars['Int']>;
   likeCount?: Maybe<Scalars['Int']>;
@@ -88,6 +97,13 @@ export type PostLikesArgs = {
   take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   cursor?: Maybe<LikeWhereUniqueInput>;
+};
+
+
+export type PostLikesNotificationsArgs = {
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<LikeNotificationWhereUniqueInput>;
 };
 
 export type PostSubResponse = {
@@ -123,6 +139,29 @@ export type Like = {
   userId?: Maybe<Scalars['String']>;
   post?: Maybe<Post>;
   postId?: Maybe<Scalars['String']>;
+  notifications: Array<LikeNotification>;
+};
+
+
+export type LikeNotificationsArgs = {
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<LikeNotificationWhereUniqueInput>;
+};
+
+export type LikeNotification = {
+  __typename?: 'LikeNotification';
+  id?: Maybe<Scalars['String']>;
+  receiver?: Maybe<User>;
+  userId?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  read?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  like?: Maybe<Like>;
+  likeAuthorId?: Maybe<Scalars['String']>;
+  post?: Maybe<Post>;
+  postId?: Maybe<Scalars['String']>;
 };
 
 
@@ -136,6 +175,10 @@ export type CommentWhereUniqueInput = {
 
 export type LikeWhereUniqueInput = {
   userId_postId?: Maybe<LikeUserIdPostIdCompoundUniqueInput>;
+};
+
+export type LikeNotificationWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type UserWhereUniqueInput = {
@@ -161,6 +204,7 @@ export type UserWhereInput = {
   posts?: Maybe<PostListRelationFilter>;
   comments?: Maybe<CommentListRelationFilter>;
   likes?: Maybe<LikeListRelationFilter>;
+  likeNotification?: Maybe<LikeNotificationListRelationFilter>;
 };
 
 export type UserOrderByInput = {
@@ -190,6 +234,7 @@ export type PostWhereInput = {
   userId?: Maybe<StringFilter>;
   comments?: Maybe<CommentListRelationFilter>;
   likes?: Maybe<LikeListRelationFilter>;
+  likesNotifications?: Maybe<LikeNotificationListRelationFilter>;
 };
 
 export type PostOrderByInput = {
@@ -237,6 +282,7 @@ export type LikeWhereInput = {
   userId?: Maybe<StringFilter>;
   post?: Maybe<PostWhereInput>;
   postId?: Maybe<StringFilter>;
+  notifications?: Maybe<LikeNotificationListRelationFilter>;
 };
 
 export type LikeOrderByInput = {
@@ -244,6 +290,34 @@ export type LikeOrderByInput = {
   createdAt?: Maybe<SortOrder>;
   updatedAt?: Maybe<SortOrder>;
   userId?: Maybe<SortOrder>;
+  postId?: Maybe<SortOrder>;
+};
+
+export type LikeNotificationWhereInput = {
+  AND?: Maybe<Array<LikeNotificationWhereInput>>;
+  OR?: Maybe<Array<LikeNotificationWhereInput>>;
+  NOT?: Maybe<Array<LikeNotificationWhereInput>>;
+  id?: Maybe<StringFilter>;
+  receiver?: Maybe<UserWhereInput>;
+  userId?: Maybe<StringFilter>;
+  message?: Maybe<StringFilter>;
+  read?: Maybe<BoolFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+  like?: Maybe<LikeWhereInput>;
+  likeAuthorId?: Maybe<StringFilter>;
+  post?: Maybe<PostWhereInput>;
+  postId?: Maybe<StringFilter>;
+};
+
+export type LikeNotificationOrderByInput = {
+  id?: Maybe<SortOrder>;
+  userId?: Maybe<SortOrder>;
+  message?: Maybe<SortOrder>;
+  read?: Maybe<SortOrder>;
+  createdAt?: Maybe<SortOrder>;
+  updatedAt?: Maybe<SortOrder>;
+  likeAuthorId?: Maybe<SortOrder>;
   postId?: Maybe<SortOrder>;
 };
 
@@ -309,6 +383,12 @@ export type LikeListRelationFilter = {
   every?: Maybe<LikeWhereInput>;
   some?: Maybe<LikeWhereInput>;
   none?: Maybe<LikeWhereInput>;
+};
+
+export type LikeNotificationListRelationFilter = {
+  every?: Maybe<LikeNotificationWhereInput>;
+  some?: Maybe<LikeNotificationWhereInput>;
+  none?: Maybe<LikeNotificationWhereInput>;
 };
 
 export enum SortOrder {
@@ -394,6 +474,9 @@ export type Query = {
   like?: Maybe<Like>;
   likes: Array<Like>;
   likeCount?: Maybe<Scalars['Int']>;
+  likeNotification?: Maybe<LikeNotification>;
+  likeNotifications: Array<LikeNotification>;
+  myLikeNotifications?: Maybe<Array<Maybe<LikeNotification>>>;
 };
 
 
@@ -456,6 +539,20 @@ export type QueryLikesArgs = {
   take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   cursor?: Maybe<LikeWhereUniqueInput>;
+};
+
+
+export type QueryLikeNotificationArgs = {
+  where: LikeNotificationWhereUniqueInput;
+};
+
+
+export type QueryLikeNotificationsArgs = {
+  where?: Maybe<LikeNotificationWhereInput>;
+  orderBy?: Maybe<Array<LikeNotificationOrderByInput>>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<LikeNotificationWhereUniqueInput>;
 };
 
 export type Mutation = {
@@ -863,6 +960,17 @@ export type MeQuery = (
     { __typename?: 'User' }
     & UserFragment
   )> }
+);
+
+export type MyLikeNotificationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyLikeNotificationsQuery = (
+  { __typename?: 'Query' }
+  & { myLikeNotifications?: Maybe<Array<Maybe<(
+    { __typename?: 'LikeNotification' }
+    & Pick<LikeNotification, 'id' | 'userId' | 'message' | 'read' | 'postId'>
+  )>>> }
 );
 
 export type MyPostsQueryVariables = Exact<{
@@ -1594,6 +1702,42 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const MyLikeNotificationsDocument = gql`
+    query MyLikeNotifications {
+  myLikeNotifications {
+    id
+    userId
+    message
+    read
+    postId
+  }
+}
+    `;
+
+/**
+ * __useMyLikeNotificationsQuery__
+ *
+ * To run a query within a React component, call `useMyLikeNotificationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyLikeNotificationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyLikeNotificationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyLikeNotificationsQuery(baseOptions?: Apollo.QueryHookOptions<MyLikeNotificationsQuery, MyLikeNotificationsQueryVariables>) {
+        return Apollo.useQuery<MyLikeNotificationsQuery, MyLikeNotificationsQueryVariables>(MyLikeNotificationsDocument, baseOptions);
+      }
+export function useMyLikeNotificationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyLikeNotificationsQuery, MyLikeNotificationsQueryVariables>) {
+          return Apollo.useLazyQuery<MyLikeNotificationsQuery, MyLikeNotificationsQueryVariables>(MyLikeNotificationsDocument, baseOptions);
+        }
+export type MyLikeNotificationsQueryHookResult = ReturnType<typeof useMyLikeNotificationsQuery>;
+export type MyLikeNotificationsLazyQueryHookResult = ReturnType<typeof useMyLikeNotificationsLazyQuery>;
+export type MyLikeNotificationsQueryResult = Apollo.QueryResult<MyLikeNotificationsQuery, MyLikeNotificationsQueryVariables>;
 export const MyPostsDocument = gql`
     query MyPosts($skip: Int!, $take: Int!) {
   myPosts(skip: $skip, take: $take) {
