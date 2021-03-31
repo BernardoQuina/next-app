@@ -37,6 +37,7 @@ export const Nav: React.FC<NavProps> = () => {
   } = useMyNotificationsQuery({
     skip: isServer() || !data?.me,
     errorPolicy: 'all',
+    pollInterval: 30000,
   })
 
   const newNotifications = notificationData?.myNotifications?.filter(
