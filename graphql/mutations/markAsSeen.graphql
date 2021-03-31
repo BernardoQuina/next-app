@@ -1,0 +1,3 @@
+mutation MarkAsSeen($notificationsIds: [String!]!) {
+  markAsSeen(notificationsIds: $notificationsIds)
+}

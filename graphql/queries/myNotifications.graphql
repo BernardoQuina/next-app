@@ -1,0 +1,14 @@
+query MyNotifications {
+  myNotifications {
+    id
+    receiverId
+    dispatcherId
+    read
+    seen
+    message
+    link
+    dispatcher {
+      ...BasicUserInfo
+    }
+  }
+}

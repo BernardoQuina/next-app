@@ -14,6 +14,7 @@ module.exports = {
     },
   },
   variants: {
+    scrollbar: ['rounded'],
     extend: {
       fontWeight: ['hover'],
       borderWidth: ['hover'],
@@ -24,5 +25,7 @@ module.exports = {
       animation: ['active', 'focus'],
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar')
+  ],
 }

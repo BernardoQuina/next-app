@@ -4,8 +4,9 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import {
   useLogoutMutation,
+  useMarkAsSeenMutation,
   useMeQuery,
-  useMyLikeNotificationsQuery,
+  useMyNotificationsQuery,
 } from '../generated/graphql'
 
 import { isServer } from '../utils/isServer'
@@ -29,12 +30,32 @@ export const Nav: React.FC<NavProps> = () => {
     errorPolicy: 'all',
   })
 
-  const { data: notificationData } = useMyLikeNotificationsQuery({
-    skip: isServer(),
+  const {
+    data: notificationData,
+    loading: notificationLoading,
+    refetch,
+  } = useMyNotificationsQuery({
+    skip: isServer() || !data?.me,
     errorPolicy: 'all',
   })
 
-  console.log('notifications', notificationData?.myLikeNotifications)
+  const newNotifications = notificationData?.myNotifications?.filter(
+    (notification) => {
+      return notification?.seen === false
+    }
+  )
+
+  let notificationsIds: string[] = []
+
+  notificationData?.myNotifications?.forEach((notification) => {
+    if (notification && notification.id) {
+      notificationsIds.push(notification.id)
+    }
+  })
+
+  const [markAsSeen] = useMarkAsSeenMutation({
+    variables: { notificationsIds },
+  })
 
   const [logout] = useLogoutMutation()
 
@@ -92,18 +113,34 @@ export const Nav: React.FC<NavProps> = () => {
   } else {
     userLogin = (
       <ul className='flex'>
-        <li className='p-1 px-2 self-center' hidden={true}>
+        <li className='p-1 px-2 self-center'>
           <button
             className='align-middle focus:outline-none'
             type='button'
-            onClick={() => setShowNotifications(!showNotifications)}
+            onClick={async () => {
+              setShowNotifications(!showNotifications)
+              if (!showNotifications) {
+                await markAsSeen()
+                refetch()
+              }
+            }}
           >
+            {newNotifications && newNotifications.length > 0 ? (
+              <div className='absolute h-5 w-5 -mt-2 ml-5 rounded-full bg-red-500'>
+                <p className='text-sm font-medium'>{newNotifications.length}</p>
+              </div>
+            ) : null}
             <Bell
-              tailwind='h-7 text-white transform hover:scale-105'
-              strokeWidth={1.5}
+              tailwind='h-7 ml-1 text-white fill-current transform hover:scale-105'
+              strokeWidth={0.5}
             />
           </button>
-          <NotificationsModal showModal={showNotifications} />
+          <NotificationsModal
+            showModal={showNotifications}
+            setShowModal={setShowNotifications}
+            loading={notificationLoading}
+            data={notificationData}
+          />
         </li>
         <li className='min-w-max px-2 self-center sm:mx-4'>
           <Link href='/profile'>
