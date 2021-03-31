@@ -59,7 +59,7 @@ const Post: NextPage<PostProps> = () => {
                   <div className='mb-4 flex text-gray-400'>
                     <div className='flex'>
                       <Avatar user={data.post.author!} height={50} />
-                      <div className='md:flex md:mt-2'>
+                      <div className='md:flex md:mt-2 w-max'>
                         <p className='mx-2 font-semibold text-black'>
                           {data?.post.author?.name}
                         </p>

@@ -27,16 +27,15 @@ const NotificationsModal: React.FC<NotificationsModalProps> = ({
   return (
     <AnimatePresence exitBeforeEnter>
       {showModal && (
-        <>
+        <motion.div
+          key='21342355'
+          initial='initial'
+          animate='animate'
+          exit='exit'
+          variants={scaleUp}
+        >
           <div className='absolute transform rotate-45 ml-2 mt-2 h-5 w-5 bg-white'></div>
-          <motion.div
-            key='21342355'
-            initial='initial'
-            animate='animate'
-            exit='exit'
-            variants={scaleUp}
-            className='absolute mt-3 md:-ml-64 -ml-48 max-h-96 w-80 overflow-y-scroll scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-gray-400 rounded-md shadow-lg bg-white'
-          >
+          <div className='absolute mt-3 md:-ml-64 -ml-48 max-h-96 w-80 overflow-y-scroll scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-gray-400 rounded-md shadow-lg bg-white'>
             {!data && loading ? (
               <Spinner />
             ) : (!data && !loading) ||
@@ -87,8 +86,8 @@ const NotificationsModal: React.FC<NotificationsModalProps> = ({
                 ))}
               </div>
             )}
-          </motion.div>
-        </>
+          </div>
+        </motion.div>
       )}
     </AnimatePresence>
   )
