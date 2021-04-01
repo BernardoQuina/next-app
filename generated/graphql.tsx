@@ -704,7 +704,7 @@ export type SubscriptionCommentSubArgs = {
 
 export type PostSnippetFragment = (
   { __typename?: 'Post' }
-  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'textSnippet' | 'images' | 'likeCount' | 'commentCount'>
+  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'textSnippet' | 'images' | 'likeCount' | 'commentCount' | 'userId'>
   & { author?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'photo'>
@@ -1069,6 +1069,34 @@ export type SinglePostQuery = (
   )> }
 );
 
+export type UserQueryVariables = Exact<{
+  userId?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UserQuery = (
+  { __typename?: 'Query' }
+  & { user?: Maybe<(
+    { __typename?: 'User' }
+    & BasicUserInfoFragment
+  )> }
+);
+
+export type UserPostsQueryVariables = Exact<{
+  userId?: Maybe<Scalars['String']>;
+  take: Scalars['Int'];
+  skip: Scalars['Int'];
+}>;
+
+
+export type UserPostsQuery = (
+  { __typename?: 'Query' }
+  & { posts: Array<(
+    { __typename?: 'Post' }
+    & PostSnippetFragment
+  )> }
+);
+
 export type MyPostsSubSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1112,6 +1140,7 @@ export const PostSnippetFragmentDoc = gql`
   images
   likeCount
   commentCount
+  userId
   author {
     id
     name
@@ -1997,6 +2026,79 @@ export function useSinglePostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type SinglePostQueryHookResult = ReturnType<typeof useSinglePostQuery>;
 export type SinglePostLazyQueryHookResult = ReturnType<typeof useSinglePostLazyQuery>;
 export type SinglePostQueryResult = Apollo.QueryResult<SinglePostQuery, SinglePostQueryVariables>;
+export const UserDocument = gql`
+    query User($userId: String) {
+  user(where: {id: $userId}) {
+    ...BasicUserInfo
+  }
+}
+    ${BasicUserInfoFragmentDoc}`;
+
+/**
+ * __useUserQuery__
+ *
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUserQuery(baseOptions?: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
+        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+      }
+export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
+          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+        }
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
+export const UserPostsDocument = gql`
+    query UserPosts($userId: String, $take: Int!, $skip: Int!) {
+  posts(
+    where: {published: {equals: true}, userId: {equals: $userId}}
+    orderBy: {createdAt: desc}
+    take: $take
+    skip: $skip
+  ) {
+    ...PostSnippet
+  }
+}
+    ${PostSnippetFragmentDoc}`;
+
+/**
+ * __useUserPostsQuery__
+ *
+ * To run a query within a React component, call `useUserPostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserPostsQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      take: // value for 'take'
+ *      skip: // value for 'skip'
+ *   },
+ * });
+ */
+export function useUserPostsQuery(baseOptions: Apollo.QueryHookOptions<UserPostsQuery, UserPostsQueryVariables>) {
+        return Apollo.useQuery<UserPostsQuery, UserPostsQueryVariables>(UserPostsDocument, baseOptions);
+      }
+export function useUserPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserPostsQuery, UserPostsQueryVariables>) {
+          return Apollo.useLazyQuery<UserPostsQuery, UserPostsQueryVariables>(UserPostsDocument, baseOptions);
+        }
+export type UserPostsQueryHookResult = ReturnType<typeof useUserPostsQuery>;
+export type UserPostsLazyQueryHookResult = ReturnType<typeof useUserPostsLazyQuery>;
+export type UserPostsQueryResult = Apollo.QueryResult<UserPostsQuery, UserPostsQueryVariables>;
 export const MyPostsSubDocument = gql`
     subscription MyPostsSub {
   myPostSub {

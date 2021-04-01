@@ -1,0 +1,5 @@
+query User($userId: String) {
+  user(where: { id: $userId }) {
+    ...BasicUserInfo
+  }
+}

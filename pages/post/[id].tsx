@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NextPage } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { DateTime } from 'luxon'
 import { motion } from 'framer-motion'
@@ -29,6 +30,7 @@ const Post: NextPage<PostProps> = () => {
 
   const { data, loading } = useSinglePostQuery({
     variables: { postId: id },
+    errorPolicy: 'all'
   })
 
   return (
@@ -58,11 +60,17 @@ const Post: NextPage<PostProps> = () => {
                   )}
                   <div className='mb-4 flex text-gray-400'>
                     <div className='flex'>
-                      <Avatar user={data.post.author!} height={50} />
+                      <Link href={`/user/${data.post.author?.id}`}>
+                        <a>
+                          <Avatar user={data.post.author!} height={50} />
+                        </a>
+                      </Link>
                       <div className='md:flex md:mt-2 w-max'>
-                        <p className='mx-2 font-semibold text-black'>
-                          {data?.post.author?.name}
-                        </p>
+                        <Link href={`/user/${data.post.author?.id}`}>
+                          <a className='mx-2 max-h-5 font-semibold hover:underline text-black'>
+                            {data?.post.author?.name}
+                          </a>
+                        </Link>
                         <p className='hidden md:inline-block'>|</p>
                         <p className='ml-2'>
                           {DateTime.fromISO(data?.post.createdAt)

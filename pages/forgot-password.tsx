@@ -59,7 +59,7 @@ const forgotPassword: NextPage<forgotPasswordProps> = ({}) => {
             ) : (
               <motion.div
                 variants={fadeInUp}
-                className='p-4 m-6 mx-auto w-5/12 flex self-center rounded-md bg-green-200 shadow-xl'
+                className='p-4 m-6 mx-auto md:w-5/12 flex self-center rounded-md bg-green-200 shadow-xl'
               >
                 If an account with this email exists, we sent you an email
               </motion.div>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Link from 'next/link'
 import { Formik, Form } from 'formik'
 import { DateTime } from 'luxon'
 
@@ -30,12 +31,18 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   return (
     <div className='flex py-4'>
       <div className='w-10/12 flex'>
-        <div className='pr-3 min-w-max'>
-          <Avatar user={comment.author!} height={50} />
-        </div>
+        <Link href={`/user/${comment.author?.id}`}>
+          <a className='pr-3 h-14 min-w-max'>
+            <Avatar user={comment.author!} height={50} />
+          </a>
+        </Link>
         <div>
           <div className='md:flex align-bottom'>
-            <p className='mr-2 font-semibold'>{comment.author?.name}</p>
+            <Link href={`/user/${comment.author?.id}`}>
+              <a className='mr-2 hover:underline font-semibold'>
+                {comment.author?.name}
+              </a>
+            </Link>
             <p className='hidden md:inline-block text-gray-400'>|</p>
             <p className='md:ml-2 text-gray-400'>
               {DateTime.fromISO(comment.createdAt).setLocale('en').toRelative()}

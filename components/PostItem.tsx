@@ -29,15 +29,19 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
           className='py-4 px-2 rounded-md shadow-md hover:text-pink-600'
         >
           <div className='flex'>
-            <div className='pr-4'>
-              <Avatar user={post.author!} height={50} />
-            </div>
+            <Link href={`/user/${post.author?.id}`}>
+              <div className='pr-4 h-14'>
+                <Avatar user={post.author!} height={50} />
+              </div>
+            </Link>
             <div className='w-full'>
               <div className='flex'>
                 <div className='flex text-sm text-gray-400'>
-                  <strong className='md:pr-2 text-black text-base'>
-                    {post.author?.name}
-                  </strong>
+                  <Link href={`/user/${post.author?.id}`}>
+                    <strong className='md:pr-2 hover:underline text-black text-base'>
+                      {post.author?.name}
+                    </strong>
+                  </Link>
                   <p className='pt-1 hidden md:inline-block'>|</p>
                   <p className='pl-2 pt-1'>
                     {DateTime.fromISO(post.createdAt)

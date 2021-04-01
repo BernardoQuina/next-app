@@ -57,15 +57,6 @@ const createClient = (_ctx: NextPageContext) => {
       typePolicies: {
         Query: {
           fields: {
-            posts: {
-              keyArgs: [],
-              merge(
-                existing: Array<Post> | [] = [],
-                incoming: Array<Post>
-              ): Post[] {
-                return [...existing, ...incoming]
-              },
-            },
             myPosts: {
               keyArgs: [],
               merge(

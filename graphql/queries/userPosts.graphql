@@ -1,0 +1,13 @@
+query UserPosts($userId: String, $take: Int!, $skip: Int!) {
+  posts(
+    where: { 
+      published: { equals: true }, 
+      userId: { equals: $userId } 
+    }
+    orderBy: { createdAt: desc }
+    take: $take
+    skip: $skip
+  ) {
+    ...PostSnippet
+  }
+}
