@@ -5,4 +5,8 @@ fragment BasicUserInfo on User {
   photo
   googleId
   facebookId
+  followersCount
+  followingCount
+  followsMe
+  IFollow
 }

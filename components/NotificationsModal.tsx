@@ -71,12 +71,14 @@ const NotificationsModal: React.FC<NotificationsModalProps> = ({
                           !notification?.read ? 'bg-pink-100' : ''
                         } `}
                       >
-                        <div className='-ml-2 mr-2'>
-                          <Avatar
-                            user={notification?.dispatcher!}
-                            height={40}
-                          />
-                        </div>
+                        <Link href={`/user/${notification?.dispatcherId}`}>
+                          <div className='-ml-2 mr-2'>
+                            <Avatar
+                              user={notification?.dispatcher!}
+                              height={40}
+                            />
+                          </div>
+                        </Link>
                         <p className='self-center text-left w-10/12'>
                           {notification?.message}
                         </p>

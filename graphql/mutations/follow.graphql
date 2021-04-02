@@ -1,0 +1,6 @@
+mutation Follow($userId: String!) {
+  follow(userId: $userId) {
+    id
+    name
+  }
+}

@@ -26,11 +26,31 @@ export type User = {
   photo?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  followers: Array<User>;
+  following: Array<User>;
   posts: Array<Post>;
   comments: Array<Comment>;
   likes: Array<Like>;
   myNotification: Array<Notification>;
   sentNotification: Array<Notification>;
+  followersCount?: Maybe<Scalars['Int']>;
+  followingCount?: Maybe<Scalars['Int']>;
+  followsMe?: Maybe<Scalars['Boolean']>;
+  IFollow?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type UserFollowersArgs = {
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<UserWhereUniqueInput>;
+};
+
+
+export type UserFollowingArgs = {
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  cursor?: Maybe<UserWhereUniqueInput>;
 };
 
 
@@ -157,6 +177,13 @@ export type Notification = {
 };
 
 
+export type UserWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  googleId?: Maybe<Scalars['String']>;
+  facebookId?: Maybe<Scalars['String']>;
+};
+
 export type PostWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
 };
@@ -173,13 +200,6 @@ export type NotificationWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
 };
 
-export type UserWhereUniqueInput = {
-  id?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  googleId?: Maybe<Scalars['String']>;
-  facebookId?: Maybe<Scalars['String']>;
-};
-
 export type UserWhereInput = {
   AND?: Maybe<Array<UserWhereInput>>;
   OR?: Maybe<Array<UserWhereInput>>;
@@ -193,6 +213,8 @@ export type UserWhereInput = {
   photo?: Maybe<StringNullableFilter>;
   createdAt?: Maybe<DateTimeFilter>;
   updatedAt?: Maybe<DateTimeFilter>;
+  followers?: Maybe<UserListRelationFilter>;
+  following?: Maybe<UserListRelationFilter>;
   posts?: Maybe<PostListRelationFilter>;
   comments?: Maybe<CommentListRelationFilter>;
   likes?: Maybe<LikeListRelationFilter>;
@@ -357,6 +379,12 @@ export type DateTimeFilter = {
   gt?: Maybe<Scalars['DateTime']>;
   gte?: Maybe<Scalars['DateTime']>;
   not?: Maybe<NestedDateTimeFilter>;
+};
+
+export type UserListRelationFilter = {
+  every?: Maybe<UserWhereInput>;
+  some?: Maybe<UserWhereInput>;
+  none?: Maybe<UserWhereInput>;
 };
 
 export type PostListRelationFilter = {
@@ -556,6 +584,8 @@ export type Mutation = {
   deleteUser?: Maybe<User>;
   forgotPassword?: Maybe<Scalars['Boolean']>;
   changePassword?: Maybe<User>;
+  follow?: Maybe<User>;
+  unfollow?: Maybe<User>;
   createPost?: Maybe<Post>;
   updatePost?: Maybe<Post>;
   deletePost?: Maybe<Post>;
@@ -606,6 +636,16 @@ export type MutationChangePasswordArgs = {
   token: Scalars['String'];
   newPassword: Scalars['String'];
   confirmPassword: Scalars['String'];
+};
+
+
+export type MutationFollowArgs = {
+  userId: Scalars['String'];
+};
+
+
+export type MutationUnfollowArgs = {
+  userId: Scalars['String'];
 };
 
 
@@ -713,7 +753,7 @@ export type PostSnippetFragment = (
 
 export type BasicUserInfoFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'googleId' | 'facebookId'>
+  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'googleId' | 'facebookId' | 'followersCount' | 'followingCount' | 'followsMe' | 'IFollow'>
 );
 
 export type CommentFragment = (
@@ -727,7 +767,7 @@ export type CommentFragment = (
 
 export type UserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'googleId' | 'facebookId' | 'createdAt' | 'updatedAt'>
+  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'googleId' | 'facebookId' | 'createdAt' | 'updatedAt' | 'followersCount' | 'followingCount' | 'followsMe' | 'IFollow'>
   & { likes: Array<(
     { __typename?: 'Like' }
     & Pick<Like, 'postId' | 'active'>
@@ -865,6 +905,19 @@ export type EditUserMutation = (
   )> }
 );
 
+export type FollowMutationVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type FollowMutation = (
+  { __typename?: 'Mutation' }
+  & { follow?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name'>
+  )> }
+);
+
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -975,6 +1028,19 @@ export type RegisterMutation = (
       { __typename?: 'Like' }
       & Pick<Like, 'active' | 'postId'>
     )> }
+  )> }
+);
+
+export type UnfollowMutationVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type UnfollowMutation = (
+  { __typename?: 'Mutation' }
+  & { unfollow?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name'>
   )> }
 );
 
@@ -1156,6 +1222,10 @@ export const BasicUserInfoFragmentDoc = gql`
   photo
   googleId
   facebookId
+  followersCount
+  followingCount
+  followsMe
+  IFollow
 }
     `;
 export const CommentFragmentDoc = gql`
@@ -1181,6 +1251,10 @@ export const UserFragmentDoc = gql`
   facebookId
   createdAt
   updatedAt
+  followersCount
+  followingCount
+  followsMe
+  IFollow
   likes {
     postId
     active
@@ -1509,6 +1583,39 @@ export function useEditUserMutation(baseOptions?: Apollo.MutationHookOptions<Edi
 export type EditUserMutationHookResult = ReturnType<typeof useEditUserMutation>;
 export type EditUserMutationResult = Apollo.MutationResult<EditUserMutation>;
 export type EditUserMutationOptions = Apollo.BaseMutationOptions<EditUserMutation, EditUserMutationVariables>;
+export const FollowDocument = gql`
+    mutation Follow($userId: String!) {
+  follow(userId: $userId) {
+    id
+    name
+  }
+}
+    `;
+export type FollowMutationFn = Apollo.MutationFunction<FollowMutation, FollowMutationVariables>;
+
+/**
+ * __useFollowMutation__
+ *
+ * To run a mutation, you first call `useFollowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [followMutation, { data, loading, error }] = useFollowMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useFollowMutation(baseOptions?: Apollo.MutationHookOptions<FollowMutation, FollowMutationVariables>) {
+        return Apollo.useMutation<FollowMutation, FollowMutationVariables>(FollowDocument, baseOptions);
+      }
+export type FollowMutationHookResult = ReturnType<typeof useFollowMutation>;
+export type FollowMutationResult = Apollo.MutationResult<FollowMutation>;
+export type FollowMutationOptions = Apollo.BaseMutationOptions<FollowMutation, FollowMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
@@ -1793,6 +1900,39 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UnfollowDocument = gql`
+    mutation Unfollow($userId: String!) {
+  unfollow(userId: $userId) {
+    id
+    name
+  }
+}
+    `;
+export type UnfollowMutationFn = Apollo.MutationFunction<UnfollowMutation, UnfollowMutationVariables>;
+
+/**
+ * __useUnfollowMutation__
+ *
+ * To run a mutation, you first call `useUnfollowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnfollowMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unfollowMutation, { data, loading, error }] = useUnfollowMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUnfollowMutation(baseOptions?: Apollo.MutationHookOptions<UnfollowMutation, UnfollowMutationVariables>) {
+        return Apollo.useMutation<UnfollowMutation, UnfollowMutationVariables>(UnfollowDocument, baseOptions);
+      }
+export type UnfollowMutationHookResult = ReturnType<typeof useUnfollowMutation>;
+export type UnfollowMutationResult = Apollo.MutationResult<UnfollowMutation>;
+export type UnfollowMutationOptions = Apollo.BaseMutationOptions<UnfollowMutation, UnfollowMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {

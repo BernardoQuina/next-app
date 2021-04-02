@@ -21,11 +21,10 @@ module.exports = {
       scale: ['active', 'hover', 'group-hover'],
       backgroundColor: ['active'],
       borderColor: ['active'],
+      boxSizing: ['hover', 'focus'],
       opacity: ['disabled'],
       animation: ['active', 'focus'],
     },
   },
-  plugins: [
-    require('tailwind-scrollbar')
-  ],
+  plugins: [require('tailwind-scrollbar')],
 }
