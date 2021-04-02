@@ -100,7 +100,9 @@ const user: NextPage<userProps> = ({}) => {
                   </h4>
                 ) : null}
               </div>
-              {!meData?.me ? null : userData.user.IFollow ? (
+              {!meData?.me ||
+              meData.me.id === userData.user.id ? null : userData.user
+                  .IFollow ? (
                 <div className='flex'>
                   <button
                     type='button'
