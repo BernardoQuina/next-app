@@ -14,16 +14,6 @@ mutation EditUser(
     updatePassword: $updatePassword
     confirmNewPassword: $confirmNewPassword
   ) {
-    id
-    name
-    photo
-    email
-    password
-    createdAt
-    updatedAt
-    likes {
-      active
-      postId
-    }
+    ...User
   }
 }

@@ -3,6 +3,7 @@ fragment BasicUserInfo on User {
   name
   email
   photo
+  cloudinaryPhoto
   googleId
   facebookId
   followersCount

@@ -24,6 +24,7 @@ export type User = {
   googleId?: Maybe<Scalars['String']>;
   facebookId?: Maybe<Scalars['String']>;
   photo?: Maybe<Scalars['String']>;
+  cloudinaryPhoto?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   followers: Array<User>;
@@ -211,6 +212,7 @@ export type UserWhereInput = {
   googleId?: Maybe<StringNullableFilter>;
   facebookId?: Maybe<StringNullableFilter>;
   photo?: Maybe<StringNullableFilter>;
+  cloudinaryPhoto?: Maybe<BoolNullableFilter>;
   createdAt?: Maybe<DateTimeFilter>;
   updatedAt?: Maybe<DateTimeFilter>;
   followers?: Maybe<UserListRelationFilter>;
@@ -230,6 +232,7 @@ export type UserOrderByInput = {
   googleId?: Maybe<SortOrder>;
   facebookId?: Maybe<SortOrder>;
   photo?: Maybe<SortOrder>;
+  cloudinaryPhoto?: Maybe<SortOrder>;
   createdAt?: Maybe<SortOrder>;
   updatedAt?: Maybe<SortOrder>;
 };
@@ -370,6 +373,11 @@ export type StringNullableFilter = {
   not?: Maybe<NestedStringNullableFilter>;
 };
 
+export type BoolNullableFilter = {
+  equals?: Maybe<Scalars['Boolean']>;
+  not?: Maybe<NestedBoolNullableFilter>;
+};
+
 export type DateTimeFilter = {
   equals?: Maybe<Scalars['DateTime']>;
   in?: Maybe<Array<Scalars['DateTime']>>;
@@ -460,6 +468,11 @@ export type NestedStringNullableFilter = {
   startsWith?: Maybe<Scalars['String']>;
   endsWith?: Maybe<Scalars['String']>;
   not?: Maybe<NestedStringNullableFilter>;
+};
+
+export type NestedBoolNullableFilter = {
+  equals?: Maybe<Scalars['Boolean']>;
+  not?: Maybe<NestedBoolNullableFilter>;
 };
 
 export type NestedDateTimeFilter = {
@@ -753,7 +766,7 @@ export type PostSnippetFragment = (
 
 export type BasicUserInfoFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'googleId' | 'facebookId' | 'followersCount' | 'followingCount' | 'followsMe' | 'IFollow'>
+  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'cloudinaryPhoto' | 'googleId' | 'facebookId' | 'followersCount' | 'followingCount' | 'followsMe' | 'IFollow'>
 );
 
 export type CommentFragment = (
@@ -767,7 +780,7 @@ export type CommentFragment = (
 
 export type UserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'googleId' | 'facebookId' | 'createdAt' | 'updatedAt' | 'followersCount' | 'followingCount' | 'followsMe' | 'IFollow'>
+  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'cloudinaryPhoto' | 'googleId' | 'facebookId' | 'createdAt' | 'updatedAt' | 'followersCount' | 'followingCount' | 'followsMe' | 'IFollow'>
   & { likes: Array<(
     { __typename?: 'Like' }
     & Pick<Like, 'postId' | 'active'>
@@ -897,11 +910,7 @@ export type EditUserMutation = (
   { __typename?: 'Mutation' }
   & { updateUser?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'photo' | 'email' | 'password' | 'createdAt' | 'updatedAt'>
-    & { likes: Array<(
-      { __typename?: 'Like' }
-      & Pick<Like, 'active' | 'postId'>
-    )> }
+    & UserFragment
   )> }
 );
 
@@ -1220,6 +1229,7 @@ export const BasicUserInfoFragmentDoc = gql`
   name
   email
   photo
+  cloudinaryPhoto
   googleId
   facebookId
   followersCount
@@ -1247,6 +1257,7 @@ export const UserFragmentDoc = gql`
   name
   email
   photo
+  cloudinaryPhoto
   googleId
   facebookId
   createdAt
@@ -1539,20 +1550,10 @@ export const EditUserDocument = gql`
     updatePassword: $updatePassword
     confirmNewPassword: $confirmNewPassword
   ) {
-    id
-    name
-    photo
-    email
-    password
-    createdAt
-    updatedAt
-    likes {
-      active
-      postId
-    }
+    ...User
   }
 }
-    `;
+    ${UserFragmentDoc}`;
 export type EditUserMutationFn = Apollo.MutationFunction<EditUserMutation, EditUserMutationVariables>;
 
 /**
