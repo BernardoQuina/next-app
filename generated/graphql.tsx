@@ -613,7 +613,7 @@ export type MutationLoginUserArgs = {
 
 
 export type MutationUpdateUserArgs = {
-  password: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
   updateName?: Maybe<Scalars['String']>;
   updatePhoto?: Maybe<Scalars['String']>;
   updateEmail?: Maybe<Scalars['String']>;
@@ -884,7 +884,7 @@ export type EditPostMutation = (
 );
 
 export type EditUserMutationVariables = Exact<{
-  password: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
   updateName?: Maybe<Scalars['String']>;
   updatePhoto?: Maybe<Scalars['String']>;
   updateEmail?: Maybe<Scalars['String']>;
@@ -1530,7 +1530,7 @@ export type EditPostMutationHookResult = ReturnType<typeof useEditPostMutation>;
 export type EditPostMutationResult = Apollo.MutationResult<EditPostMutation>;
 export type EditPostMutationOptions = Apollo.BaseMutationOptions<EditPostMutation, EditPostMutationVariables>;
 export const EditUserDocument = gql`
-    mutation EditUser($password: String!, $updateName: String, $updatePhoto: String, $updateEmail: String, $updatePassword: String, $confirmNewPassword: String) {
+    mutation EditUser($password: String, $updateName: String, $updatePhoto: String, $updateEmail: String, $updatePassword: String, $confirmNewPassword: String) {
   updateUser(
     password: $password
     updateName: $updateName

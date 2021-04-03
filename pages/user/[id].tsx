@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
@@ -21,6 +21,8 @@ import { Loader } from '../../components/Loader'
 import { PostList } from '../../components/PostList'
 import { ApolloQueryResult } from '@apollo/client'
 import { isServer } from '../../utils/isServer'
+import { More } from '../../components/svg/More'
+import { EditProfileModal } from '../../components/EditProfileModal'
 
 interface userProps {}
 
@@ -28,6 +30,8 @@ const user: NextPage<userProps> = ({}) => {
   const [posts, setPost] = useState<PostSnippetFragment[]>([])
   const [hasMore, setHasMore] = useState(true)
   const [unfollowButton, setUnfollowButton] = useState('following')
+  const [optionsModal, setOptionsModal] = useState(false)
+  const [profileModal, setProfileModal] = useState(false)
 
   const router = useRouter()
 
@@ -51,6 +55,21 @@ const user: NextPage<userProps> = ({}) => {
   const [follow] = useFollowMutation({ errorPolicy: 'all' })
   const [unfollow] = useUnfollowMutation({ errorPolicy: 'all' })
 
+  const optionsNode = useRef<HTMLButtonElement | null>(null)
+  const editProfileNode = useRef<HTMLButtonElement | null>(null)
+
+  const optionsClick = (e: any) => {
+    if (optionsNode.current!.contains(e.target)) {
+      return
+    }
+
+    if (editProfileNode.current && editProfileNode.current.contains(e.target)) {
+      return
+    }
+
+    setOptionsModal(false)
+  }
+
   useEffect(() => {
     setPost(postsData?.posts!)
 
@@ -59,6 +78,12 @@ const user: NextPage<userProps> = ({}) => {
       (postsData.posts.length % 2 !== 0 || postsData.posts.length < 8)
     ) {
       setHasMore(false)
+    }
+
+    document.addEventListener('mousedown', optionsClick)
+
+    return () => {
+      document.removeEventListener('mousedown', optionsClick)
     }
   }, [postsData])
 
@@ -78,15 +103,55 @@ const user: NextPage<userProps> = ({}) => {
               : 'user profile and public posts'
           }
         />
+        {profileModal ? (
+          <EditProfileModal
+            setShowModal={setProfileModal}
+            showModal={profileModal}
+          />
+        ) : null}
         {userLoading ? (
           <Loader />
         ) : !userData || !userData.user ? null : (
           <div className='md:flex md:w-1/2 xl:w-1/4 mx-auto'>
             <Avatar user={userData?.user!} height={120} />
             <div className='md:w-9/12'>
-              <h2 className='mt-3 md:mt-0 text-4xl text-center md:text-left mx-auto md:mx-0 font-black'>
-                {userData.user?.name}
-              </h2>
+              <div className='flex'>
+                <h2 className='mt-3 md:mt-0 text-4xl text-center md:text-left mx-auto md:mx-0 font-black'>
+                  {userData.user?.name}
+                </h2>
+                {userData.user.id === meData?.me?.id ? (
+                  <div className='absolute md:relative left-1/2 md:left-0 -mt-6 md:mt-0'>
+                    <button
+                      className='ml-6 focus:outline-none transform hover:scale-110 active:scale-95'
+                      ref={optionsNode}
+                      onClick={() => setOptionsModal(!optionsModal)}
+                    >
+                      <More
+                        tailwind='h-8 p-1 rounded-full bg-gray-100 hover:bg-pink-100 hover:text-pink-500'
+                        strokeWidth={2}
+                      />
+                    </button>
+                    {optionsModal && (
+                      <div className='absolute overflow-hidden h-20 w-40 -ml-24 bg-white rounded-md shadow-md'>
+                        <button
+                          className='h-1/2 w-full hover:bg-pink-100 focus:outline-none'
+                          ref={editProfileNode}
+                          onClick={() => setProfileModal(true)}
+                        >
+                          <p className='transform active:scale-95'>
+                            edit profile
+                          </p>
+                        </button>
+                        <button className='h-1/2 w-full hover:bg-red-300 hover:font-bold focus:outline-none'>
+                          <p className='transform active:scale-95'>
+                            delete account
+                          </p>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : null}
+              </div>
               <div className='flex justify-center md:justify-start mt-2'>
                 <h4 className='mr-6 text-lg'>
                   <strong>{userData.user.followingCount}</strong> following

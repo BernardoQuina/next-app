@@ -1,5 +1,5 @@
 mutation EditUser(
-  $password: String!
+  $password: String
   $updateName: String
   $updatePhoto: String
   $updateEmail: String
