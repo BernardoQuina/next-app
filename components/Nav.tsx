@@ -144,7 +144,7 @@ export const Nav: React.FC<NavProps> = () => {
           />
         </li>
         <li className='min-w-max px-2 self-center sm:mx-4'>
-          <Link href='/profile'>
+          <Link href={`/user/${data.me.id}`}>
             <button
               className='max-h-10 align-middle focus:outline-none'
               type='button'

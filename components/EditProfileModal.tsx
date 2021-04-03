@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState, useRef } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { Formik, Form } from 'formik'
 import { Image } from 'cloudinary-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -45,7 +45,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         >
           <Formik
             initialValues={{
-              password: '',
               updateName: data?.me?.name!,
               updatePhoto: data?.me?.photo,
             }}

@@ -23,6 +23,7 @@ import { ApolloQueryResult } from '@apollo/client'
 import { isServer } from '../../utils/isServer'
 import { More } from '../../components/svg/More'
 import { EditProfileModal } from '../../components/EditProfileModal'
+import { AccountSettingsModal } from '../../components/AccountSettingsModal'
 
 interface userProps {}
 
@@ -32,6 +33,7 @@ const user: NextPage<userProps> = ({}) => {
   const [unfollowButton, setUnfollowButton] = useState('following')
   const [optionsModal, setOptionsModal] = useState(false)
   const [profileModal, setProfileModal] = useState(false)
+  const [accountModal, setAccountModal] = useState(false)
 
   const router = useRouter()
 
@@ -57,13 +59,21 @@ const user: NextPage<userProps> = ({}) => {
 
   const optionsNode = useRef<HTMLButtonElement | null>(null)
   const editProfileNode = useRef<HTMLButtonElement | null>(null)
+  const accountSettingsNode = useRef<HTMLButtonElement | null>(null)
 
   const optionsClick = (e: any) => {
-    if (optionsNode.current!.contains(e.target)) {
+    if (optionsNode.current && optionsNode.current.contains(e.target)) {
       return
     }
 
     if (editProfileNode.current && editProfileNode.current.contains(e.target)) {
+      return
+    }
+
+    if (
+      accountSettingsNode.current &&
+      accountSettingsNode.current.contains(e.target)
+    ) {
       return
     }
 
@@ -109,6 +119,12 @@ const user: NextPage<userProps> = ({}) => {
             showModal={profileModal}
           />
         ) : null}
+        {accountModal ? (
+          <AccountSettingsModal
+            setShowModal={setAccountModal}
+            showModal={accountModal}
+          />
+        ) : null}
         {userLoading ? (
           <Loader />
         ) : !userData || !userData.user ? null : (
@@ -142,9 +158,13 @@ const user: NextPage<userProps> = ({}) => {
                             edit profile
                           </p>
                         </button>
-                        <button className='h-1/2 w-full hover:bg-red-300 hover:font-bold focus:outline-none'>
+                        <button
+                          className='h-1/2 w-full hover:bg-pink-100 focus:outline-none'
+                          ref={accountSettingsNode}
+                          onClick={() => setAccountModal(true)}
+                        >
                           <p className='transform active:scale-95'>
-                            delete account
+                            account settings
                           </p>
                         </button>
                       </div>
