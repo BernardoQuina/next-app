@@ -136,7 +136,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                           crop='scale'
                           radius='10'
                         >
-                          <Placeholder type='vectorize'></Placeholder>
+                          <Placeholder type='blur'></Placeholder>
                         </Image>
                       </li>
                     ))}

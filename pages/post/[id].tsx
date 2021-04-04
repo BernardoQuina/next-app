@@ -99,7 +99,7 @@ const Post: NextPage<PostProps> = () => {
                               quality='70'
                               crop='fill'
                             >
-                              <Placeholder type='vectorize'></Placeholder>
+                              <Placeholder type='blur'></Placeholder>
                             </Image>
                           </li>
                         ))}

@@ -70,10 +70,10 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
                           publicId={image}
                           loading='lazy'
                           dpr='auto'
-                          quality='70'
+                          quality='50'
                           crop='fill'
                         >
-                          <Placeholder type='vectorize'></Placeholder>
+                          <Placeholder type='blur'></Placeholder>
                         </Image>
                       </li>
                     ))}
