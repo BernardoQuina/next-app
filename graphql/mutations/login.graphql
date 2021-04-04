@@ -6,12 +6,6 @@ mutation Login(
     email: $email
     password: $password
   ) {
-    id
-    name
-    email
-    likes {
-      active
-      postId
-    }
+    ...User
   }
 }

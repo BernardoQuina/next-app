@@ -10,9 +10,7 @@ query SinglePost ($postId: String) {
       createdAt
       updatedAt
       author {
-        id
-        name
-        photo
+        ...BasicUserInfo
       }
       comments {
         ...Comment

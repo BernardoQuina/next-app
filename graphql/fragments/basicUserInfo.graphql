@@ -6,8 +6,4 @@ fragment BasicUserInfo on User {
   cloudinaryPhoto
   googleId
   facebookId
-  followersCount
-  followingCount
-  followsMe
-  IFollow
 }

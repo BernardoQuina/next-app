@@ -3,9 +3,7 @@ fragment Comment on Comment {
   createdAt
   text
   author {
-    id
-    name
-    photo
+    ...BasicUserInfo
   }
   postId
 }

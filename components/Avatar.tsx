@@ -1,9 +1,9 @@
 import { Image } from 'cloudinary-react'
-import { BasicUserInfoFragment } from '../generated/graphql'
+import { BasicUserInfoFragment, UserFragment } from '../generated/graphql'
 
 interface AvatarProps {
   height: number
-  user: BasicUserInfoFragment
+  user: BasicUserInfoFragment | UserFragment
 }
 
 export const Avatar: React.FC<AvatarProps> = ({ height, user }) => {

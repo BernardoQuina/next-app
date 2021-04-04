@@ -48,7 +48,7 @@ export const Nav: React.FC<NavProps> = () => {
 
   let notificationsIds: string[] = []
 
-  notificationData?.myNotifications?.forEach((notification) => {
+  newNotifications?.forEach((notification) => {
     if (notification && notification.id) {
       notificationsIds.push(notification.id)
     }

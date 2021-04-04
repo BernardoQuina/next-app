@@ -16,17 +16,17 @@ export type Scalars = {
 
 export type User = {
   __typename?: 'User';
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  name: Scalars['String'];
+  email: Scalars['String'];
   /** Only logged in user can query it but its hashed anyway */
   password?: Maybe<Scalars['String']>;
   googleId?: Maybe<Scalars['String']>;
   facebookId?: Maybe<Scalars['String']>;
   photo?: Maybe<Scalars['String']>;
   cloudinaryPhoto?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
   followers: Array<User>;
   following: Array<User>;
   posts: Array<Post>;
@@ -97,15 +97,15 @@ export type UserSubResponse = {
 
 export type Post = {
   __typename?: 'Post';
-  id?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  title: Scalars['String'];
+  body: Scalars['String'];
   images: Array<Scalars['String']>;
-  published?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  author?: Maybe<User>;
-  userId?: Maybe<Scalars['String']>;
+  published: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  author: User;
+  userId: Scalars['String'];
   comments: Array<Comment>;
   likes: Array<Like>;
   textSnippet?: Maybe<Scalars['String']>;
@@ -135,14 +135,14 @@ export type PostSubResponse = {
 
 export type Comment = {
   __typename?: 'Comment';
-  id?: Maybe<Scalars['String']>;
-  text?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  author?: Maybe<User>;
-  userId?: Maybe<Scalars['String']>;
-  post?: Maybe<Post>;
-  postId?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  text: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  author: User;
+  userId: Scalars['String'];
+  post: Post;
+  postId: Scalars['String'];
 };
 
 export type CommentSubResponse = {
@@ -153,28 +153,28 @@ export type CommentSubResponse = {
 
 export type Like = {
   __typename?: 'Like';
-  active?: Maybe<Scalars['Boolean']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  author?: Maybe<User>;
-  userId?: Maybe<Scalars['String']>;
-  post?: Maybe<Post>;
-  postId?: Maybe<Scalars['String']>;
+  active: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  author: User;
+  userId: Scalars['String'];
+  post: Post;
+  postId: Scalars['String'];
 };
 
 export type Notification = {
   __typename?: 'Notification';
-  id?: Maybe<Scalars['String']>;
-  receiver?: Maybe<User>;
-  receiverId?: Maybe<Scalars['String']>;
-  dispatcher?: Maybe<User>;
-  dispatcherId?: Maybe<Scalars['String']>;
-  seen?: Maybe<Scalars['Boolean']>;
-  read?: Maybe<Scalars['Boolean']>;
-  message?: Maybe<Scalars['String']>;
-  link?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
+  id: Scalars['String'];
+  receiver: User;
+  receiverId: Scalars['String'];
+  dispatcher: User;
+  dispatcherId: Scalars['String'];
+  seen: Scalars['Boolean'];
+  read: Scalars['Boolean'];
+  message: Scalars['String'];
+  link: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
 
@@ -758,24 +758,24 @@ export type SubscriptionCommentSubArgs = {
 export type PostSnippetFragment = (
   { __typename?: 'Post' }
   & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'published' | 'title' | 'textSnippet' | 'images' | 'likeCount' | 'commentCount' | 'userId'>
-  & { author?: Maybe<(
+  & { author: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'photo'>
-  )> }
+    & BasicUserInfoFragment
+  ) }
 );
 
 export type BasicUserInfoFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'cloudinaryPhoto' | 'googleId' | 'facebookId' | 'followersCount' | 'followingCount' | 'followsMe' | 'IFollow'>
+  & Pick<User, 'id' | 'name' | 'email' | 'photo' | 'cloudinaryPhoto' | 'googleId' | 'facebookId'>
 );
 
 export type CommentFragment = (
   { __typename?: 'Comment' }
   & Pick<Comment, 'id' | 'createdAt' | 'text' | 'postId'>
-  & { author?: Maybe<(
+  & { author: (
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'photo'>
-  )> }
+    & BasicUserInfoFragment
+  ) }
 );
 
 export type UserFragment = (
@@ -811,11 +811,7 @@ export type ChangePasswordMutation = (
   { __typename?: 'Mutation' }
   & { changePassword?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'email'>
-    & { likes: Array<(
-      { __typename?: 'Like' }
-      & Pick<Like, 'active' | 'postId'>
-    )> }
+    & UserFragment
   )> }
 );
 
@@ -869,10 +865,10 @@ export type EditCommentMutation = (
   & { updateComment?: Maybe<(
     { __typename?: 'Comment' }
     & Pick<Comment, 'id' | 'text' | 'createdAt'>
-    & { author?: Maybe<(
+    & { author: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'name'>
-    )> }
+    ) }
   )> }
 );
 
@@ -889,10 +885,10 @@ export type EditPostMutation = (
   & { updatePost?: Maybe<(
     { __typename?: 'Post' }
     & Pick<Post, 'id' | 'title' | 'body' | 'published'>
-    & { author?: Maybe<(
+    & { author: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'name'>
-    )> }
+    ) }
   )> }
 );
 
@@ -947,11 +943,7 @@ export type LoginMutation = (
   { __typename?: 'Mutation' }
   & { loginUser?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'email'>
-    & { likes: Array<(
-      { __typename?: 'Like' }
-      & Pick<Like, 'active' | 'postId'>
-    )> }
+    & UserFragment
   )> }
 );
 
@@ -997,10 +989,10 @@ export type NewCommentMutation = (
   & { createComment?: Maybe<(
     { __typename?: 'Comment' }
     & Pick<Comment, 'id' | 'text'>
-    & { author?: Maybe<(
+    & { author: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'name'>
-    )> }
+    ) }
   )> }
 );
 
@@ -1032,11 +1024,7 @@ export type RegisterMutation = (
   { __typename?: 'Mutation' }
   & { createUser?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'email'>
-    & { likes: Array<(
-      { __typename?: 'Like' }
-      & Pick<Like, 'active' | 'postId'>
-    )> }
+    & UserFragment
   )> }
 );
 
@@ -1072,10 +1060,10 @@ export type MyNotificationsQuery = (
   & { myNotifications?: Maybe<Array<Maybe<(
     { __typename?: 'Notification' }
     & Pick<Notification, 'id' | 'receiverId' | 'dispatcherId' | 'read' | 'seen' | 'message' | 'link'>
-    & { dispatcher?: Maybe<(
+    & { dispatcher: (
       { __typename?: 'User' }
       & BasicUserInfoFragment
-    )> }
+    ) }
   )>>> }
 );
 
@@ -1117,10 +1105,10 @@ export type SingleCommentQuery = (
   & { comment?: Maybe<(
     { __typename?: 'Comment' }
     & Pick<Comment, 'id' | 'text'>
-    & { author?: Maybe<(
+    & { author: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'name'>
-    )> }
+    ) }
   )> }
 );
 
@@ -1134,10 +1122,10 @@ export type SinglePostQuery = (
   & { post?: Maybe<(
     { __typename?: 'Post' }
     & Pick<Post, 'id' | 'title' | 'body' | 'images' | 'published' | 'likeCount' | 'commentCount' | 'createdAt' | 'updatedAt'>
-    & { author?: Maybe<(
+    & { author: (
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'name' | 'photo'>
-    )>, comments: Array<(
+      & BasicUserInfoFragment
+    ), comments: Array<(
       { __typename?: 'Comment' }
       & CommentFragment
     )> }
@@ -1153,7 +1141,7 @@ export type UserQuery = (
   { __typename?: 'Query' }
   & { user?: Maybe<(
     { __typename?: 'User' }
-    & BasicUserInfoFragment
+    & UserFragment
   )> }
 );
 
@@ -1204,6 +1192,17 @@ export type UserPostsSubSubscription = (
   )> }
 );
 
+export const BasicUserInfoFragmentDoc = gql`
+    fragment BasicUserInfo on User {
+  id
+  name
+  email
+  photo
+  cloudinaryPhoto
+  googleId
+  facebookId
+}
+    `;
 export const PostSnippetFragmentDoc = gql`
     fragment PostSnippet on Post {
   id
@@ -1217,40 +1216,21 @@ export const PostSnippetFragmentDoc = gql`
   commentCount
   userId
   author {
-    id
-    name
-    photo
+    ...BasicUserInfo
   }
 }
-    `;
-export const BasicUserInfoFragmentDoc = gql`
-    fragment BasicUserInfo on User {
-  id
-  name
-  email
-  photo
-  cloudinaryPhoto
-  googleId
-  facebookId
-  followersCount
-  followingCount
-  followsMe
-  IFollow
-}
-    `;
+    ${BasicUserInfoFragmentDoc}`;
 export const CommentFragmentDoc = gql`
     fragment Comment on Comment {
   id
   createdAt
   text
   author {
-    id
-    name
-    photo
+    ...BasicUserInfo
   }
   postId
 }
-    `;
+    ${BasicUserInfoFragmentDoc}`;
 export const UserFragmentDoc = gql`
     fragment User on User {
   id
@@ -1314,16 +1294,10 @@ export const ChangePasswordDocument = gql`
     newPassword: $newPassword
     confirmPassword: $confirmPassword
   ) {
-    id
-    name
-    email
-    likes {
-      active
-      postId
-    }
+    ...User
   }
 }
-    `;
+    ${UserFragmentDoc}`;
 export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMutation, ChangePasswordMutationVariables>;
 
 /**
@@ -1650,16 +1624,10 @@ export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<ForgotPas
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   loginUser(email: $email, password: $password) {
-    id
-    name
-    email
-    likes {
-      active
-      postId
-    }
+    ...User
   }
 }
-    `;
+    ${UserFragmentDoc}`;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
@@ -1863,16 +1831,10 @@ export const RegisterDocument = gql`
     password: $password
     confirmPassword: $confirmPassword
   ) {
-    id
-    name
-    email
-    likes {
-      active
-      postId
-    }
+    ...User
   }
 }
-    `;
+    ${UserFragmentDoc}`;
 export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**
@@ -2131,16 +2093,15 @@ export const SinglePostDocument = gql`
     createdAt
     updatedAt
     author {
-      id
-      name
-      photo
+      ...BasicUserInfo
     }
     comments {
       ...Comment
     }
   }
 }
-    ${CommentFragmentDoc}`;
+    ${BasicUserInfoFragmentDoc}
+${CommentFragmentDoc}`;
 
 /**
  * __useSinglePostQuery__
@@ -2170,10 +2131,10 @@ export type SinglePostQueryResult = Apollo.QueryResult<SinglePostQuery, SinglePo
 export const UserDocument = gql`
     query User($userId: String) {
   user(where: {id: $userId}) {
-    ...BasicUserInfo
+    ...User
   }
 }
-    ${BasicUserInfoFragmentDoc}`;
+    ${UserFragmentDoc}`;
 
 /**
  * __useUserQuery__

@@ -10,8 +10,6 @@ fragment PostSnippet on Post {
   commentCount
   userId
   author {
-    id
-    name
-    photo
+    ...BasicUserInfo
   }
 }
