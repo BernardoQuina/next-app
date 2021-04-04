@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
@@ -9,7 +9,6 @@ import { variants } from '../../utils/animations'
 import { withApollo } from '../../lib/apollo'
 import {
   PostSnippetFragment,
-  UserPostsQuery,
   useUserPostsQuery,
   useUserQuery,
   useFollowMutation,
@@ -19,7 +18,6 @@ import {
 import { Avatar } from '../../components/Avatar'
 import { Loader } from '../../components/Loader'
 import { PostList } from '../../components/PostList'
-import { ApolloQueryResult } from '@apollo/client'
 import { isServer } from '../../utils/isServer'
 import { More } from '../../components/svg/More'
 import { EditProfileModal } from '../../components/EditProfileModal'
@@ -34,6 +32,11 @@ const user: NextPage<userProps> = ({}) => {
   const [optionsModal, setOptionsModal] = useState(false)
   const [profileModal, setProfileModal] = useState(false)
   const [accountModal, setAccountModal] = useState(false)
+
+  const observer = useRef<IntersectionObserver>()
+  const postsStateRef = useRef<PostSnippetFragment[]>()
+
+  postsStateRef.current = posts
 
   const router = useRouter()
 
@@ -51,8 +54,48 @@ const user: NextPage<userProps> = ({}) => {
     loading: postsLoading,
     fetchMore,
   } = useUserPostsQuery({
-    variables: { userId: id, skip: 0, take: 8 },
+    variables: { userId: id, skip: 0, take: 6 },
+    errorPolicy: 'all',
   })
+
+  const lastPostElementRef = useCallback(
+    (node) => {
+      if (postsLoading) return
+
+      if (observer.current) {
+        observer.current.disconnect()
+      }
+
+      observer.current = new IntersectionObserver(async (entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+
+          const response = await fetchMore({
+            variables: {
+              skip: postsStateRef.current!.length,
+              take: 4,
+            },
+          })
+
+          if (response.data === null || response.data.posts.length < 4) {
+            setHasMore(false)
+          }
+
+          if (response.errors) {
+            if (response.errors[0].message === 'Could not find any posts.') {
+              setHasMore(false)
+            }
+          }
+
+          if (response.data.posts) {
+            setPost(postsStateRef.current!.concat(response.data.posts!))
+          }
+        }
+      })
+
+      if (node) observer.current.observe(node)
+    },
+    [postsLoading, hasMore]
+  )
 
   const [follow] = useFollowMutation({ errorPolicy: 'all' })
   const [unfollow] = useUnfollowMutation({ errorPolicy: 'all' })
@@ -85,7 +128,7 @@ const user: NextPage<userProps> = ({}) => {
 
     if (
       postsData &&
-      (postsData.posts.length % 2 !== 0 || postsData.posts.length < 8)
+      (postsData.posts.length % 2 !== 0 || postsData.posts.length < 6)
     ) {
       setHasMore(false)
     }
@@ -255,48 +298,11 @@ const user: NextPage<userProps> = ({}) => {
           </>
         ) : (
           <>
-            <PostList posts={posts} />
+            <PostList posts={posts} lastPostRef={lastPostElementRef} />
             {postsLoading && <Loader />}
-            {hasMore ? (
-              <button
-                className='flex mt-8 mx-auto py-2 px-4 rounded-md text-pink-600 border border-pink-600 hover:scale-105 hover:bg-pink-600 focus:outline-none hover:text-white mb-8'
-                onClick={async () => {
-                  const response: ApolloQueryResult<UserPostsQuery> = await fetchMore(
-                    {
-                      variables: {
-                        skip: posts.length,
-                        take: 4,
-                      },
-                    }
-                  )
-
-                  if (
-                    response.data === null ||
-                    response.data.posts?.length! < 4
-                  ) {
-                    setHasMore(false)
-                  }
-
-                  if (response.errors) {
-                    if (
-                      response.errors[0].message === 'Could not find any posts.'
-                    ) {
-                      setHasMore(false)
-                    }
-                  }
-
-                  if (response.data.posts) {
-                    setPost(posts.concat(response.data.posts!))
-                  }
-                }}
-              >
-                load more
-              </button>
-            ) : (
-              <div className='mb-8 text-center text-5xl font-semibold text-gray-500'>
-                .
-              </div>
-            )}
+            <div className='mb-8 text-center text-5xl font-semibold text-gray-500'>
+              .
+            </div>
           </>
         )}
       </Layout>

@@ -13,15 +13,17 @@ import { NewCommentModal } from './NewCommentModal'
 
 interface PostItemProps {
   post: PostSnippetFragment
+  lastPostRef?: any
 }
 
-export const PostItem: React.FC<PostItemProps> = ({ post }) => {
+export const PostItem: React.FC<PostItemProps> = ({ post, lastPostRef }) => {
   const [showNewCommentModal, setShowNewCommentModal] = useState(false)
 
   return (
     <>
       <Link key={post.id} href={`/post/${post.id}`} passHref scroll={false}>
         <motion.a
+          ref={lastPostRef}
           // whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: 'just' }}
@@ -73,7 +75,7 @@ export const PostItem: React.FC<PostItemProps> = ({ post }) => {
                           quality='50'
                           crop='fill'
                         >
-                          <Placeholder type='blur'></Placeholder>
+                          <Placeholder />
                         </Image>
                       </li>
                     ))}
